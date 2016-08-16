@@ -1,0 +1,39 @@
+#!/bin/sh
+
+set -ex
+
+cfg_dir=$(dirname "$0")
+
+. "$cfg_dir"/cfg.sh
+
+if [ -z "$url" ] | [ -z "$pattern" ] | [ -z "$branch" ] | [ -z "$message" ]; then
+    echo "Required fields url, pattern, branch and message not found in $cfg_dir/cfg.sh"
+    exit 1
+fi
+
+content=$(curl "$url")
+
+new_value=$(echo "$content" | grep -oP "$pattern" | head -1)
+
+if [ -z "$new_value" ]; then
+    echo "Expected pattern $pattern not found in $url"
+    exit 1
+fi
+
+trap 'echo $new_value | tee $cfg_dir/old_value' HUP INT TERM EXIT
+
+old_value=$(cat "$cfg_dir"/old_value || echo "")
+
+if [ "$new_value" != "$old_value" ]; then
+    (
+        tmp=$(mktemp -d)
+        trap "rm -rf $tmp" HUP INT TERM EXIT
+        cd "$tmp"
+        git clone https://github.com/snapcore/spread-launcher
+        cd spread-launcher
+        git fetch
+        git checkout "$branch"
+        git commit --allow-empty -m "$message"
+        git push
+    )
+fi
