@@ -1,0 +1,3 @@
+[submodule "target"]
+	path = target
+	url = https://github.com/snapcore/snapd
