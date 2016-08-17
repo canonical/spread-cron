@@ -1,8 +1,8 @@
 #!/bin/sh
 
-set -ex
+set -uex
 
-. $(dirname "$0")/../options
+. "$(dirname "$0")"/../options
 
 if [ -z "$pattern_extractor" ] | [ -z "$message" ]; then
     echo "Required fields pattern_extractor and message not found in ../options"
