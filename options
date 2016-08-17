@@ -1,2 +1,2 @@
 pattern_extractor="curl -sI https://search.apps.ubuntu.com/api/v1/channels -H 'Cache-control: no-cache' | grep Revision | perl -pe 's|X-Bzr-Revision-Number: (\d+)|\1|'"
-message="New SSO version"
+message="New CPI version"
