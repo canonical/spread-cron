@@ -1,0 +1,2 @@
+pattern_extractor="curl -sI https://login.ubuntu.com | grep Revision | perl -pe 's|X-Bzr-Revision-Number: (\d+)|\1|'"
+message="New SSO version"
