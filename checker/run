@@ -9,13 +9,15 @@ if [ -z "$pattern_extractor" -o -z "$message" ]; then
     exit 1
 fi
 
-new_value=$(eval "$pattern_extractor" | tr -d '\r')
+new_value=$(eval "$pattern_extractor")
 if [ -z "$new_value" ]; then
-    echo "pattern extractor $pattern_extractor could not extract anything"
+    echo "$pattern_extractor didn't found anything"
     exit 1
 fi
 
-old_value=$(git log -1 --pretty=%B | head -1 | sed -e "s|$message (\(.*\))|\1|")
+old_value_path=$(dirname "$0")/old_value
+trap 'echo $new_value | tee $old_value_path' HUP INT TERM EXIT
+old_value=$(cat "$old_value_path" || echo "")
 
 if [ "$new_value" != "$old_value" ]; then
     git commit --allow-empty -m "$message ($new_value)"
