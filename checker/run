@@ -4,23 +4,20 @@ set -ex
 
 . $(dirname "$0")/../options
 
-if [ -z "$url" ] | [ -z "$pattern" ] | [ -z "$message" ]; then
-    echo "Required fields url, pattern and message not found in ../options"
+if [ -z "$pattern_extractor" ] | [ -z "$message" ]; then
+    echo "Required fields pattern_extractor and message not found in ../options"
     exit 1
 fi
 
-content=$(curl "$url")
-
-new_value=$(echo "$content" | grep -oP "$pattern" | head -1)
-
+new_value=$(eval "$pattern_extractor")
 if [ -z "$new_value" ]; then
-    echo "Expected pattern $pattern not found in $url"
+    echo "$pattern_extractor didn't found anything"
     exit 1
 fi
 
-trap 'echo $new_value | tee $cfg_dir/old_value' HUP INT TERM EXIT
-
-old_value=$(cat "$cfg_dir"/old_value || echo "")
+old_value_path=$(dirname "$0")/old_value
+trap 'echo $new_value | tee $old_value_path' HUP INT TERM EXIT
+old_value=$(cat "$old_value_path" || echo "")
 
 if [ "$new_value" != "$old_value" ]; then
     git commit --allow-empty -m "$message ($new_value)"
