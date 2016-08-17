@@ -1,0 +1,2 @@
+pattern_extractor="curl -sI https://assertions.ubuntu.com/_status/ping | grep Revision | perl -pe 's|X-Vcs-Revision: (\d+)|\1|'"
+message="New SAS version"
