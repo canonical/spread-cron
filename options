@@ -1,2 +1,2 @@
-pattern_extractor="curl -sI https://search.apps.ubuntu.com/api/v1/channels -H 'Cache-control: no-cache' | grep Revision | perl -pe 's|X-Bzr-Revision-Number: (\d+)|\1|'"
+pattern_extractor="curl -sI https://search.apps.ubuntu.com/api/v1/channels -H 'Cache-control: no-cache' | sed -n 's|X-Bzr-Revision-Number: \(.*\)|\1|p'"
 message="New CPI version"
