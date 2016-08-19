@@ -1,2 +1,2 @@
-pattern_extractor="curl -sI https://myapps.developer.ubuntu.com/dev/ | grep Revision | perl -pe 's|X-Bzr-Revision-Number: (\d+)|\1|'"
+pattern_extractor="curl -sI https://myapps.developer.ubuntu.com/dev/ | sed -n 's|X-Bzr-Revision-Number: \(.*\)|\1|p'"
 message="New SCA version"
