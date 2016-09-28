@@ -6,5 +6,5 @@ env:
 script:
     - mkdir -p bin
     - ( cd bin && curl -s -O https://niemeyer.s3.amazonaws.com/spread-amd64.tar.gz && tar xzvf spread-amd64.tar.gz )
-    - cp -ar custom/. target/
+    - ./actions.sh
     - cd target && ../bin/spread -v
