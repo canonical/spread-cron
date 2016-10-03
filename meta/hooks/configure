@@ -1,5 +1,4 @@
 #!/bin/sh
-
 if ! username=$(snapctl get username); then
     echo "Username is required"
     exit 1
@@ -10,8 +9,17 @@ if ! password=$(snapctl get password); then
     exit 1
 fi
 
-# write credentials file
-echo "https://$username:$password@github.com" > $SNAP_DATA/git-credentials
-chmod 600 $SNAP_DATA/git-credentials
+# remove double quotes
+username=$(echo "$username" | sed -e 's/^"//' -e 's/"$//')
+password=$(echo "$password" | sed -e 's/^"//' -e 's/"$//')
 
-git config credential.helper "store --file=$SNAP_DATA/git-credentials"
+CREDENTIALS_FILE=$SNAP_COMMON/git-credentials
+
+# write credentials file
+echo "https://$username:$password@github.com" > "$CREDENTIALS_FILE"
+chmod 600 "$CREDENTIALS_FILE"
+
+GIT_BINARY="$SNAP/usr/bin/git"
+"$GIT_BINARY" config --global credential.helper "store --file=$CREDENTIALS_FILE"
+"$GIT_BINARY" config --global user.name "Snappy Developers"
+"$GIT_BINARY" config --global user.email snappy-dev@lists.launchpad.net
