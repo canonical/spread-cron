@@ -38,3 +38,4 @@ parts:
             - usr/
             - var/
             - bin/cron
+            - meta/hooks
