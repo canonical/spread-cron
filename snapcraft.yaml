@@ -33,13 +33,14 @@ parts:
         source: .
         stage-packages:
             - curl
+            - libcurl4-openssl-dev
         build-packages:
             - asciidoc
             - curl
             - cvs
             - cvsps
             - docbook-xsl
-            - libcurl4-gnutls-dev
+            - libcurl4-openssl-dev
             - libdbd-sqlite3-perl
             - libsvn-perl
             - libyaml-perl
