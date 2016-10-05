@@ -28,14 +28,24 @@ apps:
         plugs: [network]
 
 parts:
-    cron:
+    git:
         plugin: make
         source: .
-        stage-packages: [git, curl]
+        stage-packages:
+            - curl
+        build-packages:
+            - asciidoc
+            - curl
+            - cvs
+            - cvsps
+            - docbook-xsl
+            - libcurl4-gnutls-dev
+            - libdbd-sqlite3-perl
+            - libsvn-perl
+            - libyaml-perl
+            - subversion
+            - xmlto
         snap:
-            - etc/
-            - lib/
-            - usr/
-            - var/
-            - bin/cron
+            - bin/
             - meta/hooks
+            - usr/
