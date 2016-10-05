@@ -19,7 +19,7 @@ CREDENTIALS_FILE=$SNAP_COMMON/git-credentials
 echo "https://$username:$password@github.com" > "$CREDENTIALS_FILE"
 chmod 600 "$CREDENTIALS_FILE"
 
-GIT_BINARY="$SNAP/bin/git"
+GIT_BINARY="$SNAP/usr/bin/git"
 "$GIT_BINARY" config --global credential.helper "store --file=$CREDENTIALS_FILE"
 "$GIT_BINARY" config --global user.name "Snappy Developers"
 "$GIT_BINARY" config --global user.email snappy-dev@lists.launchpad.net
