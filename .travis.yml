@@ -2,7 +2,7 @@ dist: trusty
 env:
     global:
         # SPREAD_LINODE_KEY
-        - secure: 2M77bK+jY3DEDue9yltn6jICylFzJ2xsvoubYfdyYRuMx2N1eEUVuXm+9F6Xle6LkgcOqQsG4r7JrcRb3yK3npNUx+MVs1KFhdxGzBQEZpYxNwijwUyGKP2X6c/ah+sCD/Lor1fnaly2Sqs3Rd8NMhU7qm6CM5Y0f6CJyEVHOfJrsfoX5XCj+sy8QPbFyGYI+BL7jwnFcnDs+IBgEfSxNEPcD7jtyT53aHta/JF8cnZXpUNHe+qyLH/uUGJxvJGY0PVX0sTGI0sjx1IzcgeGaB2L3dUPj/t/8IZBiXY+51TWJL6VTqjKTVdRSawYQD7G1NlnSKKzMJOhiscnNyIHUMROlfz43DCL0Q8eKLDF1QY9aQz/x7RVtzzAsz4jmlw9rp27YG3/gXogHMfOBheJrbIRoAvuFZ6u37N9NlHDODe6djZfg92w9f3OyUzC/uWpAZxzYUb+emMLgHsgbHNS6m20tZ8ZiqP3ivBF+UKBEPgk02+/WiNEbmiMVMIIOYcGCxNHLgT8zEaWUhEJis0bsVp/+TmegwuJqkPZpREAlFEMHaATz4qS5Sb14S4JmbxxxO3OOrDVtEYEe8lYbQgMry/BV8kqBx45jHAbrvSHYY+Acku3kynEJF+dJcN8j10lgNva0KEVbgnh6Kz4riN8i3etk/IRuyw83svw8HInRtA=
+        - secure: "aj5fsiFpYMmNu+krQmweByEJL6e4UuKZ2iqEdpm6hMKqfFN+MknEL9IxD1S5VPAUlQjytH4f59JN+5/HwdBKPTGSHVkaVJu4I5uUVtCD4dn+uh0sxWo2MOAZ777otlRMnILrwv05+1zJLfPRyq8GuPKUYR0hM36OnCYuPizGA9QaarhAIQ4Ac+dNomnZ0xz+UcmFrHgtrVrgGRqxbfQJip5en6FF0Jj3CL5Db2l2/rpCOGQS5z/dRLZ4GyFof6G0F+i9TgO/FR1xxkRfipJfv+eVCcbriw8HaTJhNMJ2Q1lr66Z/UpfsTRqydxj2QqTIRv+3FT8BLe6Dt1qtkh6drxskZgBB/TU5ujIolZwpy/AKmh3aKzAMwJ29ZJ3Ycu1Fz70ybnNRREoaVb27nhVIuN7DQqwrYbzrd/+McsTE0FnZBAVPwkTQPspfEBRmAOnWlrhb7QMeIYZOC6OZTOI3xZ8OmgBP3uMFWQjRzHLZfL7u/CtIhaCd028naq4MTQMg5SkRIIBapQK1vX8+oJ592P2VWoQSlEthO7TGJ5LRtQMJyYRlEUck/8aQQmq6lamdBNlVoKVFDmLMMuY88Su3LPD/Q4CUOAUd5UvBrGzWksoXLce1tFROBMBanIPCJ2pxGA6NdHeE66hKliRA43MNJrNZ/9xaJf4KwArsm3DlTuU="
 script:
     - mkdir -p bin
     - ( cd bin && curl -s -O https://niemeyer.s3.amazonaws.com/spread-amd64.tar.gz && tar xzvf spread-amd64.tar.gz )
