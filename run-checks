@@ -3,4 +3,4 @@
 mkdir -p bin
 ( cd bin && curl -s -O https://niemeyer.s3.amazonaws.com/spread-amd64.tar.gz && tar xzvf spread-amd64.tar.gz )
 ./actions.sh
-cd target && ./bin/spread -v linode:
+cd target && ../bin/spread -v linode:
