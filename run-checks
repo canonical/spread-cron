@@ -1,6 +1,6 @@
 #!/bin/sh
 
 mkdir -p bin
-( cd bin && curl -s -O https://niemeyer.s3.amazonaws.com/spread-amd64.tar.gz && tar xzvf spread-amd64.tar.gz )
+( cd bin &&  wget https://www.dropbox.com/s/01izchetwqxl9ba/spread.tar.gz?dl=1 -O spread.tar.gz && tar xzvf spread.tar.gz )
 ./actions.sh
 cd target && ../bin/spread -v linode:
