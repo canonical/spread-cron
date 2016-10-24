@@ -22,7 +22,6 @@ while true; do
                 git branch --track "$branch" "$remote";
                 git checkout "$branch"
                 git pull
-                git pull --recurse-submodules && git submodule update --remote --recursive
                 $BASE_DIR/checker/run
             fi
         done
