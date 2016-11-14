@@ -1,7 +1,7 @@
 #!/bin/sh
 
 mkdir -p bin
-( cd bin &&  wget https://www.dropbox.com/s/01izchetwqxl9ba/spread.tar.gz?dl=1 -O spread.tar.gz && tar xzvf spread.tar.gz )
+( cd bin &&  wget https://niemeyer.s3.amazonaws.com/spread-amd64.tar.gz -O spread.tar.gz && tar xzvf spread.tar.gz )
 git pull --recurse-submodules && git submodule update --remote --recursive
 ./actions.sh
 cd target && ../bin/spread -v linode:
