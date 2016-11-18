@@ -1,0 +1,23 @@
+#!/bin/sh
+
+set -uex
+
+. "$(dirname "$0")"/../options
+
+if [ -z "$pattern_extractor" -o -z "$message" ]; then
+    echo "Required fields pattern_extractor and message not found in ../options"
+    exit 1
+fi
+
+new_value=$(eval "$pattern_extractor" | tr -d '\r')
+if [ -z "$new_value" ]; then
+    echo "pattern extractor $pattern_extractor could not extract anything"
+    exit 1
+fi
+
+old_value=$(git log -1 --pretty=%B | head -1 | sed -e "s|$message (\(.*\))|\1|")
+
+if [ "$new_value" != "$old_value" ]; then
+    git commit --allow-empty -m "$message ($new_value)"
+    git push
+fi
