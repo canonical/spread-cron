@@ -5,7 +5,7 @@ TEMPDIR := $(shell mktemp -d)
 all:
 
 install:
-	wget https://www.kernel.org/pub/software/scm/git/git-2.9.3.tar.gz -O $(TEMPDIR)/git.tar.gz
+	curl -o $(TEMPDIR)/git.tar.gz https://www.kernel.org/pub/software/scm/git/git-2.9.3.tar.gz
 	cd $(TEMPDIR) && tar -xf git.tar.gz
 	cd $(TEMPDIR)/git-2.9.3 && ./configure --prefix=/usr --with-curl=/usr/bin && make && make install
 	cp -a $(DESTDIR)/usr/libexec/git-core/git-remote* $(DESTDIR)/usr/libexec/git-core/git-credential* $(DESTDIR)/usr/bin
