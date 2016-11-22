@@ -1,7 +1,7 @@
 #!/bin/bash
 
 BASE_DIR="$SNAP_COMMON/spread-cron"
-STEP=3000
+STEP=300
 FINAL_TIME=0
 INITIAL_TIME=0
 
