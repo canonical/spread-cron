@@ -4,4 +4,9 @@ mkdir -p bin
 ( cd bin &&  wget https://niemeyer.s3.amazonaws.com/spread-amd64.tar.gz -O spread.tar.gz && tar xzvf spread.tar.gz )
 git clone https://github.com/snapcore/snapd target
 ./actions.sh
+
+if [ -f ./custom/env.sh ]; then
+    . ./custom/env.sh
+fi
+
 cd target && ../bin/spread -v linode:
