@@ -1,8 +1,8 @@
 [![Build Status][travis-image]][travis-url]
 
-spread-cron helps to make sure that snapd keeps working after certain events are detected.
+spread-cron helps to make sure that snapd keeps working after certain external resources change.
 
-We are using spread for snapd development, with each pull request we are abla to run a suite of checks that exercise the product in a lot of different ways, so that we can be confident that the new changes won't break the existing features. However, given the intrinsic distributed nature of the snapd environment, there are additional changes that can make the whole thing fail: what happens if the packaging of a new core snap doesn't play well with the rest of the system? will snapd keep working after a rollout of a store endpoint? will an ubuntu-core image made available before publishing work as expected?
+We are using spread for snapd development, with each pull request we are abla to run a suite of checks that exercise the product in a lot of different ways, so that we can be confident that the new changes won't break the existing features. However, given the intrinsic distributed nature and complexity of the snapd environment, there are additional changes that can make the whole thing fail: what happens if the packaging of a new core snap doesn't play well with the rest of the system? will snapd keep working after a rollout of a store endpoint? will an ubuntu-core image made available before publishing work as expected?
 
 # Workflow
 
