@@ -64,7 +64,7 @@ production store, CPI endpoint | X-Bzr-Revision-Number | snapd-production-store-
 production store, SAS endpoint | X-Vcs-Revision | snapd-production-store-sas | [options](https://github.com/snapcore/spread-cron/blob/snapd-production-store-sas/options)
 production store, SCA endpoint | X-Bzr-Revision-Number | snapd-production-store-sca | [options](https://github.com/snapcore/spread-cron/blob/snapd-production-store-sca/options)
 production store, SSO endpoint | X-Bzr-Revision-Number | snapd-production-store-sso | [options](https://github.com/snapcore/spread-cron/blob/snapd-production-store-sso/options)
-staging store, SAS endpoint | X-Vcs-Revision | snapd-staging-store-sas | [options](https://github.com/snapcore/spread-cron/blob/snapd-production-store-sas/options)
+staging store, SAS endpoint | X-Vcs-Revision | snapd-staging-store-sas | [options](https://github.com/snapcore/spread-cron/blob/snapd-staging-store-sas/options)
 
 [travis-image]: https://travis-ci.org/snapcore/spread-cron.svg?branch=master
 [travis-url]: https://travis-ci.org/snapcore/spread-cron?branch=master
