@@ -1,6 +1,6 @@
 [![Build Status][travis-image]][travis-url]
 
-spread-cron helps to make sure that snapd keeps working after certain external resources change.
+spread-cron helps to make sure that [snapd](https://github.com/snapcore/snapd) keeps working after certain external resources change.
 
 We are using spread for snapd development, with each pull request we are able to run a suite of checks that exercise the product in a lot of different ways, so that we can be confident that the new changes won't break the existing features. However, given the intrinsic distributed nature and complexity of the snapd environment, there are additional changes that can make the whole thing fail: what happens if the packaging of a new core snap doesn't play well with the rest of the system? will snapd keep working after a rollout of a store endpoint? will an ubuntu-core image made available before publishing work as expected?
 
@@ -8,9 +8,9 @@ We are using spread for snapd development, with each pull request we are able to
 
 spread-cron was developed to watch specific external resources (currently only web-based) and trigger customized test executions when changes on those are detected. It follows a pull-based model, in which from a central point, where the spread-cron snap is deployed, the various predefined resources are polled and, when changes are detected, snapd's source code is cloned, the required customizations are done and the suite execution is triggered.
 
-## Predefined resources definition
+## Predefined resources
 
-spread-cron relies heavily on git infrastructure for handling its config and state storage, not only on the versioned files themselves but on git-specific features too. For each watched resource a git branch is defined, and the files for checking the external resource and customizing the test execution are added to that branch. This way we can have separate branches for checking core snap versions on the different channels, store endpoints or SRU bugs being filed, the spread-cron agent just need to checkout each of them and apply the same set of actions to the specific files for each resource.
+spread-cron relies heavily on git infrastructure for handling its config and state storage, not only on the versioned files themselves but on git-specific features too. For each watched resource a git branch is defined, and the files for checking the external resource and customizing the test execution are added to that branch. This way we can have separate branches for checking core snap versions on the different channels, store endpoints or SRU bugs being filed, the spread-cron agent just need to checkout each of them and apply the same set of actions to the specific files for each resource. [This](https://travis-ci.org/snapcore/spread-cron/branches) is how the executions look like in travis for each of the branches.
 
 ## Changes detection
 
@@ -31,6 +31,7 @@ When spread-cron checks this branch, suppose that from the pattern extractor it 
     12cdb134b31e31ad4cd004089f5c9c935dea9ff5 New OS snap in beta channel (548)
 
 then spread-cron will iterate through the commit list until it finds the first entry which matches `$message` from the options file and extract the old version from there, in this case 549. Since the two versions are different, it will add a new empty commit in the current branch with the message `New OS snap in beta channel (550)`.
+[This](https://travis-ci.org/snapcore/spread-cron/builds) is how the different resource versions look like in the travis build history.
 
 ## Execution triggering
 
@@ -64,7 +65,10 @@ production store, CPI endpoint | X-Bzr-Revision-Number | snapd-production-store-
 production store, SAS endpoint | X-Vcs-Revision | snapd-production-store-sas | [options](https://github.com/snapcore/spread-cron/blob/snapd-production-store-sas/options)
 production store, SCA endpoint | X-Bzr-Revision-Number | snapd-production-store-sca | [options](https://github.com/snapcore/spread-cron/blob/snapd-production-store-sca/options)
 production store, SSO endpoint | X-Bzr-Revision-Number | snapd-production-store-sso | [options](https://github.com/snapcore/spread-cron/blob/snapd-production-store-sso/options)
+staging store, CPI endpoint | X-Bzr-Revision-Number | snapd-staging-store-cpi | [options](https://github.com/snapcore/spread-cron/blob/snapd-staging-store-cpi/options)
 staging store, SAS endpoint | X-Vcs-Revision | snapd-staging-store-sas | [options](https://github.com/snapcore/spread-cron/blob/snapd-staging-store-sas/options)
+staging store, SCA endpoint | X-Bzr-Revision-Number | snapd-staging-store-sca | [options](https://github.com/snapcore/spread-cron/blob/snapd-staging-store-sca/options)
+staging store, SSO endpoint | X-Bzr-Revision-Number | snapd-staging-store-sso | [options](https://github.com/snapcore/spread-cron/blob/snapd-staging-store-sso/options)
 
 [travis-image]: https://travis-ci.org/snapcore/spread-cron.svg?branch=master
 [travis-url]: https://travis-ci.org/snapcore/spread-cron?branch=master
