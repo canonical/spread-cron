@@ -10,7 +10,7 @@ spread-cron was developed to watch specific external resources (currently only w
 
 ## Predefined resources
 
-spread-cron relies heavily on git infrastructure for handling its config and state storage, not only on the versioned files themselves but on git-specific features too. For each watched resource a git branch is defined, and the files for checking the external resource and customizing the test execution are added to that branch. This way we can have separate branches for checking core snap versions on the different channels, store endpoints or SRU bugs being filed, the spread-cron agent just need to checkout each of them and apply the same set of actions to the specific files for each resource. [This](https://travis-ci.org/snapcore/spread-cron/branches) is how the executions look like in travis for each of the branches.
+spread-cron relies heavily on git infrastructure for handling its config and state storage, not only on the versioned files themselves but on git-specific features too. That makes it very easy to see what's going on using travis's dashboards. For each watched resource a git branch is defined, and the files for checking the external resource and customizing the test execution are added to that branch. This way we can have separate branches for checking core snap versions on the different channels, store endpoints or SRU bugs being filed, the spread-cron agent just need to checkout each of them and apply the same set of actions to the specific files for each resource. [This](https://travis-ci.org/snapcore/spread-cron/branches) is how the executions look like in travis for each of the branches.
 
 ## Changes detection
 
