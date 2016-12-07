@@ -54,6 +54,7 @@ while true; do
         cd "$BASE_DIR" || exit
 
         INITIAL_TIME=$SECONDS
+        git remote prune origin
         for remote in $(git branch -r); do
             if [ "$remote" != "origin/HEAD" ] && [ "$remote" != "origin/master" ] && [ "$remote" != "->" ]; then
                 branch="${remote#origin/}"
