@@ -36,6 +36,7 @@ parts:
             - libcurl4-openssl-dev
         build-packages:
             - asciidoc
+            - build-essential
             - curl
             - cvs
             - cvsps
