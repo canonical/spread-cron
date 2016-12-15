@@ -32,11 +32,11 @@ parts:
         plugin: make
         source: .
         stage-packages:
+            - build-essential
             - curl
             - libcurl4-openssl-dev
         build-packages:
             - asciidoc
-            - build-essential
             - curl
             - cvs
             - cvsps
