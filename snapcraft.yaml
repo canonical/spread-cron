@@ -34,6 +34,7 @@ parts:
         stage-packages:
             - build-essential
             - curl
+            - jq
             - libcurl4-openssl-dev
         build-packages:
             - asciidoc
