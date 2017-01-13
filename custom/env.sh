@@ -1,0 +1,2 @@
+#!/bin/sh
+export SPREAD_MODIFY_CORE_SNAP_FOR_REEXEC=0
