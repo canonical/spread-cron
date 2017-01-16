@@ -32,21 +32,24 @@ parts:
         plugin: make
         source: .
         stage-packages:
-            - build-essential
             - curl
+            - jq
             - libcurl4-openssl-dev
         build-packages:
             - asciidoc
+            - build-essential
             - curl
             - cvs
             - cvsps
             - docbook-xsl
+            - gettext
             - libcurl4-openssl-dev
             - libdbd-sqlite3-perl
             - libsvn-perl
             - libyaml-perl
             - subversion
             - xmlto
+            - zlib1g-dev
         snap:
             - bin/
             - meta/hooks
