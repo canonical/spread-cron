@@ -1,2 +1,2 @@
-pattern_extractor="curl -s https://api.github.com/repos/snapcore/snapd/commits?per_page=1 | jq -r '.[0] | .sha'"
-message="New merge on snapd's master"
+pattern_extractor="if [ $(date +%H%M) \< "0130" ]; then echo ""; else date +%Y%m%d; fi"
+message="Daily execution with core unmodified for reexec"
