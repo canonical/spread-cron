@@ -1,8 +1,12 @@
+sudo: required
 dist: trusty
 env:
     global:
         # SPREAD_LINODE_KEY
         - secure: "a012+JXKnVWwvFwgA8yoNezpvZmryTbzzKbHmNR2Yv2+nOfqubkv/5UQ540LROwUFmCwcdSu7B3y0qCdZzTSMmcy2C6GfD1Rj7mqqV/e4/ZazczBwQa9RAAsfWLf/bQ7XRWnhDXZB5oApfqgdqDJlQF3ajJvZSxfN7dXScTyw6LypLP30+gOa3MLpO6bez/p4ThoW8nucn7XHw3HwUIZd0xiH70/LEoDox4AffCLXMF96OjdIK/FkrFWGtU28dX2L49WBWWlcU+MBl1ZanpVI4LzioWw+am/rH6q5bWznABJMaXnv4BbxW/3mRhDSSgwHv3wEl7UXxvXzVNO7c7OIMKAAWUmJfHcsRgcJwWWVlkViIp6mQ+/q+kapvWeV4U92IE/bUwdqrAMSiv/bdbHUy/8VTq/Bj3BdtD0ED3UvOjq0d90zkv0Qjj7bc4ocICTROy7QLUJhew8OkT2fCfsKCSgDynTu3q9Lly7OwkPcDW5G0jh/R4N1fu7wwbSGb0WJ/vBy8D1/naQNAL5xuukSRpM26OEzleMseUcDaU1u3xLGw/VZrEw27Ga5MTPcU1jzrWPlx/F/8FrH+XgrAt/4WpluPCDcZ8NYQqVt7WEOHCyACqFk2CXp4TeYMZUm/nLbQ2WbofhBVTSqriJ7RVMb+A3wyOdmEHIDdOpgp8pKgs="
+install:
+    - sudo apt-get update -qq
+    - sudo apt-get install -qq xdelta3
 script:
     - ./run-checks
 notifications:
