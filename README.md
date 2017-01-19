@@ -61,10 +61,19 @@ core snap, edge channel, amd64 arch | revision | snapd-core-edge | [options](htt
 core snap, beta channel, amd64 arch | revision | snapd-core-beta | [options](https://github.com/snapcore/spread-cron/blob/snapd-core-beta/options)
 core snap, candidate channel, amd64 arch | revision | snapd-core-candidate | [options](https://github.com/snapcore/spread-cron/blob/snapd-core-candidate/options)
 core snap, stable channel, amd64 arch | revision | snapd-core-stable | [options](https://github.com/snapcore/spread-cron/blob/snapd-core-stable/options)
+core snap, edge channel, i386 arch | revision | snapd-core-i386-edge | [options](https://github.com/snapcore/spread-cron/blob/snapd-core-i386-edge/options)
+core snap, beta channel, i386 arch | revision | snapd-core-i386-beta | [options](https://github.com/snapcore/spread-cron/blob/snapd-core-i386-beta/options)
+core snap, candidate channel, i386 arch | revision | snapd-core-i386-candidate | [options](https://github.com/snapcore/spread-cron/blob/snapd-core-i386-candidate/options)
+core snap, stable channel, i386 arch | revision | snapd-core-i386-stable | [options](https://github.com/snapcore/spread-cron/blob/snapd-core-i386-stable/options)
+kernel snap, edge channel, amd64 arch | revision | kernel-edge-amd64 | [options](https://github.com/snapcore/spread-cron/blob/kernel-edge-amd64/options)
 production store, CPI endpoint | X-Bzr-Revision-Number | snapd-production-store-cpi | [options](https://github.com/snapcore/spread-cron/blob/snapd-production-store-cpi/options)
 production store, SAS endpoint | X-Vcs-Revision | snapd-production-store-sas | [options](https://github.com/snapcore/spread-cron/blob/snapd-production-store-sas/options)
 production store, SCA endpoint | X-Bzr-Revision-Number | snapd-production-store-sca | [options](https://github.com/snapcore/spread-cron/blob/snapd-production-store-sca/options)
 production store, SSO endpoint | X-Bzr-Revision-Number | snapd-production-store-sso | [options](https://github.com/snapcore/spread-cron/blob/snapd-production-store-sso/options)
+staging store, CPI endpoint | X-Bzr-Revision-Number | snapd-staging-store-cpi | [options](https://github.com/snapcore/spread-cron/blob/snapd-staging-store-cpi/options)
+staging store, SAS endpoint | X-Vcs-Revision | snapd-staging-store-sas | [options](https://github.com/snapcore/spread-cron/blob/snapd-staging-store-sas/options)
+staging store, SCA endpoint | X-Bzr-Revision-Number | snapd-staging-store-sca | [options](https://github.com/snapcore/spread-cron/blob/snapd-staging-store-sca/options)
+staging store, SSO endpoint | X-Bzr-Revision-Number | snapd-staging-store-sso | [options](https://github.com/snapcore/spread-cron/blob/snapd-staging-store-sso/options)
 
 [travis-image]: https://travis-ci.org/snapcore/spread-cron.svg?branch=master
 [travis-url]: https://travis-ci.org/snapcore/spread-cron?branch=master
