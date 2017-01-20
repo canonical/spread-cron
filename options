@@ -1,2 +1,2 @@
-pattern_extractor="if [ $(date +%H%M) \< "0130" ]; then echo ""; else date +%Y%m%d; fi"
-message="Daily execution with core unmodified for reexec"
+pattern_extractor="curl -v -s -H 'X-Ubuntu-Architecture: amd64' -H 'X-Ubuntu-Series: 16' https://search.apps.ubuntu.com/api/v1/snaps/details/core?channel=edge 1>$SNAP_COMMON/snapd-reexec-2.21-vs-edge.last.response && cat $SNAP_COMMON/snapd-reexec-2.21-vs-edge.last.response | jq -j '.revision'"
+message="New amd64 core snap in edge channel for reexec from 2.21 to edge"
