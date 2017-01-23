@@ -75,7 +75,7 @@ fi
 quiet govendor sync
 
 # Use fake version to ensure we are always bigger than anything else
-dch --newversion "1337.$(dpkg-parsechangelog --show-field Version)" "testing build"
+dch -lzzz "testing build"
 
 if ! id test >& /dev/null; then
    # manually setting the UID and GID to 12345 because we need to
