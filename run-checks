@@ -9,6 +9,4 @@ if [ -f ./custom/env.sh ]; then
     . ./custom/env.sh
 fi
 
-cd target && ../bin/spread -v linode:ubuntu-16.04-64:tests/main \
-                           linode:ubuntu-16.04-64:tests/regression \
-                           linode:ubuntu-16.04-64:tests/upgrade
+cd target && ../bin/spread -v linode:ubuntu-16.04-64:tests/main linode:ubuntu-16.04-64:tests/regression linode:ubuntu-16.04-64:tests/upgrade
