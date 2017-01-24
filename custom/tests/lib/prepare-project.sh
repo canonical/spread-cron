@@ -19,26 +19,79 @@ create_test_user(){
     unset owner
 
     echo 'test ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
-
-    chown test.test -R ..
 }
 
 build_deb(){
+    if [[ "$SPREAD_SYSTEM" == ubuntu-14.04-* ]]; then
+        if [ ! -d debian-ubuntu-14.04 ]; then
+            echo "no debian-ubuntu-14.04/ directory "
+            echo "broken test setup"
+            exit 1
+        fi
+
+        # 14.04 has its own packaging
+        rm -rf debian
+        mv debian-ubuntu-14.04 debian
+
+        quiet apt-get install -y software-properties-common
+
+        echo 'deb http://archive.ubuntu.com/ubuntu/ trusty-proposed main universe' >> /etc/apt/sources.list
+        quiet add-apt-repository ppa:snappy-dev/image
+        quiet apt-get update
+
+        quiet apt-get install -y --install-recommends linux-generic-lts-xenial
+        quiet apt-get install -y --force-yes apparmor libapparmor1 seccomp libseccomp2 systemd cgroup-lite util-linux
+    fi
+
+    quiet apt-get purge -y snapd snap-confine ubuntu-core-launcher
+    # utilities
+    # XXX: build-essential seems to be required. Otherwise package build
+    # fails with unmet dependency on "build-essential:native"
+    quiet apt-get install -y build-essential curl devscripts expect gdebi-core jq rng-tools git
+
+    # in 16.04: apt build-dep -y ./
+    quiet apt-get install -y $(gdebi --quiet --apt-line ./debian/control)
+
+    # update vendoring
+    if [ "$(which govendor)" = "" ]; then
+        rm -rf $GOPATH/src/github.com/kardianos/govendor
+        go get -u github.com/kardianos/govendor
+    fi
+    quiet govendor sync
+
     # Use fake version to ensure we are always bigger than anything else
     dch -lzzz "testing build"
 
+    chown test.test -R ..
     quiet su -l -c "cd $PWD && DEB_BUILD_OPTIONS='nocheck testkeys' dpkg-buildpackage -tc -b -Zgzip" test
     # put our debs to a safe place
     cp ../*.deb $GOPATH
 }
 
-download_from_ppa(){
+install_ppa(){
     local ppa_version="$1"
 
-    for pkg in snap-confine ubuntu-core-launcher snapd; do
-        file="${pkg}_${ppa_version}_$(dpkg --print-architecture).deb"
-        curl -L -o "$GOPATH/$file" "https://launchpad.net/~snappy-dev/+archive/ubuntu/snapd-${ppa_version}/+files/$file"
-    done
+    quiet apt install -y software-properties-common
+
+    quiet add-apt-repository -y ppa:snappy-dev/snapd-"$ppa_version"
+
+    quiet apt update
+
+    quiet apt install -y snapd="$ppa_version"
+}
+
+build_test_binaries(){
+    # Build snapbuild.
+    go get ./tests/lib/snapbuild
+    # Build fakestore.
+
+    fakestore_tags=
+    if [ "$REMOTE_STORE" = staging ]; then
+        fakestore_tags="-tags withstagingkeys"
+    fi
+    go get $fakestore_tags ./tests/lib/fakestore/cmd/fakestore
+    # Build fakedevicesvc.
+    go get ./tests/lib/fakedevicesvc
 }
 
 # Set REUSE_PROJECT to reuse the previous prepare when also reusing the server.
@@ -79,58 +132,10 @@ fi
 create_test_user
 
 quiet apt-get update
-
-if [[ "$SPREAD_SYSTEM" == ubuntu-14.04-* ]]; then
-    if [ ! -d debian-ubuntu-14.04 ]; then
-        echo "no debian-ubuntu-14.04/ directory "
-        echo "broken test setup"
-        exit 1
-    fi
-
-    # 14.04 has its own packaging
-    rm -rf debian
-    mv debian-ubuntu-14.04 debian
-
-    quiet apt-get install -y software-properties-common
-
-    echo 'deb http://archive.ubuntu.com/ubuntu/ trusty-proposed main universe' >> /etc/apt/sources.list
-    quiet add-apt-repository ppa:snappy-dev/image
-    quiet apt-get update
-
-    quiet apt-get install -y --install-recommends linux-generic-lts-xenial
-    quiet apt-get install -y --force-yes apparmor libapparmor1 seccomp libseccomp2 systemd cgroup-lite util-linux
-fi
-
-quiet apt-get purge -y snapd snap-confine ubuntu-core-launcher
-# utilities
-# XXX: build-essential seems to be required. Otherwise package build
-# fails with unmet dependency on "build-essential:native"
-quiet apt-get install -y build-essential curl devscripts expect gdebi-core jq rng-tools git
-
-# in 16.04: apt build-dep -y ./
-quiet apt-get install -y $(gdebi --quiet --apt-line ./debian/control)
-
-# update vendoring
-if [ "$(which govendor)" = "" ]; then
-    rm -rf $GOPATH/src/github.com/kardianos/govendor
-    go get -u github.com/kardianos/govendor
-fi
-quiet govendor sync
-
 if [ -z "$SNAPD_PPA_VERSION" ]; then
     build_deb
 else
-    download_from_ppa "$SNAPD_PPA_VERSION"
+    install_ppa "$SNAPD_PPA_VERSION"
 fi
 
-# Build snapbuild.
-go get ./tests/lib/snapbuild
-# Build fakestore.
-
-fakestore_tags=
-if [ "$REMOTE_STORE" = staging ]; then
-    fakestore_tags="-tags withstagingkeys"
-fi
-go get $fakestore_tags ./tests/lib/fakestore/cmd/fakestore
-# Build fakedevicesvc.
-go get ./tests/lib/fakedevicesvc
+build_test_binaries
