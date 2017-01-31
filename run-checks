@@ -7,4 +7,4 @@ git clone https://github.com/snapcore/snapd target
 export SPREAD_MODIFY_CORE_SNAP_FOR_REEXEC=0
 export SPREAD_TRUST_TEST_KEYS=false
 export SPREAD_SNAPD_PPA_VERSION=2.21
-cd target && ../bin/spread -v linode:ubuntu-16.04-64:tests/main/ linode:ubuntu-16.04-64:tests/regression/ linode:ubuntu-16.04-64:tests/upgrade/
+cd target && ../bin/spread -v linode:ubuntu-16.04-64:tests/main/ linode:ubuntu-16.04-64:tests/regression/
