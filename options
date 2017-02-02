@@ -1,2 +1,0 @@
-pattern_extractor="curl -sI https://login.ubuntu.com | sed -n 's|X-Bzr-Revision-Number: \(.*\)|\1|p'"
-message="New SSO version"
