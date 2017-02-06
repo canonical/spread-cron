@@ -1,0 +1,21 @@
+project: spread-cron-snapd-vendor-sync
+
+path: /sync
+
+backends:
+    linode:
+        type:
+        key: "$(HOST: echo $SPREAD_LINODE_KEY)"
+        environment:
+            GIT_USERNAME: "$(HOST: echo ${SPREAD_GIT_USERNAME:-})"
+            GIT_PASSWORD: "$(HOST: echo ${SPREAD_GIT_PASSWORD:-})"
+            GOPATH: /home/gopath
+            PATH: $GOPATH/bin:/snap/bin:$PATH:/usr/lib/go-1.6/bin
+
+        systems:
+            - ubuntu-16.04-64:
+                kernel: GRUB 2
+
+suites:
+    tasks/:
+        summary: Generic automatable tasks
