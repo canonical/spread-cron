@@ -23,7 +23,11 @@ restore: |
 execute: |
     # clone origin repo and prepare for getting vendor dependencies
     git clone https://github.com/snapcore/snapd origin
-    ( cd origin && rm -rf .git && sed -i 's|^vendor/\*/$||' .gitignore )
+    cd origin
+    rm -rf .git
+    sed -i 's|^vendor/\*/$||' .gitignore
+    GIT_COMMIT=$(git log --pretty=format:"%H" | head -1)
+    cd ..
 
     # clone target repo and copy origin over target
     git clone https://github.com/snapcore/snapd-plus-vendor $TARGET_DIR
@@ -38,9 +42,11 @@ execute: |
     # get vendor dependencies on target repo
     govendor sync
 
-    # if something was deleted, changed or added commit and push to the target repo
     if [ $(git ls-files -dmo | wc -l) != "0" ]; then
+        # if something was deleted, changed or added commit and push to the target repo
         git add .
-        git commit -am"Content updated"
-        git push
+        # guard against commited and later ignored files..
+        if git commit -am"Content updated ($GIT_COMMIT)"; then
+            git push
+        fi
     fi
