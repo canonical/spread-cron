@@ -12,6 +12,8 @@ backends:
         systems:
             - ubuntu-16.04-64:
                 kernel: GRUB 2
+            - ubuntu-16.04-32:
+                kernel: GRUB 2
 
 suites:
     tasks/:
