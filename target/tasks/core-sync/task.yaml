@@ -1,0 +1,29 @@
+summary: Sync core snap from prod to staging
+
+environment:
+    UBUNTU_STORE_API_ROOT_URL: https://myapps.developer.staging.ubuntu.com/dev/api/
+    UBUNTU_STORE_SEARCH_ROOT_URL: https://search.apps.staging.ubuntu.com/
+    UBUNTU_STORE_UPLOAD_ROOT_URL: https://upload.apps.staging.ubuntu.com/
+    UBUNTU_SSO_API_ROOT_URL: https://login.staging.ubuntu.com/api/v2/
+
+prepare: |
+    sysctl -w net.ipv6.conf.all.disable_ipv6=1
+    trap "sysctl -w net.ipv6.conf.all.disable_ipv6=0" EXIT
+    apt update && apt install -y curl jq snapcraft
+
+    # put credentials in place
+    mkdir -p ${HOME}/.config/snapcraft
+    mv snapcraft.cfg ${HOME}/.config/snapcraft
+
+restore: |
+    apt remove -y curl jq snapcraft
+    rm -rf ${HOME}/.config/snapcraft
+
+execute: |
+    download_url=$(curl -s -H "X-Ubuntu-Architecture: $CORE_ARCH" -H 'X-Ubuntu-Series: 16' https://search.apps.ubuntu.com/api/v1/snaps/details/core?channel=edge | jq -j '.anon_download_url')
+    curl -L -o core.snap "$download_url"
+
+    output=$(snapcraft push core.snap)
+
+    revision=$(echo "$output" | sed -n "s|Revision \(.*\) of 'core' pushed|\1|p")
+    snapcraft release core $revision edge

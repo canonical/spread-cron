@@ -1,4 +1,4 @@
-project: spread-cron-snapd-vendor-sync
+project: spread-cron-core-amd64-staging-sync
 
 path: /sync
 
@@ -7,10 +7,7 @@ backends:
         type:
         key: "$(HOST: echo $SPREAD_LINODE_KEY)"
         environment:
-            GIT_USERNAME: "$(HOST: echo ${SPREAD_GIT_USERNAME:-})"
-            GIT_PASSWORD: "$(HOST: echo ${SPREAD_GIT_PASSWORD:-})"
-            GOPATH: /home/gopath
-            PATH: $GOPATH/bin:/snap/bin:$PATH:/usr/lib/go-1.6/bin
+            CORE_ARCH: "$(HOST: echo $SPREAD_CORE_ARCH)"
 
         systems:
             - ubuntu-16.04-64:

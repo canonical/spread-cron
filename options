@@ -1,2 +1,2 @@
-pattern_extractor="curl -s https://api.travis-ci.org/repos/snapcore/snapd/builds | jq -j 'map(select(.result == 0) | select(.event_type == \"push\")) | .[0].number'"
-message="snapd synced with snapd-vendor after merge and green build"
+pattern_extractor="curl -v -s -H 'X-Ubuntu-Architecture: amd64' -H 'X-Ubuntu-Series: 16' https://search.apps.ubuntu.com/api/v1/snaps/details/core?channel=edge | jq -j '.revision'"
+message="sync amd64 core snap from production to staging"
