@@ -21,7 +21,7 @@ check(){
     fi
 
     new_value=$(eval "$pattern_extractor" | tr -d '\r')
-    if [ -z "$new_value" ]; then
+    if [ -z "$new_value" ] || [ "$new_value" = "null" ]; then
         echo "pattern extractor $pattern_extractor could not extract anything"
         exit 1
     fi
