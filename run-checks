@@ -4,4 +4,4 @@ mkdir -p bin
 ( cd bin &&  wget https://niemeyer.s3.amazonaws.com/spread-amd64.tar.gz -O spread.tar.gz && tar xzvf spread.tar.gz )
 
 export SPREAD_CORE_ARCH=amd64
-cd target && ../bin/spread -v linode:ubuntu-16.04-64
+cd target && ../bin/spread -v linode:
