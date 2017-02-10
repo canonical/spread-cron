@@ -1,41 +1,43 @@
 summary: Mirror snapd adding go dependencies
 
 environment:
-    CREDENTIALS_FILE: /tmp/snapd-plus-vendor-git-credentials
+    CREDENTIALS_FILE: /tmp/id_rsa
     TARGET_DIR:  $GOPATH/src/snapd-plus-vendor-target
 
 prepare: |
-    echo "https://$GIT_USERNAME:$GIT_PASSWORD@github.com" > "$CREDENTIALS_FILE"
-    chmod 600 "$CREDENTIALS_FILE"
+    mv id_rsa /tmp
 
     sysctl -w net.ipv6.conf.all.disable_ipv6=1
     trap "sysctl -w net.ipv6.conf.all.disable_ipv6=0" EXIT
-    apt update && apt install -y git golang-1.6
+    apt update && apt install -y git golang-1.6 openssh-client
 
     go get -u github.com/kardianos/govendor
+
+    chmod 0600 $CREDENTIALS_FILE
 
 restore: |
     rm -f $CREDENTIALS_FILE
     rm -rf origin $TARGET_DIR
 
-    apt remove -y git
+    apt remove -y git golang-1.6 openssh-client
 
 execute: |
     # clone origin repo and prepare for getting vendor dependencies
     git clone https://github.com/snapcore/snapd origin
     cd origin
+    GIT_COMMIT=$(git log --pretty=format:"%H" | head -1)
     rm -rf .git
     sed -i 's|^vendor/\*/$||' .gitignore
-    GIT_COMMIT=$(git log --pretty=format:"%H" | head -1)
     cd ..
 
     # clone target repo and copy origin over target
-    git clone https://github.com/snapcore/snapd-plus-vendor $TARGET_DIR
+    eval `ssh-agent -s`
+    mkdir -p ${HOME}/.ssh && ssh-keyscan -t rsa git.launchpad.net >> ~/.ssh/known_hosts
+    ssh-agent $(ssh-add $CREDENTIALS_FILE; git clone git+ssh://snappy-m-o@git.launchpad.net/snapd-vendor $TARGET_DIR)
     cp -ar origin/. $TARGET_DIR
 
     # configure git locally
     cd $TARGET_DIR
-    git config credential.helper "store --file=$CREDENTIALS_FILE"
     git config user.name "Snappy Developers"
     git config user.email snappy-dev@lists.launchpad.net
 
@@ -47,6 +49,6 @@ execute: |
         git add .
         # guard against commited and later ignored files..
         if git commit -am"Content updated ($GIT_COMMIT)"; then
-            git push
+            ssh-agent $(ssh-add $CREDENTIALS_FILE; git push)
         fi
     fi

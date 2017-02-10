@@ -1,2 +1,2 @@
 pattern_extractor="curl -s https://api.travis-ci.org/repos/snapcore/snapd/builds | jq -j 'map(select(.result == 0) | select(.event_type == \"push\")) | .[0].number'"
-message="snapd synced with snapd-vendor after merge and green build"
+message="sync snapd-vendor with snapd after merge and green build"

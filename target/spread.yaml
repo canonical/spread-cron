@@ -7,8 +7,6 @@ backends:
         type:
         key: "$(HOST: echo $SPREAD_LINODE_KEY)"
         environment:
-            GIT_USERNAME: "$(HOST: echo ${SPREAD_GIT_USERNAME:-})"
-            GIT_PASSWORD: "$(HOST: echo ${SPREAD_GIT_PASSWORD:-})"
             GOPATH: /home/gopath
             PATH: $GOPATH/bin:/snap/bin:$PATH:/usr/lib/go-1.6/bin
 
