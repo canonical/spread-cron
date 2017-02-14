@@ -1,7 +1,8 @@
 sudo: required
 dist: trusty
 before_install:
-    - openssl aes-256-cbc -K $encrypted_8fd345813abb_key -iv $encrypted_8fd345813abb_iv -in snapcraft.cfg.enc -out target/tasks/core-sync/snapcraft.cfg -d
+    - openssl aes-256-cbc -K $encrypted_8fd345813abb_key -iv $encrypted_8fd345813abb_iv -in secrets.tar.enc -out secrets.tar -d
+    - tar xvf secrets.tar && mv snapcraft.cfg target/tasks/core-sync/snapcraft.cfg
 
 env:
     global:
