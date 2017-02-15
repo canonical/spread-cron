@@ -1,8 +1,10 @@
 [![Build Status][travis-image]][travis-url]
 
-spread-cron helps to make sure that [snapd](https://github.com/snapcore/snapd) keeps working after certain external resources change.
+spread-cron triggers spread tasks in response to events.
 
-We are using spread for snapd development, with each pull request we are able to run a suite of checks that exercise the product in a lot of different ways, so that we can be confident that the new changes won't break the existing features. However, given the intrinsic distributed nature and complexity of the snapd environment, there are additional changes that can make the whole thing fail: what happens if the packaging of a new core snap doesn't play well with the rest of the system? will snapd keep working after a rollout of a store endpoint? will an ubuntu-core image made available before publishing work as expected?
+The main use of spread-cron is currently making sure that [snapd](https://github.com/snapcore/snapd) works over time after certain external conditions have changed. We are using spread for snapd development, with each pull request we are able to run a suite of checks that exercise the product in a lot of different ways, so that we can be confident that the new changes won't break the existing features. However, given the intrinsic distributed nature and complexity of the snapd environment, there are additional changes that can make the whole thing fail: what happens if the packaging of a new core snap doesn't play well with the rest of the system? will snapd keep working after a rollout of a store endpoint? will an ubuntu-core image made available before publishing work as expected? When any of these events happen, spread-cron triggers a customized execution of the snapd suite so we can be confident that things are still working.
+
+Lately we have begaun using spread-cron for general automated tasks, like keeping snaps in sync between different stores or pushing augmented versions of repos to different locations. Also, wee are experimenting with defining task pipelines by makin the trigger condition of a job depend on the results of another one.
 
 # Workflow
 
