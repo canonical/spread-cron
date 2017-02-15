@@ -20,8 +20,8 @@ After retrieving the state value from the external resource spread-cron compares
 
 For example, say we are tracking changes of core's snap revision on the beta channel. We could use an `options` file like this:
 
-    pattern_extractor="curl -s -H \"X-Ubuntu-Architecture: amd64\" https://search.apps.ubuntu.com/api/v1/package/core/beta | sed -e 's|.*\"revision\": \(.*\), \"status\".*|\1|'"
-    message="New OS snap in beta channel"
+    pattern_extractor="curl -s -H \"X-Ubuntu-Architecture: amd64\" https://search.apps.ubuntu.com/api/v1/package/core/beta | jq -j '.revision'"
+    message="New amd64 core snap in beta channel"
 
 When spread-cron checks this branch, suppose that from the pattern extractor it gets a revision number of 550. Then it checks the log of commits from this branch, if `git log --pretty=oneline` looks like:
 
