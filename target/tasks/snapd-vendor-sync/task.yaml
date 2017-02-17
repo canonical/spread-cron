@@ -23,15 +23,14 @@ restore: |
 
 execute: |
     # get origin merge commit
-    #. ./options
-    #build_number=$(echo "$TRAVIS_COMMIT_MESSAGE" | sed -e "s/$message (\(.*\))/\1/")
-    #origin_commit=$(curl -s https://api.travis-ci.org/repos/snapcore/snapd/builds?number=$build_number | jq -j '.[0].commit')
+    . ./options
+    build_number=$(echo "$TRAVIS_COMMIT_MESSAGE" | sed -e "s/$message (\(.*\))/\1/")
+    origin_commit=$(curl -s https://api.travis-ci.org/repos/snapcore/snapd/builds?number=$build_number | jq -j '.[0].commit')
 
     # clone origin repo and prepare for getting vendor dependencies
     git clone https://github.com/snapcore/snapd origin
     cd origin
-    GIT_COMMIT=$(git log --pretty=format:"%H" | head -1)
-    #git reset --hard $origin_commit
+    git reset --hard $origin_commit
     rm -rf .git
     sed -i 's|^vendor/\*/$||' .gitignore
     cd ..
@@ -54,7 +53,7 @@ execute: |
         # if something was deleted, changed or added commit and push to the target repo
         git add .
         # guard against commited and later ignored files..
-        if git commit -am"Content updated ($GIT_COMMIT)"; then
+        if git commit -am"Content updated ($origin_commit)"; then
             ssh-agent $(ssh-add $CREDENTIALS_FILE; git push)
         fi
     fi
