@@ -6,6 +6,7 @@ environment:
 
 prepare: |
     mv id_rsa /tmp
+    mv cookies.txt /tmp
 
     sysctl -w net.ipv6.conf.all.disable_ipv6=1
     trap "sysctl -w net.ipv6.conf.all.disable_ipv6=0" EXIT
@@ -16,7 +17,7 @@ prepare: |
     chmod 0600 $CREDENTIALS_FILE
 
 restore: |
-    rm -f $CREDENTIALS_FILE
+    rm -f $CREDENTIALS_FILE /tmp/cookies.txt
     rm -rf origin $TARGET_DIR
 
     apt remove -y git golang-1.6 openssh-client jq
@@ -57,5 +58,11 @@ execute: |
         # guard against commited and later ignored files..
         if git commit -am"Content updated ($origin_commit)"; then
             ssh-agent $(ssh-add $CREDENTIALS_FILE; git push)
+
+            # trigger build
+            curl -X POST -v -b /tmp/cookies.txt \
+                            --referer https://code.launchpad.net/~snappy-dev/+recipe/snapd-vendor-daily/ \
+                            -d 'field.archive=%7Esnappy-dev%2Fubuntu%2Fedge&field.distroseries=269&field.distroseries-empty-marker=1&field.archive-empty-marker=1&field.actions.request=Request+builds' \
+                            https://code.launchpad.net/~snappy-dev/+recipe/snapd-vendor-daily/+request-builds
         fi
     fi
