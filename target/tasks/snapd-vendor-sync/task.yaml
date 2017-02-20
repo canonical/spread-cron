@@ -1,7 +1,6 @@
 summary: Mirror snapd adding go dependencies
 
 environment:
-    CREDENTIALS_FILE: /tmp/id_rsa
     TARGET_DIR:  $GOPATH/src/snapd-plus-vendor-target
 
 prepare: |
@@ -14,10 +13,10 @@ prepare: |
 
     go get -u github.com/kardianos/govendor
 
-    chmod 0600 $CREDENTIALS_FILE
+    chmod 0600 /tmp/id_rsa
 
 restore: |
-    rm -f $CREDENTIALS_FILE /tmp/cookies.txt
+    rm -f /tmp/id_rsa /tmp/cookies.txt
     rm -rf origin $TARGET_DIR
 
     apt remove -y git golang-1.6 openssh-client jq
@@ -41,7 +40,7 @@ execute: |
     # clone target repo and copy origin over target
     eval `ssh-agent -s`
     mkdir -p ${HOME}/.ssh && ssh-keyscan -t rsa git.launchpad.net >> ~/.ssh/known_hosts
-    ssh-agent $(ssh-add $CREDENTIALS_FILE; git clone git+ssh://snappy-m-o@git.launchpad.net/snapd-vendor $TARGET_DIR)
+    ssh-agent $(ssh-add /tmp/id_rsa; git clone git+ssh://snappy-m-o@git.launchpad.net/snapd-vendor $TARGET_DIR)
     cp -ar origin/. $TARGET_DIR
 
     # configure git locally
@@ -57,7 +56,7 @@ execute: |
         git add .
         # guard against commited and later ignored files..
         if git commit -am"Content updated ($origin_commit)"; then
-            ssh-agent $(ssh-add $CREDENTIALS_FILE; git push)
+            ssh-agent $(ssh-add /tmp/id_rsa; git push)
 
             # trigger build
             curl -X POST -v -b /tmp/cookies.txt \
