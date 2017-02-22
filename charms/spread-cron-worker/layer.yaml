@@ -1,0 +1,11 @@
+includes:
+    - layer:basic
+    - layer:snap
+repo: git@github.com:snapcore/spread-cron
+options:
+    snap:
+        spread-cron:
+            channel: candidate
+            devmode: true
+            connect:
+                - ["spread-cron:network", ":network"]
