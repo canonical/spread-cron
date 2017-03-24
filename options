@@ -1,2 +1,2 @@
-pattern_extractor="if [ $(date +%H%M) \< "0100" ]; then echo ""; else date +%Y%m%d; fi"
-message="Daily execution with re-exec disabled"
+pattern_extractor="if [ $(date +%H%M) \< "0200" ]; then echo ""; else date +%Y%m%d; fi"
+message="Nightly suite execution"
