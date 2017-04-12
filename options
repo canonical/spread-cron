@@ -1,2 +1,2 @@
-pattern_extractor="curl -v -s -H 'X-Ubuntu-Architecture: amd64' -H 'X-Ubuntu-Series: 16' https://search.apps.ubuntu.com/api/v1/snaps/details/core?channel=edge 1>$SNAP_COMMON/snapd-reexec-2.21-vs-edge.last.response && cat $SNAP_COMMON/snapd-reexec-2.21-vs-edge.last.response | jq -j '.revision'"
-message="New amd64 core snap in edge channel for reexec from 2.21 to edge"
+pattern_extractor="curl -s http://people.canonical.com/~ubuntu-archive/proposed-migration/update_excuses.html | perl -n -e '/<li><a id="snapd" name="snapd" href=".*?">snapd<\/a> \(<a href=".*?">.*?<\/a> to <a href=".*?">(.*)<\/a>\)/ && print $1'"
+message="New snapd package in xenial's proposed pocket"
