@@ -85,6 +85,10 @@ refresh core snap from stable to candidate, amd64 arch | revision | core-amd64-r
 refresh core snap from stable to candidate, i386 arch | revision | core-i386-refresh-to-edge | [options](https://github.com/snapcore/spread-cron/blob/core-i386-refresh-to-candidate/options)
 refresh core snap from stable to beta, amd64 arch | revision | core-amd64-refresh-to-edge | [options](https://github.com/snapcore/spread-cron/blob/core-amd64-refresh-to-beta/options)
 refresh core snap from stable to beta, i386 arch | revision | core-i386-refresh-to-edge | [options](https://github.com/snapcore/spread-cron/blob/core-i386-refresh-to-beta/options)
+snapd deb package in proposed pocket, trusty | version | snapd-trusty-sru | [options](https://github.com/snapcore/spread-cron/blob/snapd-trusty-sru/options)
+snapd deb package in proposed pocket, xenial | version | snapd-xenial-sru | [options](https://github.com/snapcore/spread-cron/blob/snapd-xenial-sru/options)
+snapd deb package in proposed pocket, yakkety | version | snapd-yakkety-sru | [options](https://github.com/snapcore/spread-cron/blob/snapd-yakkety-sru/options)
+snapd deb package in proposed pocket, zesty | version | snapd-zesty-sru | [options](https://github.com/snapcore/spread-cron/blob/snapd-zesty-sru/options)
 
 # Pipelines
 
