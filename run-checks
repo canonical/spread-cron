@@ -13,5 +13,5 @@ export SPREAD_SNAP_REEXEC=0
 last_build_number=$(echo "$TRAVIS_COMMIT_MESSAGE" | sed -e "s/$message (\(.*\))/\1/")
 
 cd target || exit 1
-git checkout "$last_build_number"
+git checkout "release/${last_build_number}"
 ../bin/spread -v linode:ubuntu-16.04-64:tests/main/
