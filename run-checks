@@ -8,4 +8,9 @@ export SPREAD_MODIFY_CORE_SNAP_FOR_REEXEC=0
 export SPREAD_TRUST_TEST_KEYS=false
 export SPREAD_SRU_VALIDATION=1
 export SPREAD_SNAP_REEXEC=0
-cd target && ../bin/spread -v linode:ubuntu-16.04-64:tests/main/
+
+cd target || exit 1
+. ./options
+last_build_number=$(echo "$TRAVIS_COMMIT_MESSAGE" | sed -e "s/$message (\(.*\))/\1/")
+git checkout "$last_build_number"
+../bin/spread -v linode:ubuntu-16.04-64:tests/main/
