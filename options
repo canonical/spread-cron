@@ -1,2 +1,2 @@
-pattern_extractor="curl -s http://people.canonical.com/~ubuntu-archive/proposed-migration/update_excuses.html | perl -n -e '/<li><a id="snapd" name="snapd" href=".*?">snapd<\/a> \(<a href=".*?">.*?<\/a> to <a href=".*?">(.*)<\/a>\)/ && print $1'"
+pattern_extractor="curl -s http://people.canonical.com/~ubuntu-archive/proposed-migration/update_excuses.html | perl -n -e '/<li><a id=\"snapd\" name=\"snapd\" href=\".*?\">snapd<\/a> \(<a href=\".*?\">.*?<\/a> to <a href=\".*?\">(.*)<\/a>\)/ && print $1'"
 message="New snapd package in xenial's proposed pocket"
