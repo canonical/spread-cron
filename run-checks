@@ -10,7 +10,7 @@ export SPREAD_SRU_VALIDATION=1
 export SPREAD_SNAP_REEXEC=0
 
 . ./options
-last_build_number=$(echo "$TRAVIS_COMMIT_MESSAGE" | sed -e "s/$message (\(.*\))/\1/")
+last_build_number=$(echo "$TRAVIS_COMMIT_MESSAGE" | perl -n -e '/'"$message"' \((.*?)\)/ && print $1')
 
 cd target || exit 1
 git checkout "release/${last_build_number}"
