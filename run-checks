@@ -8,6 +8,7 @@ export SPREAD_MODIFY_CORE_SNAP_FOR_REEXEC=0
 export SPREAD_TRUST_TEST_KEYS=false
 export SPREAD_SRU_VALIDATION=1
 export SPREAD_SNAP_REEXEC=0
+export SPREAD_CORE_CHANNEL=beta
 
 . ./options
 last_build_number=$(echo "$TRAVIS_COMMIT_MESSAGE" | perl -n -e '/'"$message"' \((.*?)\)/ && print $1')
