@@ -14,5 +14,5 @@ export SPREAD_CORE_CHANNEL=beta
 last_build_number=$(echo "$TRAVIS_COMMIT_MESSAGE" | perl -n -e '/'"$message"' \((.*?)\)/ && print $1')
 
 cd target || exit 1
-git checkout "release/${last_build_number}"
+git checkout "release/$(echo "$last_build_number" | cut -d'.' -f 1).$(echo "$last_build_number" | cut -d'.' -f 2)"
 ../bin/spread -v linode:ubuntu-16.04-64:tests/main/
