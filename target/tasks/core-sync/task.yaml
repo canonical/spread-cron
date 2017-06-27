@@ -20,7 +20,7 @@ restore: |
     rm -rf ${HOME}/.config/snapcraft
 
 execute: |
-    download_url=$(curl -s -H "X-Ubuntu-Architecture: $CORE_ARCH" -H 'X-Ubuntu-Series: 16' https://search.apps.ubuntu.com/api/v1/snaps/details/core?channel=edge | jq -j '.anon_download_url')
+    download_url=$(curl -s -H "X-Ubuntu-Architecture: $CORE_ARCH" -H 'X-Ubuntu-Series: 16' https://search.apps.ubuntu.com/api/v1/snaps/details/core?channel=${CORE_CHANNEL} | jq -j '.anon_download_url')
     curl -L -o core.snap "$download_url"
 
     output=$(snapcraft push core.snap)

@@ -1,2 +1,2 @@
-pattern_extractor="curl -s https://api.travis-ci.org/repos/snapcore/spread-cron/builds | jq -j 'map(select(.result == 0) | select(.branch == \"snapd-core-edge\")) | .[0].number'"
-message="sync amd64 edge core snap from production to staging after green build"
+pattern_extractor="curl -s https://api.travis-ci.org/repos/snapcore/spread-cron/builds | jq -j 'map(select(.result == 0) | select(.branch == \"snapd-core-stable\")) | .[0].number'"
+message="sync amd64 stable core snap from production to staging after green build"
