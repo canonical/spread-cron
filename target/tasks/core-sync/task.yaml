@@ -26,4 +26,4 @@ execute: |
     output=$(snapcraft push core.snap)
 
     revision=$(echo "$output" | sed -n "s|Revision \(.*\) of 'core' created\.|\1|p")
-    snapcraft release core $revision edge
+    snapcraft release core $revision ${CORE_CHANNEL}
