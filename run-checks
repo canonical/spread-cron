@@ -11,5 +11,3 @@ cd target || exit
 ../bin/spread -v linode:tests/nightly/docker
 
 ../bin/spread -v linode:ubuntu-16.04-64:tests/nested/extra-snaps-assertions
-
-../bin/spread -v linode:tests/main/interfaces-openvswitch
