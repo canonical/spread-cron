@@ -7,12 +7,6 @@ git clone https://github.com/snapcore/snapd target
 export SPREAD_MODIFY_CORE_SNAP_FOR_REEXEC=0
 export SPREAD_TRUST_TEST_KEYS=false
 export SPREAD_SRU_VALIDATION=1
-export SPREAD_SNAP_REEXEC=0
-export SPREAD_CORE_CHANNEL=beta
+export SPREAD_CORE_CHANNEL=edge
 
-. ./options
-last_build_number=$(echo "$TRAVIS_COMMIT_MESSAGE" | perl -n -e '/'"$message"' \((.*?)\)/ && print $1')
-
-cd target || exit 1
-git checkout "release/$(echo "$last_build_number" | cut -d'.' -f 1).$(echo "$last_build_number" | cut -d'.' -f 2)"
 ../bin/spread -v linode:ubuntu-16.04-64:tests/main/

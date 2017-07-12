@@ -1,2 +1,2 @@
-pattern_extractor="curl -s https://launchpad.net/ubuntu/+source/snapd | perl -0777 -n -e 'm/<tr class=\"section-heading shaded\" style=\"vertical-align: middle\">.*?<a href=\"\/ubuntu\/xenial\/\+source\/snapd\">.*?<\/tr>\s*<tr class=\"archive_package_row\">.*?<img src=\"\/@@\/package-source\" \/>\s*(.*?)\s*<\/a>\s*<\/td>\s*<td>\s*proposed.*?<\/tr>/sg && print \$1' > partial && if grep -q package-source partial; then cat partial | perl -0777 -n -e 'm/\s*<img src=\"\/@@\/package-source\" \/>\s*(.*?)$/sg && print \$1'; else cat partial; fi"
-message="New snapd package in xenial's proposed pocket"
+pattern_extractor="curl -v -s -H 'X-Ubuntu-Architecture: amd64' -H 'X-Ubuntu-Series: 16' https://search.apps.ubuntu.com/api/v1/snaps/details/core?channel=edge | jq -j '.revision'"
+message="snapd deb from xenial's proposed after new amd64 core on edge"
