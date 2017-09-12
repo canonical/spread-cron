@@ -26,6 +26,11 @@ check(){
         exit 1
     fi
 
+    if [ "$manual" = "true" ]; then
+        echo "Manual branches are skipped"
+        return
+    fi
+
     total_commits=$(git rev-list --count HEAD)
     n=0
     while [ $n -lt $total_commits ]; do
