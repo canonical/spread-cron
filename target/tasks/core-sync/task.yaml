@@ -24,10 +24,9 @@ execute: |
     download_url=$(curl -s -H "X-Ubuntu-Architecture: $CORE_ARCH" -H 'X-Ubuntu-Series: 16' https://search.apps.ubuntu.com/api/v1/snaps/details/core?channel=${CORE_CHANNEL} | jq -j '.anon_download_url')
     curl -L -o core.snap "$download_url"
 
-    output=$(snapcraft push core.snap)
-
-    revision=$(echo "$output" | sed -n "s|Revision \(.*\) of 'core' created\.|\1|p")
-    if snapcraft release core $revision ${CORE_CHANNEL}; then
+    if output=$(snapcraft push core.snap); then
+        revision=$(echo "$output" | sed -n "s|Revision \(.*\) of 'core' created\.|\1|p")
+        snapcraft release core $revision ${CORE_CHANNEL}
         echo "Core snap uploaded successfully"
         exit 0
     else
