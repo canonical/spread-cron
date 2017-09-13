@@ -24,20 +24,15 @@ execute: |
     download_url=$(curl -s -H "X-Ubuntu-Architecture: $CORE_ARCH" -H 'X-Ubuntu-Series: 16' https://search.apps.ubuntu.com/api/v1/snaps/details/core?channel=${CORE_CHANNEL} | jq -j '.anon_download_url')
     curl -L -o core.snap "$download_url"
 
-    if output=$(snapcraft push core.snap); then
-        revision=$(echo "$output" | sed -n "s|Revision \(.*\) of 'core' created\.|\1|p")
-        snapcraft release core $revision ${CORE_CHANNEL}
-        echo "Core snap uploaded successfully"
+    download_staging_url=$(curl -s -H "X-Ubuntu-Architecture: $CORE_ARCH" -H 'X-Ubuntu-Series: 16' $UBUNTU_STORE_SEARCH_ROOT_URL/api/v1/snaps/details/core?channel=${CORE_CHANNEL} | jq -j '.anon_download_url')
+    curl -L -o core_staging.snap "$download_staging_url"
+
+    if diff core.snap core_staging.snap; then
+        echo "Trying to upload same core image to staging"
         exit 0
-    else
-        echo "In case the core could not be uploaded, check if the snaps are the same"
-        download_staging_url=$(curl -s -H "X-Ubuntu-Architecture: $CORE_ARCH" -H 'X-Ubuntu-Series: 16' $UBUNTU_STORE_SEARCH_ROOT_URL/api/v1/snaps/details/core?channel=${CORE_CHANNEL} | jq -j '.anon_download_url')
-        curl -L -o core_staging.snap "$download_staging_url"
-        if diff core.snap core_staging.snap; then
-            echo "Trying to upload same core image to staging"
-            exit 0
-        else
-            echo "Failed to upload different core image to staging"
-            exit 1
-        fi
     fi
+
+    output=$(snapcraft push core.snap);
+    revision=$(echo "$output" | sed -n "s|Revision \(.*\) of 'core' created\.|\1|p")
+    snapcraft release core $revision ${CORE_CHANNEL}
+    echo "Core snap uploaded successfully"
