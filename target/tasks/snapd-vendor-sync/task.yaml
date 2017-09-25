@@ -35,6 +35,7 @@ execute: |
     fi
     rm -rf .git
     sed -i 's|^vendor/\*/$||' .gitignore
+    sed -i 's|^configure$||' .gitignore
     cd ..
 
     # clone target repo and copy origin over target
