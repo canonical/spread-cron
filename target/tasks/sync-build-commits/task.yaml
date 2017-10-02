@@ -1,0 +1,51 @@
+summary: Mirror snapd adding go dependencies
+
+environment:
+    TARGET_DIR: /tmp/snapd-vendor
+    RESULTS_FILE: "$(HOST: echo ${RESULTS_FILE:-})"
+
+prepare: |
+    mv id_rsa /tmp
+    mv cookies.txt /tmp
+
+    sysctl -w net.ipv6.conf.all.disable_ipv6=1
+    trap "sysctl -w net.ipv6.conf.all.disable_ipv6=0" EXIT
+    apt update && apt install -y git openssh-client jq
+
+    chmod 0600 /tmp/id_rsa
+
+restore: |
+    rm -f /tmp/id_rsa /tmp/cookies.txt
+    rm -rf $TARGET_DIR
+
+    apt remove -y git openssh-client jq
+
+execute: |
+    # clone snapd-vendor repo and copy build results
+    eval `ssh-agent -s`
+    mkdir -p ${HOME}/.ssh && ssh-keyscan -t rsa git.launchpad.net >> ~/.ssh/known_hosts
+    ssh-agent $(ssh-add /tmp/id_rsa; git clone git+ssh://snappy-m-o@git.launchpad.net/snapd-vendor $TARGET_DIR)
+    cp $RESULTS_FILE $TARGET_DIR/$RESULTS_FILE
+
+    # configure git locally
+    cd $TARGET_DIR
+    git config user.name "Snappy Developers"
+    git config user.email snappy-dev@lists.launchpad.net
+
+    # update commits file
+    last_commit=$(git rev-parse HEAD)
+    for arch in $(cat $RESULTS_FILE); do
+        if MATCH "^$arch .*" < commits; then
+            sed -e -i "s/^$arch .*/$arch $last_commit/g" commits
+        else
+            echo "$arch $last_commit" >> commits
+        fi
+    done
+
+    # push results into the repository
+    git add commits
+    if git commit -am "Commits info updated"; then
+        ssh-agent $(ssh-add /tmp/id_rsa; git push)
+    fi
+
+    exit $output
