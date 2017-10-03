@@ -62,7 +62,7 @@ execute: |
         if git commit -am "Content updated ($origin_commit)"; then
             # add the commits tracking information
             target_commit=$(git rev-parse HEAD)
-            echo "master $origin_commit $target_commit" >> commits
+            echo "master $target_commit" >> commits
             git add commits
             git commit -am "Commit information updated"
 
