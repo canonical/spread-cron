@@ -27,6 +27,6 @@ fi
 # run sync with build results
 cp ./options target/tasks/sync-build-commits
 mv $RESULTS_FILE target/tasks/sync-build-commits
-cd target && ../bin/spread -v -debug linode:
+cd target && ../bin/spread -v linode:
 
 exit $output
