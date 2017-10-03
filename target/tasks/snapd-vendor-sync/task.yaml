@@ -60,8 +60,16 @@ execute: |
 
         # if something was deleted, changed or added commit and push to the target repo
         git add .
+
         # guard against commited and later ignored files..
-        if git commit -am"Content updated ($origin_commit)"; then
+        if git commit -am "Content updated ($origin_commit)"; then
+            # add the commits tracking information
+            target_commit=$(git rev-parse HEAD)
+            echo "master $origin_commit $target_commit" >> commits
+            git add commits
+            git commit -am "Commit information updated"
+
+            # push to target repository
             ssh-agent $(ssh-add /tmp/id_rsa; git push)
 
             # trigger build
