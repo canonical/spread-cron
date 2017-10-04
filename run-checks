@@ -6,10 +6,10 @@ mkdir -p bin
 export RESULTS_FILE=built_architectures.txt
 
 # build core for all the architectures
-output=0
+result=0
 if ! python lp-build-core.py; then
     echo "Failed to build snaps, results not updated"
-    output=1
+    result=1
 fi
 
 # check if results were generated
@@ -25,8 +25,7 @@ if [ ! -f $RESULTS_FILE ]; then
 fi
 
 # run sync with build results
-cp ./options target/tasks/sync-build-commits
 mv $RESULTS_FILE target/tasks/sync-build-commits
 cd target && ../bin/spread -v linode:
 
-exit $output
+exit $result

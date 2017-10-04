@@ -52,14 +52,14 @@ for buildarch in arches:
     mybuilds.append(buildid)
     print('Arch: {} is building under: {}'.format(buildarch, request))
 
-# check the status each minute til all builds have finished
+# check the status each minute until all builds have finished
 failures = []
 while len(mybuilds):
     for build in mybuilds:
         try:
             response = ubuntucore.getBuildSummariesForSnapBuildIds(snap_build_ids=[build])
-        except:
-            print('could not get response for {} (was there an LP timeout ?)'.format(build))
+        except Exception as e:
+            print('could not get response for {}, error: {})'.format(build, e))
             continue
         status = response[build]['status']
         if status == 'FULLYBUILT':
@@ -94,6 +94,8 @@ if len(failures):
             built_arches.remove(arch)
 
 # save a file with a line containing all the architectures that were built successfully
+# this file is used to keep track of the relation between builds and commits hash for each architecture
+# the tracking is needed to be able to test the core snap on edge channel
 with open(results_file, 'w') as rf:
     rf.write(' '.join(built_arches))
 
