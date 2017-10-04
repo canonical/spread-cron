@@ -36,7 +36,7 @@ execute: |
     last_commit=$(git rev-parse HEAD)
     for arch in $(cat $RESULTS_FILE); do
         if MATCH "^$arch .*" < commits; then
-            sed -e -i "s/^$arch .*/$arch $last_commit/g" commits
+            sed -i -e "s/^$arch .*/$arch $last_commit/g" commits
         else
             echo "$arch $last_commit" >> commits
         fi
