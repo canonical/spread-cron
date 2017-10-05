@@ -54,3 +54,8 @@ parts:
             - bin/
             - meta/hooks
             - usr/
+    py:
+        plugin: python2
+        python-packages:
+            - urlparse2
+            - launchpadlib
