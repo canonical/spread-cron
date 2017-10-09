@@ -13,6 +13,7 @@ series = 'xenial'
 # basic paths
 results_file = os.getenv('RESULTS_FILE', default='built_architectures.txt')
 common = os.getenv('SNAP_COMMON')
+timeout = os.getenv('BUILD_TIMEOUT', default=3600)
 workdir = os.path.join(common, 'core-builds')
 
 # we need to store credentials once for cronned builds
@@ -43,6 +44,7 @@ print('Trying to trigger builds at: {}'.format(stamp))
 
 # loop over arches and trigger builds
 mybuilds = []
+start_build_time = datetime.now()
 for buildarch in arches:
     arch = release.getDistroArchSeries(archtag=buildarch)
     request = ubuntucore.requestBuild(archive=imageppa,
@@ -54,14 +56,24 @@ for buildarch in arches:
 
 # check the status each minute until all builds have finished
 failures = []
+print('Receiving status for builds')
 while len(mybuilds):
+    elapsed_build_time = int((datetime.now() - start_build_time).total_seconds())
+    if timeout < elapsed_build_time:
+        print('Timeout reached')
+        exit(1)
+    else:
+        print('Remaining {} seconds to timeout'.format(timeout - elapsed_build_time))
+
     for build in mybuilds:
         try:
             response = ubuntucore.getBuildSummariesForSnapBuildIds(snap_build_ids=[build])
         except Exception as e:
-            print('could not get response for {}, error: {})'.format(build, e))
+            print('Could not get response for {}, error: {})'.format(build, e))
             continue
         status = response[build]['status']
+        print('Received response for build {} with status: {}'.format(build, status))
+
         if status == 'FULLYBUILT':
             mybuilds.remove(build)
             continue
@@ -72,26 +84,27 @@ while len(mybuilds):
         elif status == 'CANCELLED':
             mybuilds.remove(build)
             continue
-    time.sleep(60)
+    if mybuilds:
+        print('Waiting')
+        time.sleep(60)
 
 # create the list with all the architectures
 built_arches = arches[:]
 
 # if we had failures, print them and save the results
-if len(failures):
-    for failure in failures:
-        try:
-            response = ubuntucore.getBuildSummariesForSnapBuildIds(snap_build_ids=[failure])
-        except:
-            print('could not get failure data for {} (was there an LP timeout ?)'.format(build))
-            continue
-        buildlog = response[build]['build_log_url']
-        if buildlog != 'None':
-            print(buildlog)
-            arch = str(buildlog).split('_')[4]
-            print('core snap {} build at {} failed for id: {} log: {}'.format(arch, stamp,
-                                                                              failure, buildlog))
-            built_arches.remove(arch)
+for failure in failures:
+    try:
+        response = ubuntucore.getBuildSummariesForSnapBuildIds(snap_build_ids=[failure])
+    except:
+        print('could not get failure data for {} (was there an LP timeout ?)'.format(build))
+        continue
+    buildlog = response[build]['build_log_url']
+    if buildlog != 'None':
+        print(buildlog)
+        arch = str(buildlog).split('_')[4]
+        print('core snap {} build at {} failed for id: {} log: {}'.format(arch, stamp,
+                                                                          failure, buildlog))
+        built_arches.remove(arch)
 
 # save a file with a line containing all the architectures that were built successfully
 # this file is used to keep track of the relation between builds and commits hash for each architecture

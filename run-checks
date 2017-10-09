@@ -1,7 +1,9 @@
 #!/bin/sh
 
-mkdir -p bin
-( cd bin && wget https://niemeyer.s3.amazonaws.com/spread-amd64.tar.gz -O - | zcat - | tar x )
+if [ ! -f bin/spread ]; then
+	mkdir -p bin
+	( cd bin && wget https://niemeyer.s3.amazonaws.com/spread-amd64.tar.gz -O - | zcat - | tar x )
+fi
 
 export RESULTS_FILE=built_architectures.txt
 
