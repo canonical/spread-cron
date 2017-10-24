@@ -1,0 +1,33 @@
+#!/bin/sh
+
+if [ ! -f bin/spread ]; then
+	mkdir -p bin
+	( cd bin && wget https://niemeyer.s3.amazonaws.com/spread-amd64.tar.gz -O - | zcat - | tar x )
+fi
+
+export RESULTS_FILE=built_architectures.txt
+
+# build core for all the architectures
+result=0
+if ! python lp-build-core.py; then
+    echo "Failed to build snaps, results not updated"
+    result=1
+fi
+
+# check if results were generated
+if [ ! -f $RESULTS_FILE ]; then
+    echo "results file not created, exiting"
+    exit 1
+fi
+
+# check if results were generated
+if [ ! -f $RESULTS_FILE ]; then
+    echo "results file not created, exiting"
+    exit 1
+fi
+
+# run sync with build results
+mv $RESULTS_FILE target/tasks/sync-build-commits
+cd target && ../bin/spread -v linode:
+
+exit $result
