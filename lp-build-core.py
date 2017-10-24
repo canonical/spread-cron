@@ -6,114 +6,141 @@ import time
 from datetime import datetime
 from launchpadlib.launchpad import Launchpad
 
-# basic data
-arches = ['amd64', 'i386', 'armhf', 'arm64', 'ppc64el', 's390x']
-series = 'xenial'
 
-# basic paths
-results_file = os.getenv('RESULTS_FILE', default='built_architectures.txt')
-common = os.getenv('SNAP_COMMON')
-timeout = os.getenv('BUILD_TIMEOUT', default=3600)
-workdir = os.path.join(common, 'core-builds')
+class CoreSnapBuilder:
+    """ This class is used to build the core snap in the
+    supported architectures and report results
+    """
+    arches = ['amd64', 'i386', 'armhf', 'arm64', 'ppc64el', 's390x']
+    series = 'xenial'
+    people = 'snappy-dev'
+    ppa = 'image'
+    snap = 'core'
+    distribution = 'ubuntu'
+    stamp_format = '%Y-%m-%d %H:%M:%S'
 
-# we need to store credentials once for cronned builds
-cachedir = os.path.join(workdir, 'cache')
-creds = os.path.join(workdir, 'credentials')
+    def __init__(self, workdir):
+        self.ubuntucore = None
+        self.builds = []
+        self.failures = []
+        self.start_build_time = None
 
-# log in
-launchpad = Launchpad.login_with('Ubuntu Core Builds',
-                                 'production', cachedir,
-                                 credentials_file=creds,
-                                 version='devel')
+        # we need to store credentials once for cronned builds
+        self.cachedir = os.path.join(workdir, 'cache')
+        self.creds = os.path.join(workdir, 'credentials')
 
-# get snappy-dev team data and ppa
-snappydev = launchpad.people['snappy-dev']
-imageppa = snappydev.getPPAByName(name='image')
+    def build(self):
+        """ Trigger the building system for the core snap in the defined arches """
+        launchpad = Launchpad.login_with('Ubuntu Core Builds',
+                                         'production', self.cachedir,
+                                         credentials_file=self.creds,
+                                         version='devel')
 
-# get snap
-ubuntucore = launchpad.snaps.getByName(name='core',
-                                       owner=snappydev)
+        # get snappy-dev team data and ppa
+        snappydev = launchpad.people[self.people]
+        imageppa = snappydev.getPPAByName(name=self.ppa)
 
-# get distro info
-ubuntu = launchpad.distributions['ubuntu']
-release = ubuntu.getSeries(name_or_version=series)
+        # get snap
+        self.ubuntucore = launchpad.snaps.getByName(name=self.snap,
+                                               owner=snappydev)
 
-# print a stamp
-stamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-print('Trying to trigger builds at: {}'.format(stamp))
+        # get distro info
+        ubuntu = launchpad.distributions[self.distribution]
+        release = ubuntu.getSeries(name_or_version=self.series)
 
-# loop over arches and trigger builds
-mybuilds = []
-start_build_time = datetime.now()
-for buildarch in arches:
-    arch = release.getDistroArchSeries(archtag=buildarch)
-    request = ubuntucore.requestBuild(archive=imageppa,
-                                      distro_arch_series=arch,
-                                      pocket='Proposed')
-    buildid = str(request).rsplit('/', 1)[-1]
-    mybuilds.append(buildid)
-    print('Arch: {} is building under: {}'.format(buildarch, request))
+        # print a stamp
+        self.start_build_time = datetime.now()
+        print('Trying to trigger builds at: {}'.format(
+            self.start_build_time.strftime(self.stamp_format)))
 
-# check the status each minute until all builds have finished
-failures = []
-print('Receiving status for builds')
-while len(mybuilds):
-    elapsed_build_time = int((datetime.now() - start_build_time).total_seconds())
-    if timeout < elapsed_build_time:
-        print('Timeout reached')
-        exit(1)
-    else:
-        print('Remaining {} seconds to timeout'.format(timeout - elapsed_build_time))
+        # loop over arches and trigger builds
+        for buildarch in self.arches:
+            arch = release.getDistroArchSeries(archtag=buildarch)
+            request = self.ubuntucore.requestBuild(archive=imageppa,
+                                              distro_arch_series=arch,
+                                              pocket='Proposed')
+            buildid = str(request).rsplit('/', 1)[-1]
+            self.builds.append(buildid)
+            print('Arch: {} is building under: {}'.format(buildarch, request))
 
-    for build in mybuilds:
-        try:
-            response = ubuntucore.getBuildSummariesForSnapBuildIds(snap_build_ids=[build])
-        except Exception as e:
-            print('Could not get response for {}, error: {})'.format(build, e))
-            continue
-        status = response[build]['status']
-        print('Received response for build {} with status: {}'.format(build, status))
+    def check_builds(self, timeout):
+        """ check the status each minute until all builds have finished
+        :param timeout: used to stop the checks once the timeout it reached
+        """
 
-        if status == 'FULLYBUILT':
-            mybuilds.remove(build)
-            continue
-        elif status == 'FAILEDTOBUILD':
-            failures.append(build)
-            mybuilds.remove(build)
-            continue
-        elif status == 'CANCELLED':
-            mybuilds.remove(build)
-            continue
-    if mybuilds:
-        print('Waiting')
-        time.sleep(60)
+        print('Receiving status for builds')
+        while len(self.builds):
+            elapsed_build_time = int((datetime.now() - self.start_build_time).total_seconds())
+            if timeout < elapsed_build_time:
+                print('Timeout reached')
+                exit(1)
+            else:
+                print('Remaining {} seconds to timeout'.format(timeout - elapsed_build_time))
 
-# create the list with all the architectures
-built_arches = arches[:]
+            for build in self.builds:
+                try:
+                    response = self.ubuntucore.getBuildSummariesForSnapBuildIds(snap_build_ids=[build])
+                except Exception as e:
+                    print('Could not get response for {}, error: {})'.format(build, e))
+                    continue
+                status = response[build]['status']
+                print('Received response for build {} with status: {}'.format(build, status))
 
-# if we had failures, print them and save the results
-for failure in failures:
-    try:
-        response = ubuntucore.getBuildSummariesForSnapBuildIds(snap_build_ids=[failure])
-    except:
-        print('could not get failure data for {} (was there an LP timeout ?)'.format(build))
-        continue
-    buildlog = response[build]['build_log_url']
-    if buildlog != 'None':
-        print(buildlog)
-        arch = str(buildlog).split('_')[4]
-        print('core snap {} build at {} failed for id: {} log: {}'.format(arch, stamp,
-                                                                          failure, buildlog))
-        built_arches.remove(arch)
+                if status == 'FULLYBUILT':
+                    self.builds.remove(build)
+                    continue
+                elif status == 'FAILEDTOBUILD':
+                    self.failures.append(build)
+                    self.builds.remove(build)
+                    continue
+                elif status == 'CANCELLED':
+                    self.builds.remove(build)
+                    continue
+            if self.builds:
+                print('Waiting')
+                time.sleep(60)
 
-# save a file with a line containing all the architectures that were built successfully
-# this file is used to keep track of the relation between builds and commits hash for each architecture
-# the tracking is needed to be able to test the core snap on edge channel
-with open(results_file, 'w') as rf:
-    rf.write(' '.join(built_arches))
+    def save_results(self, results_file):
+        """ Save the building results
+        :param results_file: path to the file where the results are stored
+        """
+        built_arches = self.arches[:]
 
-if len(failures):
-    print('finished with errors')
-    exit(1)
+        # if we had failures, print them and save the results
+        for failure in self.failures:
+            try:
+                response = self.ubuntucore.getBuildSummariesForSnapBuildIds(snap_build_ids=[failure])
+            except:
+                print('could not get failure data for {} (was there an LP timeout ?)'.format(failure))
+                continue
+            buildlog = response[failure]['build_log_url']
+            if buildlog != 'None':
+                print(buildlog)
+                arch = str(buildlog).split('_')[4]
+                print('core snap {} build at {} failed for id: {} log: {}'.format(
+                    arch, self.start_build_time.strftime(self.stamp_format), failure, buildlog))
+                built_arches.remove(arch)
 
-print('finished successfully')
+        # save a file with a line containing all the architectures that were built successfully
+        # this file is used to keep track of the relation between builds and commits hash for each architecture
+        # the tracking is needed to be able to test the core snap on edge channel
+        with open(results_file, 'w') as rf:
+            rf.write(' '.join(built_arches))
+
+        if len(self.failures):
+            print('finished with errors')
+            exit(1)
+
+        print('finished successfully')
+
+
+if __name__ == '__main__':
+    results_file = os.getenv('RESULTS_FILE', default='built_architectures.txt')
+    common = os.getenv('SNAP_COMMON')
+    timeout = os.getenv('BUILD_TIMEOUT', default=3600)
+    workdir = os.path.join(common, 'core-builds')
+
+    builder = CoreSnapBuilder(workdir)
+    builder.build()
+    builder.check_builds(timeout)
+    builder.save_results(results_file)
