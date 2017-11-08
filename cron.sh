@@ -65,9 +65,11 @@ while true; do
                 branch="${remote#origin/}"
                 git branch --track "$branch" "$remote";
                 git checkout "$branch"
+                # When the branch cannot be pulled because of any conflict, the remote branch is checkedout
                 if ! git pull; then
+                    git checkout master
                     git branch -D "$branch"
-                    git pull "$branch"
+                    git checkout "$branch"
                 fi
                 ( check )
             fi
