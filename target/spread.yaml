@@ -4,7 +4,8 @@ path: /sync
 
 backends:
     linode:
-        type:
+        plan: 2GB
+        location: Fremont
         key: "$(HOST: echo $SPREAD_LINODE_KEY)"
         environment:
             GOPATH: /home/gopath
