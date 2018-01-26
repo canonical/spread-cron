@@ -65,7 +65,7 @@ while true; do
                 branch="${remote#origin/}"
                 git branch --track "$branch" "$remote";
                 git checkout "$branch"
-                git pull
+                git reset --hard "$remote"
                 ( check )
             fi
         done
