@@ -4,4 +4,4 @@ mkdir -p bin
 ( cd bin &&  wget https://niemeyer.s3.amazonaws.com/spread-amd64.tar.gz -O spread.tar.gz && tar xzvf spread.tar.gz )
 
 cp ./options target/tasks/snapd-vendor-sync
-cd target && ../bin/spread -v linode:
+cd target && ../bin/spread -v google:
