@@ -1,15 +1,12 @@
 sudo: required
 dist: trusty
-before_install:
-    - openssl aes-256-cbc -K $encrypted_8fd345813abb_key -iv $encrypted_8fd345813abb_iv -in secrets.tar.enc -out secrets.tar -d
-    - tar xvf secrets.tar && mv id_rsa target/tasks/snapd-vendor-sync/id_rsa && mv cookies.txt target/tasks/snapd-vendor-sync/cookies.txt
-
 env:
-    global:
-        # SPREAD_GOOGLE_KEY
-        - secure: "HGdi5kTGo81W0wjFkuZ6N1j7EuQt5cq/U5JCbDV4Kw8jhVpCbLLgcMbSbm5jzRgPDbywDZqEoa1g9EM2IIO0u+YVZia3XeNkf1YOVkIxIHjjmQ+zq5MThUcHuqnfZHytX2poMfLe7n16Gi1Xhw4QYAfQPOnMKuSYHAsHUwXJCthaXKjASCFXkGm3FBUnritqQ4uL0PaaSUbEVz8Xf/zqr4+WWIk7eHPF7B7wRvpxLSaWcpfR1spVGtbwzWQKdetgkTB2nUH3R2kcpJR/v7OF6VPCbWU92JfY3NUX5ZPDhtCADRye9fFa86xAonPD9r65Mtfpv1RwAmtOMQHL67WXZcXLHTwr/dmuiJikd4VRJ0kgkUX1A4LNkVSZetYDMDIAh5pg8nHtwgX5GY3aY8vPRUYrenud+rSjlb05Uu0wlGKu5ilacYoBdlf2pILgbcg+l8f0EEAM/KrCkNPXNvRRWXzncJVrS2ujSzjZX2nTBNoTSOwd+KMxaKAfcVUPVdQLwZLdCbHIccX9kJVu+6I77GnX+86VuJ2apPTKxJMtnDg5N3FSBPFM16Rnd89CRhyy4jMAQP9CdHD50l0Ppj7c5Cbgyrx9JB5Jk/EkpZ7qYmbQxlWtl/gEb3nb+Ba/MDDryPibuDSc8gEkPRkD7a/4nfTFs00qJao2Fz7eaIY4zcY="
-
+  global:
+  - secure: HGdi5kTGo81W0wjFkuZ6N1j7EuQt5cq/U5JCbDV4Kw8jhVpCbLLgcMbSbm5jzRgPDbywDZqEoa1g9EM2IIO0u+YVZia3XeNkf1YOVkIxIHjjmQ+zq5MThUcHuqnfZHytX2poMfLe7n16Gi1Xhw4QYAfQPOnMKuSYHAsHUwXJCthaXKjASCFXkGm3FBUnritqQ4uL0PaaSUbEVz8Xf/zqr4+WWIk7eHPF7B7wRvpxLSaWcpfR1spVGtbwzWQKdetgkTB2nUH3R2kcpJR/v7OF6VPCbWU92JfY3NUX5ZPDhtCADRye9fFa86xAonPD9r65Mtfpv1RwAmtOMQHL67WXZcXLHTwr/dmuiJikd4VRJ0kgkUX1A4LNkVSZetYDMDIAh5pg8nHtwgX5GY3aY8vPRUYrenud+rSjlb05Uu0wlGKu5ilacYoBdlf2pILgbcg+l8f0EEAM/KrCkNPXNvRRWXzncJVrS2ujSzjZX2nTBNoTSOwd+KMxaKAfcVUPVdQLwZLdCbHIccX9kJVu+6I77GnX+86VuJ2apPTKxJMtnDg5N3FSBPFM16Rnd89CRhyy4jMAQP9CdHD50l0Ppj7c5Cbgyrx9JB5Jk/EkpZ7qYmbQxlWtl/gEb3nb+Ba/MDDryPibuDSc8gEkPRkD7a/4nfTFs00qJao2Fz7eaIY4zcY=
 script:
-    - ./run-checks
+- "./run-checks"
 notifications:
-    irc: "chat.freenode.net#spread-cron"
+  irc: chat.freenode.net#spread-cron
+before_install:
+- openssl aes-256-cbc -K $encrypted_cc49829385d6_key -iv $encrypted_cc49829385d6_iv -in secrets.tar.enc -out secrets.tar -d
+- tar xvf secrets.tar && mv id_rsa target/tasks/snapd-vendor-sync/id_rsa && mv cookies.txt target/tasks/snapd-vendor-sync/cookies.txt

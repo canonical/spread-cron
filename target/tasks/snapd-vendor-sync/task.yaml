@@ -40,14 +40,14 @@ execute: |
     # clone target repo and copy origin over target
     eval `ssh-agent -s`
     mkdir -p ${HOME}/.ssh && ssh-keyscan -t rsa git.launchpad.net >> ~/.ssh/known_hosts
-    ssh-agent $(ssh-add /tmp/id_rsa; git clone git+ssh://snappy-m-o@git.launchpad.net/snapd-vendor /tmp/$TARGET_DIR)
+    ssh-agent $(ssh-add /tmp/id_rsa; git clone git+ssh://sergio-j-cazzolato@git.launchpad.net/snapd-vendor /tmp/$TARGET_DIR)
     mkdir -p $TARGET_DIR && mv /tmp/$TARGET_DIR/.git $TARGET_DIR && rm -rf /tmp/$TARGET_DIR
     cp -ar origin/. $TARGET_DIR
 
     # configure git locally
     cd $TARGET_DIR
-    git config user.name "Snappy Developers"
-    git config user.email snappy-dev@lists.launchpad.net
+    git config user.name "Sergio Cazzolato"
+    git config user.email sergio.cazzolato@canonical.com
 
     # get vendor dependencies on target repo
     govendor sync
