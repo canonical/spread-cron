@@ -8,5 +8,7 @@ script:
 notifications:
   irc: chat.freenode.net#spread-cron
 before_install:
-- openssl aes-256-cbc -K $encrypted_cc49829385d6_key -iv $encrypted_cc49829385d6_iv -in secrets.tar.enc -out secrets.tar -d
-- tar xvf secrets.tar && mv secrets/id_rsa target/tasks/snapd-vendor-sync/id_rsa && mv secrets/cookies.txt target/tasks/snapd-vendor-sync/cookies.txt
+- openssl aes-256-cbc -K $encrypted_cc49829385d6_key -iv $encrypted_cc49829385d6_iv
+  -in secrets.tar.enc -out secrets.tar -d
+- tar xvf secrets.tar && mv secrets/id_rsa target/tasks/snapd-vendor-sync/id_rsa &&
+  mv secrets/cookies.txt target/tasks/snapd-vendor-sync/cookies.txt
