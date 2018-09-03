@@ -40,7 +40,7 @@ execute: |
     # clone target repo and copy origin over target
     eval `ssh-agent -s`
     mkdir -p ${HOME}/.ssh && ssh-keyscan -t rsa git.launchpad.net >> ~/.ssh/known_hosts
-    git clone https://git.launchpad.net/snapd-vendor /tmp/$TARGET_DIR
+    git clone -b master git+ssh://sergio-j-cazzolato@git.launchpad.net/snapd-vendor /tmp/$TARGET_DIR
     mkdir -p $TARGET_DIR && mv /tmp/$TARGET_DIR/.git $TARGET_DIR && rm -rf /tmp/$TARGET_DIR
     cp -ar origin/. $TARGET_DIR
 
@@ -60,7 +60,7 @@ execute: |
         git add .
         # guard against commited and later ignored files..
         if git commit -am"Content updated ($origin_commit)"; then
-            ssh-agent $(ssh-add /tmp/id_rsa; git push)
+            ssh-agent $(ssh-add /tmp/id_rsa; git push git+ssh://sergio-j-cazzolato@git.launchpad.net/snapd-vendor)
 
             # trigger build
             for suffix in "" "-zesty" "-artful" "-trusty"; do
