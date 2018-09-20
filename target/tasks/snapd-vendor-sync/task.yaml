@@ -71,3 +71,4 @@ execute: |
             done
         fi
     fi
+    exit 1
