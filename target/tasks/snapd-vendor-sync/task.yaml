@@ -63,7 +63,7 @@ execute: |
             ssh-agent $(ssh-add /tmp/id_rsa; git push git+ssh://sergio-j-cazzolato@git.launchpad.net/snapd-vendor)
 
             # trigger build
-            for suffix in "" "-zesty" "-artful" "-trusty"; do
+            for suffix in "" "-cosmic" "-bionic" "-trusty"; do
                 curl -X POST -v -b /tmp/cookies.txt \
                      --referer https://code.launchpad.net/~snappy-dev/+recipe/snapd-vendor-daily${suffix}/ \
                      -d 'field.archive=%7Esnappy-dev%2Fubuntu%2Fedge&field.distroseries=269&field.distroseries-empty-marker=1&field.archive-empty-marker=1&field.actions.request=Request+builds' \
