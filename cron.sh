@@ -80,6 +80,7 @@ while true; do
     # Clean local repository after $CLEAN_ITERS iterations
     # This is done to avoid races that could happen when there are remote changes
     if [ "$iter" -ge "$CLEAN_ITERS" ]; then
+        echo "Cleaning local repository"
         iter=0
         rm -rf "$BASE_DIR"
     fi
