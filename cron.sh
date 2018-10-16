@@ -1,9 +1,10 @@
 #!/bin/bash
 
 BASE_DIR="$SNAP_COMMON/spread-cron"
-STEP=300
+STEP_TIME=600
 FINAL_TIME=0
 INITIAL_TIME=0
+CLEAN_ITERS=12
 
 record_new_value(){
     message=$1
@@ -48,7 +49,11 @@ check(){
     record_new_value "$message" "$new_value"
 }
 
+iter=0
 while true; do
+    iter=$((iter+1))
+    echo "Iteration $iter started"
+
     # run checker on each branch
     if [ ! -f "$SNAP_COMMON/git-credentials" ]; then
         echo "No credentials file found, please run 'snap set spread-cron username=<username> password=<password>' with valid credentials of a github user with push priveleges for the snapcore/spread-cron repository."
@@ -71,5 +76,15 @@ while true; do
         done
         FINAL_TIME=$SECONDS
     fi
-    sleep $((STEP - FINAL_TIME + INITIAL_TIME))
+
+    # Clean local repository after $CLEAN_ITERS iterations
+    # This is done to avoid races that could happen when there are remote changes
+    if [ "$iter" -ge "$CLEAN_ITERS" ]; then
+        iter=0
+        rm -rf "$BASE_DIR"
+    fi
+
+    # Wait for next iteration
+    echo "Waiting for next iteration $((STEP_TIME - FINAL_TIME + INITIAL_TIME)) seconds"
+    sleep $((STEP_TIME - FINAL_TIME + INITIAL_TIME))
 done
