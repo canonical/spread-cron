@@ -19,7 +19,7 @@ prepare: |
     apt update
     apt install -y git openssh-client jq
     apt remove --purge -y golang golang-go
-    dpkg -i tests/cache/go_$GOVERSION-*.deb
+    dpkg -i go_$GOVERSION-*.deb
 
     go get -u github.com/kardianos/govendor
 
@@ -28,6 +28,7 @@ prepare: |
 restore: |
     rm -f /tmp/id_rsa /tmp/cookies.txt
     rm -rf origin $TARGET_DIR
+    rm -f go_$GOVERSION-*.deb godeb godeb-amd64.tar.gz
 
     apt remove -y git golang golang-go openssh-client jq
 
