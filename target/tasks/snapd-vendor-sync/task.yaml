@@ -1,6 +1,7 @@
 summary: Mirror snapd adding go dependencies
 
 environment:
+    GOVERSION: 1.10.4
     TARGET_DIR:  $GOPATH/src/snapd-plus-vendor-target
 
 prepare: |
@@ -9,7 +10,16 @@ prepare: |
 
     sysctl -w net.ipv6.conf.all.disable_ipv6=1
     trap "sysctl -w net.ipv6.conf.all.disable_ipv6=0" EXIT
-    apt update && apt install -y git golang openssh-client jq
+
+    wget https://godeb.s3.amazonaws.com/godeb-amd64.tar.gz
+    tar xzvf godeb-amd64.tar.gz
+    ./godeb download $GOVERSION
+
+    # Install dependencies
+    apt update
+    apt install -y git openssh-client jq
+    apt remove --purge -y golang golang-go
+    dpkg -i tests/cache/go_$GOVERSION-*.deb
 
     go get -u github.com/kardianos/govendor
 
@@ -19,7 +29,7 @@ restore: |
     rm -f /tmp/id_rsa /tmp/cookies.txt
     rm -rf origin $TARGET_DIR
 
-    apt remove -y git golang openssh-client jq
+    apt remove -y git golang golang-go openssh-client jq
 
 execute: |
     # get origin merge commit
