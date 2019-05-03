@@ -8,7 +8,8 @@ prepare: |
     mv cookies.txt /tmp
 
     sysctl -w net.ipv6.conf.all.disable_ipv6=1
-    apt update && apt install -y git golang-1.6 openssh-client jq
+    trap "sysctl -w net.ipv6.conf.all.disable_ipv6=0" EXIT
+    apt update && apt install -y git golang openssh-client jq
 
     go get -u github.com/kardianos/govendor
 
@@ -18,7 +19,7 @@ restore: |
     rm -f /tmp/id_rsa /tmp/cookies.txt
     rm -rf origin $TARGET_DIR
 
-    apt remove -y git golang-1.6 openssh-client jq
+    apt remove -y git golang openssh-client jq
 
 execute: |
     # get origin merge commit
