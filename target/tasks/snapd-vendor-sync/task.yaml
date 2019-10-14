@@ -41,7 +41,7 @@ execute: |
     # clone origin repo and prepare for getting vendor dependencies
     git clone https://github.com/snapcore/snapd origin
     cd origin
-    if [ -n "$origin_commit" ] && [ "$origin_commit" != null]; then
+    if [ -n "$origin_commit" ] && [ "$origin_commit" != null ]; then
         git reset --hard $origin_commit
     fi
     rm -rf .git
