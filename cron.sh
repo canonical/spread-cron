@@ -2,6 +2,7 @@
 
 BASE_DIR="$SNAP_COMMON/spread-cron"
 STEP_TIME=600
+RECOVER_TIME=60
 FINAL_TIME=0
 INITIAL_TIME=0
 CLEAN_ITERS=12
@@ -61,7 +62,11 @@ while true; do
         if [ ! -d "$BASE_DIR" ]; then
             git clone https://github.com/snapcore/spread-cron.git "$BASE_DIR"
         fi
-        cd "$BASE_DIR" || exit
+        if [ ! -d "$BASE_DIR" ]; then
+            sleep "$RECOVER_TIME"
+            continue
+        fi
+        cd "$BASE_DIR" 
 
         INITIAL_TIME=$SECONDS
         git remote prune origin
