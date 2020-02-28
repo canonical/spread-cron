@@ -1,5 +1,6 @@
 #!/bin/bash
 
+INIT_DIR="$(pwd)"
 BASE_DIR="$SNAP_COMMON/spread-cron"
 STEP_TIME=600
 RECOVER_TIME=60
@@ -52,6 +53,9 @@ check(){
 
 iter=0
 while true; do
+    echo "Moving to init dir"
+    cd "$INIT_DIR"
+
     iter=$((iter+1))
     echo "Iteration $iter started"
 
@@ -66,7 +70,8 @@ while true; do
             sleep "$RECOVER_TIME"
             continue
         fi
-        cd "$BASE_DIR" 
+        echo "Moving to base dir"
+        cd "$BASE_DIR"
 
         INITIAL_TIME=$SECONDS
         git remote prune origin
