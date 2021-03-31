@@ -25,6 +25,10 @@ mv sa.json "$SPREAD_IMAGES_DIR/sa.json"
 
 # Prepare snapd project
 git clone https://github.com/snapcore/snapd.git "$SNAPD_DIR"
+cd "$SNAPD_DIR"
+git checkout 2.49.2
+cd ..
+
 
 # Get the images variables to use:
 # SOURCE_SYSTEM: source system for the GOOGLE_TASK
