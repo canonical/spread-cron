@@ -44,10 +44,15 @@ cd "$SNAPD_DIR"
 # git checkout eb9eb615c79aeb8a52919bebc4be8e205a88bd44
 
 # TESTING
-# Author: Samuele Pedroni <pedronis@lucediurna.net> Wed Feb 17 17:34:44 2021 +0100
-git checkout 2879aae9ad22fe9e2d7e64dce390532e64658c16
+
+# Author: Maciej Borzecki <maciej.zenon.borzecki@canonical.com> Mon Feb 22 12:35:44 2021 +0100
+git checkout 17b748549c5987ccdc356abbad5b541425de2b5e
 
 # WORKS
+
+# Author: Samuele Pedroni <pedronis@lucediurna.net> Wed Feb 17 17:34:44 2021 +0100
+# git checkout 2879aae9ad22fe9e2d7e64dce390532e64658c16
+
 # Author: Sergio Cazzolato <sergiocazzolato@gmail.com> Mon Feb 15 05:28:50 2021 -0300
 # git checkout b59f0dcc8a19dcbfc61415ebc12b8a27317a4526
 
