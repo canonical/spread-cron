@@ -24,7 +24,7 @@ git clone https://github.com/snapcore/spread-images "$SPREAD_IMAGES_DIR"
 mv sa.json "$SPREAD_IMAGES_DIR/sa.json"
 
 # Prepare snapd project
-git clone https://github.com/snapcore/snapd.git "$SNAPD_DIR"
+git clone https://github.com/sergiocazzolato/snapd.git "$SNAPD_DIR"
 cd "$SNAPD_DIR"
 
 # FAILS
@@ -46,7 +46,7 @@ cd "$SNAPD_DIR"
 # TESTING
 
 # Author: Maciej Borzecki <maciej.zenon.borzecki@canonical.com> Mon Feb 22 14:17:49 2021 +0100
-git checkout e6a1f560b980615087f05ddd8e22b3b464286699
+git checkout test-fix-gomodule
 
 # WORKS
 
