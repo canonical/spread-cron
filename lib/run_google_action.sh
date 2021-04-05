@@ -33,9 +33,12 @@ cd "$SNAPD_DIR"
 # Author: Maciej Borzecki <maciej.zenon.borzecki@canonical.com> Tue Mar 16 16:19:50 2021 +0100
 # git checkout f0a175e88a32783a657b6f4141183c6309de1daf
 
-
 # Author: Samuele Pedroni <pedronis@lucediurna.net> Wed Mar 10 14:14:54 2021 +0100
-git checkout f3d9f94d54b93fa63a86f3ac849299f3f735d4b9
+# git checkout f3d9f94d54b93fa63a86f3ac849299f3f735d4b9
+
+
+# Author: Maciej Borzecki <maciej.zenon.borzecki@canonical.com> Wed Mar 3 12:54:58 2021 +0100
+git checkout ef9406cf8f805fbb7964a0498fe7e7b392e9c9db
 
 cd ..
 
