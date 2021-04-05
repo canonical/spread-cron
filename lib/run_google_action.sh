@@ -26,8 +26,13 @@ mv sa.json "$SPREAD_IMAGES_DIR/sa.json"
 # Prepare snapd project
 git clone https://github.com/snapcore/snapd.git "$SNAPD_DIR"
 cd "$SNAPD_DIR"
+# FAILED
 # Author: Michael Vogt <mvo@ubuntu.com>  2021-03-23 08:08:46
-git checkout 7aa7417ebe85ee489f686c18919518e57ec3306e
+# git checkout 7aa7417ebe85ee489f686c18919518e57ec3306e
+
+# Author: Maciej Borzecki <maciej.zenon.borzecki@canonical.com> Tue Mar 16 16:19:50 2021 +0100
+git checkout f0a175e88a32783a657b6f4141183c6309de1daf
+
 cd ..
 
 
