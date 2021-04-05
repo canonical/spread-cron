@@ -43,12 +43,16 @@ cd "$SNAPD_DIR"
 # Author: Ian Johnson <ian.johnson@canonical.com> Thu Feb 25 21:47:56 2021 -0600
 # git checkout eb9eb615c79aeb8a52919bebc4be8e205a88bd44
 
-# Author: Ian Johnson <ian.johnson@canonical.com> Fri Feb 12 13:21:51 2021 -0600
-git checkout b7defb82848c316e394526cfe2975b0337ed98ae
+# TESTING
+# Author: Samuele Pedroni <pedronis@lucediurna.net> Wed Feb 17 17:34:44 2021 +0100
+git checkout 2879aae9ad22fe9e2d7e64dce390532e64658c16
 
 # WORKS
 # Author: Sergio Cazzolato <sergiocazzolato@gmail.com> Mon Feb 15 05:28:50 2021 -0300
 # git checkout b59f0dcc8a19dcbfc61415ebc12b8a27317a4526
+
+# Author: Ian Johnson <ian.johnson@canonical.com> Fri Feb 12 13:21:51 2021 -0600
+# git checkout b7defb82848c316e394526cfe2975b0337ed98ae
 
 cd ..
 
