@@ -4,7 +4,7 @@ version: '1.2.1'
 
 summary: Basic support for launching spread-cron jobs
 
-base: core18
+base: core20
 
 description: |
     This snap declares a simple daemon for checking the jobs
@@ -51,6 +51,7 @@ parts:
             - libyaml-perl
             - subversion
             - xmlto
+            - wget
             - zlib1g-dev
         prime:
             - bin/
