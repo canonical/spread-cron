@@ -51,6 +51,16 @@ check(){
     record_new_value "$message" "$new_value"
 }
 
+if [ -n "$HTTPS_PROXY" ] && ! git config -l | grep -q https.proxy; then
+    echo "Setting https proxy for git"
+    git config --global https.proxy "$HTTPS_PROXY"
+fi
+
+if [ -n "$HTTP_PROXY" ] && ! git config -l | grep -q http.proxy; then
+    echo "Setting http proxy for git"
+    git config --global http.proxy "$HTTP_PROXY"
+fi
+
 iter=0
 while true; do
     echo "Moving to init dir"
