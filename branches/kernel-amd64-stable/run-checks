@@ -1,0 +1,8 @@
+#!/bin/sh
+
+git clone https://github.com/snapcore/snapd target
+
+export SPREAD_KERNEL_CHANNEL=stable
+
+cd target
+spread -v google:ubuntu-core-16-64 google:ubuntu-core-16-64-fixme

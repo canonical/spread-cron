@@ -1,4 +1,4 @@
-name: Tests
+name: Jobs
 on:
   push:
     branches:
@@ -14,4 +14,6 @@ jobs:
 
     - name: Run test
       run: |
-          ./run-checks
+          BRANCH="${GITHUB_REF##*/}"
+          export PROJECT_PATH="$(pwd)"
+          ./branches/"$BRANCH"/run-checks

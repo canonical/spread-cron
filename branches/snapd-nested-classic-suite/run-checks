@@ -1,0 +1,9 @@
+#!/bin/sh
+set -e
+
+git clone https://github.com/snapcore/snapd target
+cd target
+
+export SPREAD_NEW_CORE_CHANNEL=edge
+
+spread -v google-nested:tests/nested/classic/
