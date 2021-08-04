@@ -34,7 +34,7 @@ restore: |
 
 execute: |
     # get origin merge commit
-    . ./options
+    . ./trigger
     origin_commit="$COMMIT_SHA"
 
     # clone origin repo and prepare for getting vendor dependencies
