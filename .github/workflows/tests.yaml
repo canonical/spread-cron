@@ -18,7 +18,10 @@ jobs:
       run: |
           BRANCH="${GITHUB_REF##*/}"
           export PROJECT_PATH="$(pwd)"
+          export BRANCH_PATH="$PROJECT_PATH"/branches/"$BRANCH"
+
+          cd "$BRANCH_PATH"
           if [[ "$BRANCH" == gce-update-* ]] || [[ "$BRANCH" == update-gce-* ]]; then
               echo "$IMAGE_BAKER_SA" > sa.json
           fi
-          ./branches/"$BRANCH"/run-checks
+          ./run-checks
