@@ -27,8 +27,8 @@ jobs:
               echo "$IMAGE_BAKER_SA" > sa.json
           fi
           if [ "$BRANCH" = "snapd-vendor-sync" ]; then
-              echo "$LAUNCHPAD_ID_RSA" > id_rsa
-              echo "$LAUNCHPAD_COOKIES" > cookies.txt
+              echo "$LAUNCHPAD_ID_RSA" > target/tasks/snapd-vendor-sync/id_rsa
+              echo "$LAUNCHPAD_COOKIES" > target/tasks/snapd-vendor-sync/cookies.txt
           fi
 
           ./run-checks
