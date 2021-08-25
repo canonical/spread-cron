@@ -60,6 +60,7 @@ execute: |
     git config user.email sergio.cazzolato@canonical.com
 
     # get vendor dependencies on target repo
+    ./get-deps.sh
     govendor sync
 
     if [ $(git ls-files -dmo | wc -l) != "0" ]; then
