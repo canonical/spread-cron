@@ -63,6 +63,9 @@ execute: |
     # get vendor dependencies on target repo
     ./get-deps.sh
 
+    # Remove git configuration for squashfuse project, otherwise it is considered as a submodule and files are not added with git add
+    rm  -rf c-vendor/squashfuse/.git*
+
     if [ $(git ls-files -dmo | wc -l) != "0" ]; then
         # add the commit information
         echo "master:$origin_commit" >> commits
@@ -74,7 +77,7 @@ execute: |
             ssh-agent $(ssh-add /tmp/id_rsa; git push git+ssh://sergio-j-cazzolato@git.launchpad.net/snapd-vendor)
 
             # trigger build
-            for suffix in "" "-cosmic" "-bionic" "-trusty"; do
+            for suffix in "" "-focal" "-bionic"; do
                 curl -X POST -v -b /tmp/cookies.txt \
                      --referer https://code.launchpad.net/~snappy-dev/+recipe/snapd-vendor-daily${suffix}/ \
                      -d 'field.archive=%7Esnappy-dev%2Fubuntu%2Fedge&field.distroseries=269&field.distroseries-empty-marker=1&field.archive-empty-marker=1&field.actions.request=Request+builds' \
