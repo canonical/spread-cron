@@ -45,6 +45,7 @@ execute: |
     fi
     rm -rf .git
     sed -i 's|^vendor/\*/$||' .gitignore
+    sed -i 's|^c-vendor/\*/$||' .gitignore
     cd ..
 
     # clone target repo and copy origin over target
@@ -61,7 +62,6 @@ execute: |
 
     # get vendor dependencies on target repo
     ./get-deps.sh
-    govendor sync
 
     if [ $(git ls-files -dmo | wc -l) != "0" ]; then
         # add the commit information
