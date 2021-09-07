@@ -13,7 +13,7 @@ backends:
             COMMIT_SHA: "$(HOST: echo $GITHUB_SHA)"
 
         systems:
-            - ubuntu-16.04-64
+            - ubuntu-20.04-64
 
 suites:
     tasks/:
