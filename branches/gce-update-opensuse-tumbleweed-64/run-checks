@@ -3,6 +3,6 @@
 set -x
 
 GOOGLE_ACTION="update-image"
-GOOGLE_TASK="opensuse-tumbleweed-2"
+GOOGLE_TASK="opensuse-tumbleweed"
 
 "$PROJECT_PATH"/lib/run_google_action.sh "$GOOGLE_ACTION" "$GOOGLE_TASK"
