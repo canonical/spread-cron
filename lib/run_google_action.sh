@@ -65,7 +65,8 @@ fi
 # Publish the final image and clean the temporal one
 cd "$SPREAD_IMAGES_DIR"
 if [ "$PUBLISH_IMAGE" = true ]; then
-	SPREAD_TMP_IMAGE_ID="$TMP_IMAGE_ID" SPREAD_TARGET_SYSTEM=$TARGET_SYSTEM spread "google:${SOURCE_SYSTEM}:tasks/google/common/publish-tmp-image"
+	SPREAD_TMP_IMAGE_ID="$TMP_IMAGE_ID" SPREAD_TARGET_SYSTEM="$TARGET_SYSTEM" spread "google:${SOURCE_SYSTEM}:tasks/google/common/publish-tmp-image"
+	SPREAD_TARGET_SYSTEM="$TARGET_SYSTEM" SPREAD_SYSTEM_BACKUPS="$BACKUPS" spread "google:${TARGET_SYSTEM}:tasks/google/common/clean-old-images"
 else
 	SPREAD_TMP_IMAGE_ID="$TMP_IMAGE_ID" spread "google:${SOURCE_SYSTEM}:tasks/google/common/remove-tmp-image"
 	exit 1
