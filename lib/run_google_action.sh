@@ -46,6 +46,7 @@ else
 		echo "Spread images task failed, exiting..."
 		exit 1
 	fi
+	SPREAD_TARGET_SYSTEM="$TARGET_SYSTEM" SPREAD_SYSTEM_BACKUPS="$BACKUPS" spread "google:${TARGET_SYSTEM}:tasks/google/common/clean-old-images"
 	exit
 fi
 
