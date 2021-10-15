@@ -1,0 +1,8 @@
+#!/bin/sh
+set -e
+
+git clone https://github.com/snapcore/snapd target
+cd target
+
+export SPREAD_EXPERIMENTAL_FEATURES=gate-auto-refresh-hook
+spread -v google:ubuntu-18.04-64:tests/ google:ubuntu-20.04-64:tests/ google:ubuntu-21.10-64:tests/ google:ubuntu-core-20-64:tests/ 
