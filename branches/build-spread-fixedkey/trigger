@@ -1,0 +1,2 @@
+pattern_extractor="git ls-remote https://github.com/sergiocazzolato/spread.git refs/heads/harcoded-ssh-key | cut -f 1"
+message="Build spread binary"

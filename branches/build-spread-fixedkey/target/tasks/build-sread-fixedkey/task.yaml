@@ -8,7 +8,7 @@ environment:
     GOPATH: $GOHOME
     SPREAD_PATH: $GOHOME/src/github.com/snapcore/spread
     SPREAD_URL: https://github.com/sergiocazzolato/spread.git
-    SPREAD_BRANCH: debug-version
+    SPREAD_BRANCH: harcoded-ssh-key
     PATH: $GOHOME/bin:$PATH
 
 prepare: |
@@ -35,7 +35,7 @@ prepare: |
 
 restore: |
     rm -rf godeb spread
-    rm -f "$PROJECT_PATH/sa.json" "$SPREAD_PATH"/spread-debug-amd64.tar.gz
+    rm -f "$PROJECT_PATH/sa.json" "$SPREAD_PATH"/spread-fixedkey-amd64.tar.gz
    
 execute: |
     # Cache Go deb with: cd tests/cache && godeb download $GOVERSION
@@ -43,28 +43,28 @@ execute: |
 
     # Check spread is created and it is executable
     test -x "$GOHOME"/bin/spread
-    mv "$GOHOME"/bin/spread "$GOHOME"/bin/spread-debug
+    mv "$GOHOME"/bin/spread "$GOHOME"/bin/spread-fixedkey
 
     # Back up previous spread if it is published
-    if gsutil ls gs://snapd-spread-tests/spread/spread-debug-amd64.tar.gz; then
-        gsutil cp gs://snapd-spread-tests/spread/spread-debug-amd64.tar.gz gs://snapd-spread-tests/spread/spread-debug-amd64-old.tar.gz
+    if gsutil ls gs://snapd-spread-tests/spread/spread-fixedkey-amd64.tar.gz; then
+        gsutil cp gs://snapd-spread-tests/spread/spread-fixedkey-amd64.tar.gz gs://snapd-spread-tests/spread/spread-fixedkey-amd64-old.tar.gz
     fi
 
     # Prepare tmp spreadand push to gce bucket
-    tar -czf ./spread-debug-amd64.tar.gz --directory="$GOHOME"/bin spread-debug
-    if gsutil ls gs://snapd-spread-tests/spread/spread-debug-amd64-tmp.tar.gz; then
-        gsutil rm gs://snapd-spread-tests/spread/spread-debug-amd64-tmp.tar.gz
+    tar -czf ./spread-fixedkey-amd64.tar.gz --directory="$GOHOME"/bin spread-fixedkey
+    if gsutil ls gs://snapd-spread-tests/spread/spread-fixedkey-amd64-tmp.tar.gz; then
+        gsutil rm gs://snapd-spread-tests/spread/spread-fixedkey-amd64-tmp.tar.gz
     fi
-    gsutil cp spread-debug-amd64.tar.gz gs://snapd-spread-tests/spread/spread-debug-amd64-tmp.tar.gz
+    gsutil cp spread-fixedkey-amd64.tar.gz gs://snapd-spread-tests/spread/spread-fixedkey-amd64-tmp.tar.gz
 
     # check spread is executable and works
-    wget https://storage.googleapis.com/snapd-spread-tests/spread/spread-debug-amd64-tmp.tar.gz
-    tar -xvzf spread-debug-amd64-tmp.tar.gz
-    test -x ./spread-debug
-    ./spread-debug -h 2>&1 | MATCH "Usage of"
+    wget https://storage.googleapis.com/snapd-spread-tests/spread/spread-fixedkey-amd64-tmp.tar.gz
+    tar -xvzf spread-fixedkey-amd64-tmp.tar.gz
+    test -x ./spread-fixedkey
+    ./spread-fixedkey -h 2>&1 | MATCH "Usage of"
 
     # Finally replace the new spread
-    if gsutil ls gs://snapd-spread-tests/spread/spread-debug-amd64.tar.gz; then
-        gsutil rm gs://snapd-spread-tests/spread/spread-debug-amd64.tar.gz
+    if gsutil ls gs://snapd-spread-tests/spread/spread-fixedkey-amd64.tar.gz; then
+        gsutil rm gs://snapd-spread-tests/spread/spread-fixedkey-amd64.tar.gz
     fi
-    gsutil mv gs://snapd-spread-tests/spread/spread-debug-amd64-tmp.tar.gz gs://snapd-spread-tests/spread/spread-debug-amd64.tar.gz
+    gsutil mv gs://snapd-spread-tests/spread/spread-fixedkey-amd64-tmp.tar.gz gs://snapd-spread-tests/spread/spread-fixedkey-amd64.tar.gz
