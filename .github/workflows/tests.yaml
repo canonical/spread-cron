@@ -25,7 +25,7 @@ jobs:
           export BRANCH_PATH="$PROJECT_PATH"/branches/"$BRANCH"
 
           cd "$BRANCH_PATH"
-          if [[ "$BRANCH" == gce-update-* ]] || [[ "$BRANCH" == update-gce-* ]] || [[ "$BRANCH" = "build-spread" ]]; then
+          if [[ "$BRANCH" == gce-update-* ]] || [[ "$BRANCH" == update-gce-* ]] || [[ "$BRANCH" == build-spread* ]]; then
               echo "$IMAGE_BAKER_SA" > sa.json
           fi
           if [ "$BRANCH" = "snapd-vendor-sync" ]; then
