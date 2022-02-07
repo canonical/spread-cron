@@ -19,9 +19,6 @@ execute: |
     wget -q "https://cloud-images.ubuntu.com/focal/current/focal-server-cloudimg-amd64.img"
     gsutil cp focal-server-cloudimg-amd64.img gs://snapd-spread-tests/images/cloudimg/
 
-    wget -q "https://cloud-images.ubuntu.com/hirsute/current/hirsute-server-cloudimg-amd64.img"
-    gsutil cp hirsute-server-cloudimg-amd64.img gs://snapd-spread-tests/images/cloudimg/
-
     wget -q "https://cloud-images.ubuntu.com/impish/current/impish-server-cloudimg-amd64.img"
     gsutil cp impish-server-cloudimg-amd64.img gs://snapd-spread-tests/images/cloudimg/
 
