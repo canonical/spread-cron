@@ -1,0 +1,17 @@
+#!/bin/sh
+
+echo "Creating temporal directory"
+TEMP_DIR=$(sshpass -p "$S390X_PASSWORD" ssh "ubuntu@$S390X_ENDPOINT" -- mktemp -d)
+
+echo "Deploying remote executor"
+sshpass -p "$S390X_PASSWORD" scp ./remote-executor "ubuntu@$S390X_ENDPOINT":"$TEMP_DIR"
+
+echo "Executing tests"
+sshpass -p "$S390X_PASSWORD" ssh "ubuntu@$S390X_ENDPOINT" -- "$TEMP_DIR"/remote-executor
+
+echo "Cleaning up the environment"
+sshpass -p "$S390X_PASSWORD" ssh "ubuntu@$S390X_ENDPOINT" -- rm -rf "$TEMP_DIR"
+
+echo "Cleaning up spread and qemu instances"
+sshpass -p "$S390X_PASSWORD" ssh "ubuntu@$S390X_ENDPOINT" -- pkill spread
+sshpass -p "$S390X_PASSWORD" ssh "ubuntu@$S390X_ENDPOINT" -- pkill qemu-system
