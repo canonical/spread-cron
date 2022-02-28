@@ -40,6 +40,6 @@ jobs:
           fi
           if [[ "$BRANCH" == *-s390x-* ]]; then
               echo "$S390X_SSH_KEY" > s390x_key
-              chmod 0600 s390x_key
+              chmod 0400 s390x_key
           fi
           ./run-checks
