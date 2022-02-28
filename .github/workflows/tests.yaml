@@ -9,6 +9,10 @@ jobs:
   test:
     runs-on: self-hosted
     steps:
+    - name: Cleanup job workspace
+      run: |
+          rm -rf "${{ github.workspace }}"
+          mkdir "${{ github.workspace }}"
     - name: Checkout code
       uses: actions/checkout@v2
       with:
