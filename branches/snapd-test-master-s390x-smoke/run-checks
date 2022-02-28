@@ -1,10 +1,23 @@
 #!/bin/sh
 
+if [ -z "$S390X_ENDPOINT" ]; then
+	echo "S390X endpoint cannot be empty, exiting..."
+	exit 1
+fi
+
+if [ -z "$S390X_PASSWORD" ]; then
+	echo "S390X password cannot be empty, exiting..."
+	exit 1
+fi
+
 echo "Creating temporal directory"
 TEMP_DIR=$(sshpass -p "$S390X_PASSWORD" ssh "ubuntu@$S390X_ENDPOINT" -- mktemp -d)
+echo "Temp dir created: $TEMP_DIR"
 
 echo "Deploying remote executor"
 sshpass -p "$S390X_PASSWORD" scp ./remote-executor "ubuntu@$S390X_ENDPOINT":"$TEMP_DIR"
+echo "Showing deployed resources"
+sshpass -p "$S390X_PASSWORD" ssh "ubuntu@$S390X_ENDPOINT" -- ls -al "$TEMP_DIR"
 
 echo "Executing tests"
 sshpass -p "$S390X_PASSWORD" ssh "ubuntu@$S390X_ENDPOINT" -- "$TEMP_DIR"/remote-executor
