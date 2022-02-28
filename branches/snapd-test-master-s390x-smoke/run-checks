@@ -14,12 +14,9 @@ KEY_FILE="./s390x_key"
 
 echo "Creating temporal directory"
 TEMP_DIR=$(ssh -i "$KEY_FILE" -o ConnectTimeout=10 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no "ubuntu@$S390X_ENDPOINT" -- mktemp -d)
-echo "Temp dir created: $TEMP_DIR"
 
 echo "Deploying remote executor"
-scp -i "$KEY_FILE" ./remote-executor -o ConnectTimeout=10 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no "ubuntu@$S390X_ENDPOINT":"$TEMP_DIR"
-echo "Showing deployed resources"
-ssh -i "$KEY_FILE" -o ConnectTimeout=10 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no "ubuntu@$S390X_ENDPOINT" -- ls -al "$TEMP_DIR"
+scp -i "$KEY_FILE" -o ConnectTimeout=10 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ./remote-executor "ubuntu@$S390X_ENDPOINT":"$TEMP_DIR"
 
 echo "Executing tests"
 ssh -i "$KEY_FILE" -o ConnectTimeout=10 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no "ubuntu@$S390X_ENDPOINT" -- "$TEMP_DIR"/remote-executor
@@ -30,5 +27,4 @@ ssh -i "$KEY_FILE" -o ConnectTimeout=10 -o UserKnownHostsFile=/dev/null -o Stric
 echo "Cleaning up spread and qemu instances"
 ssh -i "$KEY_FILE" -o ConnectTimeout=10 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no "ubuntu@$S390X_ENDPOINT" -- pkill spread
 ssh -i "$KEY_FILE" -o ConnectTimeout=10 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no "ubuntu@$S390X_ENDPOINT" -- pkill qemu-system
-
 rm -f "$KEY_FILE"
