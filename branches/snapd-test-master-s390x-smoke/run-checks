@@ -5,26 +5,26 @@ if [ -z "$S390X_ENDPOINT" ]; then
 	exit 1
 fi
 
-if [ -z "$S390X_PASSWORD" ]; then
-	echo "S390X password cannot be empty, exiting..."
+if [ -f s390x_key ]; then
+	echo "S390X key file does not exist, exiting..."
 	exit 1
 fi
 
 echo "Creating temporal directory"
-TEMP_DIR=$(sshpass -p "$S390X_PASSWORD" ssh "ubuntu@$S390X_ENDPOINT" -- mktemp -d)
+TEMP_DIR=$(ssh -i s390x_key "ubuntu@$S390X_ENDPOINT" -- mktemp -d)
 echo "Temp dir created: $TEMP_DIR"
 
 echo "Deploying remote executor"
-sshpass -p "$S390X_PASSWORD" scp ./remote-executor "ubuntu@$S390X_ENDPOINT":"$TEMP_DIR"
+scp -i s390x_key ./remote-executor "ubuntu@$S390X_ENDPOINT":"$TEMP_DIR"
 echo "Showing deployed resources"
-sshpass -p "$S390X_PASSWORD" ssh "ubuntu@$S390X_ENDPOINT" -- ls -al "$TEMP_DIR"
+ssh -i s390x_key "ubuntu@$S390X_ENDPOINT" -- ls -al "$TEMP_DIR"
 
 echo "Executing tests"
-sshpass -p "$S390X_PASSWORD" ssh "ubuntu@$S390X_ENDPOINT" -- "$TEMP_DIR"/remote-executor
+ssh -i s390x_key "ubuntu@$S390X_ENDPOINT" -- "$TEMP_DIR"/remote-executor
 
 echo "Cleaning up the environment"
-sshpass -p "$S390X_PASSWORD" ssh "ubuntu@$S390X_ENDPOINT" -- rm -rf "$TEMP_DIR"
+ssh -i s390x_key "ubuntu@$S390X_ENDPOINT" -- rm -rf "$TEMP_DIR"
 
 echo "Cleaning up spread and qemu instances"
-sshpass -p "$S390X_PASSWORD" ssh "ubuntu@$S390X_ENDPOINT" -- pkill spread
-sshpass -p "$S390X_PASSWORD" ssh "ubuntu@$S390X_ENDPOINT" -- pkill qemu-system
+ssh -i s390x_key "ubuntu@$S390X_ENDPOINT" -- pkill spread
+ssh -i s390x_key "ubuntu@$S390X_ENDPOINT" -- pkill qemu-system

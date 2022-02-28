@@ -38,5 +38,8 @@ jobs:
               echo "$LAUNCHPAD_ID_RSA" > target/tasks/snapd-vendor-sync/id_rsa
               echo "$LAUNCHPAD_COOKIES" > target/tasks/snapd-vendor-sync/cookies.txt
           fi
-
+          if [[ "$BRANCH" == *-s390x-* ]]; then
+              echo "$S390X_SSH_KEY" > s390x_key
+              chmod 0600 s390x_key
+          fi
           ./run-checks
