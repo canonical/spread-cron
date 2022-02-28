@@ -24,7 +24,7 @@ jobs:
           LAUNCHPAD_ID_RSA: ${{ secrets.LAUNCHPAD_ID_RSA }}
           LAUNCHPAD_COOKIES: ${{ secrets.LAUNCHPAD_COOKIES }}
           S390X_ENDPOINT: ${{ secrets.S390X_ENDPOINT }}
-          S390X_PASSWORD: ${{ secrets.S390X_PASSWORD }}
+          S390X_SSH_KEY: ${{ secrets.S390X_SSH_KEY }}
       run: |
           BRANCH="${GITHUB_REF##*/}"
           export PROJECT_PATH="$(pwd)"
