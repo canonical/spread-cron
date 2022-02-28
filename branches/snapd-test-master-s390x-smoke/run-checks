@@ -6,7 +6,7 @@ if [ -z "$S390X_ENDPOINT" ]; then
 fi
 
 
-if [ -f "./s390x_key" ]; then
+if ! [ -f "./s390x_key" ]; then
 	echo "S390X key file does not exist, exiting..."
 	exit 1
 fi
