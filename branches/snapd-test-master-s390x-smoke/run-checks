@@ -31,4 +31,4 @@ echo "Cleaning up spread and qemu instances"
 ssh -i "$KEY_FILE" "ubuntu@$S390X_ENDPOINT" -- pkill spread
 ssh -i "$KEY_FILE" "ubuntu@$S390X_ENDPOINT" -- pkill qemu-system
 
-rm -f "$KEY_FILE"
+#rm -f "$KEY_FILE"
