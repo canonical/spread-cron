@@ -20,6 +20,7 @@ scp -i "$KEY_FILE" -o ConnectTimeout=10 -o UserKnownHostsFile=/dev/null -o Stric
 
 echo "Executing tests"
 ssh -i "$KEY_FILE" -o ConnectTimeout=10 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no "ubuntu@$S390X_ENDPOINT" -- "$TEMP_DIR"/remote-executor
+SPREAD_RESULT=$?
 
 echo "Cleaning up the environment"
 ssh -i "$KEY_FILE" -o ConnectTimeout=10 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no "ubuntu@$S390X_ENDPOINT" -- rm -rf "$TEMP_DIR"
@@ -27,4 +28,5 @@ ssh -i "$KEY_FILE" -o ConnectTimeout=10 -o UserKnownHostsFile=/dev/null -o Stric
 echo "Cleaning up spread and qemu instances"
 ssh -i "$KEY_FILE" -o ConnectTimeout=10 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no "ubuntu@$S390X_ENDPOINT" -- pkill spread
 ssh -i "$KEY_FILE" -o ConnectTimeout=10 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no "ubuntu@$S390X_ENDPOINT" -- pkill qemu-system
-rm -f "$KEY_FILE"
+
+exit $SPREAD_RESULT

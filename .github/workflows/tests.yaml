@@ -9,7 +9,7 @@ jobs:
   test:
     runs-on: self-hosted
     steps:
-    - name: Cleanup job workspace
+    - name: Ensure the workspace is clean
       run: |
           rm -rf "${{ github.workspace }}"
           mkdir "${{ github.workspace }}"
@@ -43,3 +43,9 @@ jobs:
               chmod 0400 s390x_key
           fi
           ./run-checks
+
+    - name: Cleanup job workspace after run tests
+      if: always()
+      run: |
+          rm -rf "${{ github.workspace }}"
+          mkdir "${{ github.workspace }}"
