@@ -23,7 +23,7 @@ prepare: |
     dpkg -i go_$GOVERSION-*.deb
 
     # Prepare to upload files to gs bucket
-    if ! snap list google-cloud-sdk; then
+    if ! command -v gcloud &>/dev/null; then
         snap install --classic google-cloud-sdk
     fi
     gcloud auth activate-service-account --key-file="$PROJECT_PATH/sa.json"
