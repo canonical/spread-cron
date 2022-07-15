@@ -3,6 +3,6 @@
 set -x
 
 GOOGLE_ACTION="update-image"
-GOOGLE_TASK="ubuntu-21.10-64"
+GOOGLE_TASK="opensuse-15-4"
 
 "$PROJECT_PATH"/lib/run_google_action.sh "$GOOGLE_ACTION" "$GOOGLE_TASK"

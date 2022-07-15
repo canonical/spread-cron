@@ -1,0 +1,2 @@
+pattern_extractor="if [ $(date +%H%M) \< "1330" ]; then echo ""; else date +%V; fi"
+message="Update Fedora 36 64bits on GCE"
