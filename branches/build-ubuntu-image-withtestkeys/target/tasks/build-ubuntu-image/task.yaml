@@ -1,4 +1,4 @@
-summary: Update the gce test bucket
+summary: Build ubuntu image with test keys and update the gce test bucket
 
 systems: [ubuntu-20.04-64]
 
