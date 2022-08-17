@@ -32,3 +32,6 @@ execute: |
 
     wget -q "https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64.img"
     gsutil cp jammy-server-cloudimg-amd64.img gs://snapd-spread-tests/images/cloudimg/
+
+    wget -q "https://cloud-images.ubuntu.com/kinetic/current/kinetic-server-cloudimg-amd64.img"
+    gsutil cp kinetic-server-cloudimg-amd64.img gs://snapd-spread-tests/images/cloudimg/
