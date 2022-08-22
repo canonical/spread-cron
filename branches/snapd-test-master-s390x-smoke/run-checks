@@ -23,7 +23,7 @@ ssh -i "$KEY_FILE" -o ConnectTimeout=10 -o UserKnownHostsFile=/dev/null -o Stric
 SPREAD_RESULT=$?
 
 echo "Cleaning up the environment"
-ssh -i "$KEY_FILE" -o ConnectTimeout=10 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no "ubuntu@$S390X_ENDPOINT" -- rm -rf "$TEMP_DIR"
+ssh -i "$KEY_FILE" -o ConnectTimeout=10 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no "ubuntu@$S390X_ENDPOINT" -- rm -rf /tmp/tmp.*
 
 # echo "Cleaning up spread and qemu instances"
 # ssh -i "$KEY_FILE" -o ConnectTimeout=10 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no "ubuntu@$S390X_ENDPOINT" -- pkill spread
