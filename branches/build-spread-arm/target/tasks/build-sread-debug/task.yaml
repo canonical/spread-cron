@@ -1,0 +1,70 @@
+summary: Update the gce test bucket
+
+systems: [ubuntu-20.04-64]
+
+environment:
+    GOVERSION: 1.13.8
+    GOHOME: /home/test
+    GOPATH: $GOHOME
+    SPREAD_PATH: $GOHOME/src/github.com/snapcore/spread
+    SPREAD_URL: https://github.com/sergiocazzolato/spread.git
+    SPREAD_BRANCH: update-google-startup-script
+    PATH: $GOHOME/bin:$PATH
+
+prepare: |
+    # Download spread code
+    apt install -y git
+    rm -rf "$GOHOME"/src/github.com/snapcore/spread
+    mkdir -p "$SPREAD_PATH"
+    git clone "$SPREAD_URL" "$SPREAD_PATH"
+    (cd "$SPREAD_PATH" && git checkout "$SPREAD_BRANCH")
+
+    # Install go dependencies
+    apt install -y xdelta3
+    wget https://godeb.s3.amazonaws.com/godeb-amd64.tar.gz
+    tar xzvf godeb-amd64.tar.gz
+    ./godeb download $GOVERSION
+    dpkg -i go_$GOVERSION-*.deb
+
+    # Prepare to upload files to gs bucket
+    if ! command -v gcloud &>/dev/null; then
+        snap install --classic google-cloud-sdk
+    fi
+    gcloud auth activate-service-account --key-file="$PROJECT_PATH/sa.json"
+    rm -f "$PROJECT_PATH/sa.json"
+
+restore: |
+    rm -rf godeb spread
+    rm -f "$PROJECT_PATH/sa.json" "$SPREAD_PATH"/spread-arm-amd64.tar.gz
+   
+execute: |
+    # Cache Go deb with: cd tests/cache && godeb download $GOVERSION
+    go get "$SPREAD_PATH"/cmd/spread
+
+    # Check spread is created and it is executable
+    test -x "$GOHOME"/bin/spread
+    mv "$GOHOME"/bin/spread "$GOHOME"/bin/spread-arm
+
+    # Back up previous spread if it is published
+    if gsutil ls gs://snapd-spread-tests/spread/spread-arm-amd64.tar.gz; then
+        gsutil cp gs://snapd-spread-tests/spread/spread-arm-amd64.tar.gz gs://snapd-spread-tests/spread/spread-arm-amd64-old.tar.gz
+    fi
+
+    # Prepare tmp spreadand push to gce bucket
+    tar -czf ./spread-arm-amd64.tar.gz --directory="$GOHOME"/bin spread-arm
+    if gsutil ls gs://snapd-spread-tests/spread/spread-arm-amd64-tmp.tar.gz; then
+        gsutil rm gs://snapd-spread-tests/spread/spread-arm-amd64-tmp.tar.gz
+    fi
+    gsutil cp spread-arm-amd64.tar.gz gs://snapd-spread-tests/spread/spread-arm-amd64-tmp.tar.gz
+
+    # check spread is executable and works
+    wget https://storage.googleapis.com/snapd-spread-tests/spread/spread-arm-amd64-tmp.tar.gz
+    tar -xvzf spread-arm-amd64-tmp.tar.gz
+    test -x ./spread-arm
+    ./spread-arm -h 2>&1 | MATCH "Usage of"
+
+    # Finally replace the new spread
+    if gsutil ls gs://snapd-spread-tests/spread/spread-arm-amd64.tar.gz; then
+        gsutil rm gs://snapd-spread-tests/spread/spread-arm-amd64.tar.gz
+    fi
+    gsutil mv gs://snapd-spread-tests/spread/spread-arm-amd64-tmp.tar.gz gs://snapd-spread-tests/spread/spread-arm-amd64.tar.gz
