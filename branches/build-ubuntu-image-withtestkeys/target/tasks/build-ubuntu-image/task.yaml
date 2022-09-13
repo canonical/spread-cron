@@ -3,7 +3,6 @@ summary: Build ubuntu image with test keys and update the gce test bucket
 systems: [ubuntu-20.04-64]
 
 environment:
-    GOVERSION: 1.16
     GOHOME: /home/test
     GOPATH: $GOHOME
     SNAPD_PATH: $GOHOME/src/github.com/snapcore/snapd
@@ -17,7 +16,7 @@ prepare: |
     git clone "$SNAPD_URL" "$SNAPD_PATH"
 
     # Install go dependencies
-    snap install go --classic --channel "$GOVERSION"
+    snap install go --classic --channel latest/stable
 
     # Prepare to upload files to gs bucket
     if ! command -v gcloud &>/dev/null; then
