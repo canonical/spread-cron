@@ -3,7 +3,7 @@ summary: Update the gce test bucket
 systems: [ubuntu-20.04-64]
 
 environment:
-    GOVERSION: 1.13.8
+    GOVERSION: latest/stable
     GOHOME: /home/test
     GOPATH: $GOHOME
     SPREAD_PATH: $GOHOME/src/github.com/snapcore/spread
@@ -20,11 +20,7 @@ prepare: |
     (cd "$SPREAD_PATH" && git checkout "$SPREAD_BRANCH")
 
     # Install go dependencies
-    apt install -y xdelta3
-    wget https://godeb.s3.amazonaws.com/godeb-amd64.tar.gz
-    tar xzvf godeb-amd64.tar.gz
-    ./godeb download $GOVERSION
-    dpkg -i go_$GOVERSION-*.deb
+    snap install go --classic --channel "$GOVERSION"
 
     # Prepare to upload files to gs bucket
     if ! command -v gcloud &>/dev/null; then
