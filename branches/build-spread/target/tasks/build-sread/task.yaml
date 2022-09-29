@@ -30,7 +30,8 @@ restore: |
     rm -f "$PROJECT_PATH/sa.json" "$SPREAD_PATH"/spread-amd64.tar.gz
    
 execute: |
-    # Cache Go deb with: cd tests/cache && godeb download $GOVERSION
+    # Build spread
+    export GO111MODULE=off
     go get "$SPREAD_PATH"/cmd/spread
 
     # Check spread is created and it is executable
