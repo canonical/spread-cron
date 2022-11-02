@@ -1,0 +1,11 @@
+summary: Update the gce test bucket
+
+systems: [ubuntu-20.04-64]
+
+restore: |
+    rm -rf snapd
+   
+execute: |
+    git clone https://github.com/snapcore/snapd.git
+    mv sa.json snapd
+    ( cd snapd && spread google:tests/nightly/upload-snapd-to-gce )

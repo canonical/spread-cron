@@ -1,0 +1,5 @@
+#!/bin/sh
+
+mv sa.json target/tasks/build-snapd-packages
+cd target
+spread -v google:
