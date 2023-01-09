@@ -3,6 +3,6 @@
 set -x
 
 GOOGLE_ACTION="update-image"
-GOOGLE_TASK="fedora-35-64"
+GOOGLE_TASK="fedora-37-64"
 
 "$PROJECT_PATH"/lib/run_google_action.sh "$GOOGLE_ACTION" "$GOOGLE_TASK"
