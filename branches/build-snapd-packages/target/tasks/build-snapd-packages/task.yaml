@@ -2,6 +2,8 @@ summary: Update the gce test bucket
 
 systems: [ubuntu-20.04-64]
 
+kill-timeout: 30m
+
 restore: |
     rm -rf snapd spread-amd64.tar.gz spread
    
