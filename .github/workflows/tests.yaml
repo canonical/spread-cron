@@ -34,7 +34,8 @@ jobs:
           cd "$BRANCH_PATH"
           if [[ "$BRANCH" == gce-update-* ]] || [[ "$BRANCH" == update-gce-* ]] || [[ "$BRANCH" == build-spread* ]] || [[ "$BRANCH" == build-ubuntu* ]]; then
               echo "$IMAGE_BAKER_SA" > sa.json
-          elif [[ "$BRANCH" == build-snapd-packages ]]; then
+          fi
+          if [ "$BRANCH" = "build-snapd-packages" ]; then
               echo "$SPREAD_USER_SA" > sa_user.json
               echo "$IMAGE_BAKER_SA" > sa_baker.json
           fi
