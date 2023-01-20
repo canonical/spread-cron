@@ -20,7 +20,7 @@ jobs:
 
     - name: Run test
       env:
-          SNAPD_SPREAD_SA: ${{ secrets.SNAPD_SPREAD_SA }}
+          SPREAD_USER_SA: ${{ secrets.SPREAD_USER_SA }}
           IMAGE_BAKER_SA: ${{ secrets.IMAGE_BAKER_SA }}
           LAUNCHPAD_ID_RSA: ${{ secrets.LAUNCHPAD_ID_RSA }}
           LAUNCHPAD_COOKIES: ${{ secrets.LAUNCHPAD_COOKIES }}
