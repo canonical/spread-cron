@@ -44,7 +44,7 @@ execute: |
         git reset --hard $origin_commit
     fi
     rm -rf .git
-    sed -i 's|^vendor/\*/$||' .gitignore
+    sed -i '/^vendor/d' .gitignore
     cd ..
 
     # clone target repo and copy origin over target
