@@ -1,7 +1,7 @@
 summary: Mirror snapd adding go dependencies
 
 environment:
-    GOVERSION: 1.13
+    GOVERSION: 1.18
     TARGET_DIR:  $GOPATH/src/snapd-plus-vendor-target
 
 prepare: |
