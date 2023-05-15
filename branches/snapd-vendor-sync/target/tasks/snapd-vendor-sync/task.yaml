@@ -21,8 +21,6 @@ prepare: |
     apt remove --purge -y golang golang-go
     dpkg -i go_$GOVERSION-*.deb
 
-    go get -u github.com/kardianos/govendor
-
     chmod 0600 /tmp/id_rsa
 
 restore: |
