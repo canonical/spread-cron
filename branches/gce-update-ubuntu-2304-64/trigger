@@ -1,2 +1,2 @@
 pattern_extractor="if [ $(date +%H%M) \< "0310" ]; then echo ""; else date +%V; fi"
-message="Update Ubuntu 2210 64bits on GCE"
+message="Update Ubuntu 2304 64bits on GCE"

@@ -1,2 +1,0 @@
-pattern_extractor="curl -v -s -H 'X-Ubuntu-Architecture: i386' -H 'X-Ubuntu-Series: 16' https://search.apps.ubuntu.com/api/v1/snaps/details/core?channel=stable | jq -j '.revision'"
-message="New i386 core snap in stable channel"
