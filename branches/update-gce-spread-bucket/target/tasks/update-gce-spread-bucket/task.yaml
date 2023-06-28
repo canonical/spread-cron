@@ -44,3 +44,6 @@ execute: |
 
     wget -q "https://cloud-images.ubuntu.com/lunar/current/lunar-server-cloudimg-amd64.img"
     gsutil cp lunar-server-cloudimg-amd64.img gs://snapd-spread-tests/images/cloudimg/
+
+    wget -q "https://cloud-images.ubuntu.com/mantic/current/mantic-server-cloudimg-amd64.img"
+    gsutil cp mantic-server-cloudimg-amd64.img gs://snapd-spread-tests/images/cloudimg/
