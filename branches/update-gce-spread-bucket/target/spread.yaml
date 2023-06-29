@@ -5,6 +5,8 @@ path: /root/spread
 environment:
     PROJECT_PATH: /root/spread
 
+kill-timeout: 40m
+
 backends:
     google:
         key: "$(HOST: echo $SPREAD_GOOGLE_KEY)"
