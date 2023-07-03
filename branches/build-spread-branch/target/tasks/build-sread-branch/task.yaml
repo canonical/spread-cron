@@ -8,8 +8,8 @@ environment:
     GOPATH: $GOHOME
     SPREAD_PATH: $GOHOME/src/github.com/snapcore/spread
     SPREAD_URL: https://github.com/sergiocazzolato/spread.git
-    SPREAD_BRANCH/harcoded-ssh-key: harcoded-ssh-key
-    SPREAD_NAME/harcoded-ssh-key: fixedkey
+    SPREAD_BRANCH/harcoded_ssh_key: harcoded-ssh-key
+    SPREAD_NAME/harcoded_ssh_key: fixedkey
     SPREAD_BRANCH/debug: debug-version
     SPREAD_NAME/debug: debug
     SPREAD_BRANCH/arm: update-google-startup-script
