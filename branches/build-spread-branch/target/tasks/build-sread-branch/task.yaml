@@ -37,11 +37,10 @@ prepare: |
         snap install --classic google-cloud-sdk
     fi
     gcloud auth activate-service-account --key-file="$PROJECT_PATH/sa.json"
-    rm -f "$PROJECT_PATH/sa.json"
 
 restore: |
     rm -rf godeb spread
-    rm -f "$PROJECT_PATH/sa.json" "$SPREAD_PATH"/"$SPREAD_FILE".tar.gz
+    rm -f "$SPREAD_PATH"/"$SPREAD_FILE".tar.gz
    
 execute: |
     # Build spread
