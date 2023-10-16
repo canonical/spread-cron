@@ -30,10 +30,10 @@ restore: |
     rm -f "$PROJECT_PATH/sa.json" "$SNAPD_PATH"/ubuntu-image-withtestkeys.tar.gz
    
 execute: |
-    cd "$SNAPD_PATH"
-    ./get-deps.sh
-    export GO111MODULE=off
-    go get github.com/canonical/ubuntu-image/cmd/ubuntu-image
+    git clone https://github.com/canonical/ubuntu-image
+    cd ubuntu-image || exit 1
+    # Build using latest snapd sources
+    printf "\nreplace github.com/snapcore/snapd => %s\n" "$SNAPD_PATH" >> go.mod
     go install -tags 'withtestkeys' github.com/canonical/ubuntu-image/cmd/ubuntu-image
 
     # Back up previous ubuntu-image if it is published
