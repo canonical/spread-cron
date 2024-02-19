@@ -16,6 +16,8 @@ environment:
     SPREAD_NAME/arm: arm
     SPREAD_BRANCH/openstack: migrate-openstack-backend
     SPREAD_NAME/openstack: openstack
+    SPREAD_BRANCH/testflinger: add-testflinger-backend
+    SPREAD_NAME/testflinger: testflinger
     SPREAD_ARCH: amd64
     SPREAD_FILE: spread-$SPREAD_NAME-$SPREAD_ARCH
     SPREAD_EXEC: spread-$SPREAD_NAME
