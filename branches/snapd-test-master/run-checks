@@ -2,4 +2,5 @@
 
 git clone https://github.com/snapcore/snapd target
 
+export NO_DELTA=1
 cd target && spread -v google:tests/ google-central:tests/
