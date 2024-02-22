@@ -1,6 +1,6 @@
 summary: build spread from specific branches
 
-systems: [ubuntu-20.04-64]
+systems: [ubuntu-22.04-64]
 
 environment:
     GOVERSION: latest/stable
@@ -46,6 +46,7 @@ restore: |
    
 execute: |
     # Build spread
+    export GO111MODULE=off
     go get "$SPREAD_PATH"/cmd/spread
 
     # Check spread is created and it is executable
