@@ -46,7 +46,6 @@ restore: |
    
 execute: |
     # Build spread
-    export GO111MODULE=off
     go get "$SPREAD_PATH"/cmd/spread
 
     # Check spread is created and it is executable
