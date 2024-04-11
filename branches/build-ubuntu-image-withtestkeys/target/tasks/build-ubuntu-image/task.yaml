@@ -14,6 +14,8 @@ prepare: |
     apt install -y git
     mkdir -p "$SNAPD_PATH"
     git clone "$SNAPD_URL" "$SNAPD_PATH"
+    # TODO: remove this when ubuntu-image is fixed
+    git -C "$SNAPD_PATH" checkout 00c1c9c03e61c4e1cc41f64864fdd1601943817a
 
     # Install go dependencies
     snap install go --classic --channel latest/stable
