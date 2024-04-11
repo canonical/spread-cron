@@ -32,6 +32,7 @@ restore: |
 execute: |
     git clone https://github.com/canonical/ubuntu-image
     cd ubuntu-image || exit 1
+    git checkout 3.3
     # Build using latest snapd sources
     printf "\nreplace github.com/snapcore/snapd => %s\n" "$SNAPD_PATH" >> go.mod
     go install -tags 'withtestkeys' github.com/canonical/ubuntu-image/cmd/ubuntu-image
