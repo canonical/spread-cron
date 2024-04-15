@@ -3,7 +3,7 @@ set +x
 
 SNAPD_GIT_URL=${1:-https://github.com/snapcore/snapd.git}
 SNAPD_GIT_BRANCH=${2:-master}
-SNAPD_TESTS=${2:-tests/smoke/}
+SNAPD_TESTS=${3:-tests/smoke/}
 
 
 DIR="$(mktemp -d)"
