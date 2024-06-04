@@ -3,4 +3,4 @@
 git clone https://github.com/snapcore/snapd target
 
 export NO_DELTA=1
-cd target && spread -v google:tests/ google-core:tests/ google-distro-1:tests/ google-distro-2:tests/
+cd target && spread -v google:tests/ google-core:tests/ google-distro-1:tests/ google-distro-2:tests/ | ../filter-debug-output
