@@ -11,7 +11,7 @@ environment:
     SPREAD_BRANCH/debug: debug-version
     SPREAD_NAME/debug: debug
     SPREAD_BRANCH/plus: spread-plus
-    SPREAD_NAME/plus: spread-plus
+    SPREAD_NAME/plus: plus
     SPREAD_BRANCH/openstack: migrate-openstack-backend
     SPREAD_NAME/openstack: openstack
     SPREAD_BRANCH/testflinger: add-testflinger-backend
