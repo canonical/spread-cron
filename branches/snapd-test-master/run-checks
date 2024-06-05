@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 set -o pipefail
 
 git clone https://github.com/snapcore/snapd target
