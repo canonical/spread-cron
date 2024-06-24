@@ -1,0 +1,6 @@
+#!/bin/sh
+
+git clone https://github.com/snapcore/snapd target
+
+export NO_DELTA=1
+cd target && spread -no-debug-output openstack:tests/main/
