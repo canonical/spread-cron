@@ -2,5 +2,9 @@
 
 git clone https://github.com/snapcore/snapd target
 
+cd target
+
+./tests/lib/spread/add-backend ./tests/lib/spread/backend.openstack.yaml spread.yaml
+
 export NO_DELTA=1
-cd target && spread -no-debug-output openstack:tests/main/
+spread -no-debug-output openstack:tests/main/
