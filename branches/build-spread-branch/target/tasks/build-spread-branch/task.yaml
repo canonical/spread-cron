@@ -3,7 +3,7 @@ summary: build spread from specific branches
 systems: [ubuntu-22.04-64]
 
 environment:
-    GOVERSION: latest/stable
+    GOVERSION: 1.22/stable
     GOHOME: /home/test
     GOPATH: $GOHOME
     SPREAD_PATH: $GOHOME/src/github.com/snapcore/spread
@@ -30,6 +30,7 @@ prepare: |
     (cd "$SPREAD_PATH" && git checkout "$SPREAD_BRANCH")
 
     # Install go dependencies
+    apt remove -y golang golang-go || true
     snap install go --classic --channel "$GOVERSION"
 
     # Prepare to upload files to gs bucket
@@ -44,8 +45,7 @@ restore: |
    
 execute: |
     # Build spread
-    export GO111MODULE=off
-    go get "$SPREAD_PATH"/cmd/spread
+    ( cd "$SPREAD_PATH"/cmd/spread && go get && go install )
 
     # Check spread is created and it is executable
     test -x "$GOHOME"/bin/spread
