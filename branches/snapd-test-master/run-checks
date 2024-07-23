@@ -5,4 +5,5 @@ mv sa.json target
 
 git clone https://github.com/snapcore/snapd
 export NO_DELTA=1
-cd snapd && SPREAD_USE_SNAPD_SNAP_URL=https://storage.googleapis.com/snapd-spread-tests/snaps/snapd_master.snap spread -no-debug-output google:tests/ google-core:tests/ google-distro-1:tests/ google-distro-2:tests/
+export SPREAD_USE_SNAPD_SNAP_URL=https://storage.googleapis.com/snapd-spread-tests/snapd-tests/snaps/snapd_master.snap
+cd snapd && spread -no-debug-output google:tests/ google-core:tests/ google-distro-1:tests/ google-distro-2:tests/
