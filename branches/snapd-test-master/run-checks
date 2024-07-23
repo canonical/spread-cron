@@ -2,13 +2,5 @@
 
 git clone https://github.com/snapcore/snapd target
 
-if ! snap list snapcraft; then
-    sudo snap install --classic snapcraft
-    sudo snap install lxd
-    snap set lxd waitready.timeout=240
-    lxd waitready
-    lxd init --auto
-fi
-
 export NO_DELTA=1
 cd target && ./run-spread -no-debug-output google:tests/ google-core:tests/ google-distro-1:tests/ google-distro-2:tests/
