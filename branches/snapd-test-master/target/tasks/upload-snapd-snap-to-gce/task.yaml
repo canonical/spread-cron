@@ -33,6 +33,7 @@ execute: |
 
     git clone https://github.com/snapcore/snapd
     cd snapd
+    touch test-build
     snapcraft --use-lxd
 
     mv snapd_*.snap "$SNAP_NAME"
