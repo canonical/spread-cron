@@ -7,7 +7,7 @@ on:
 
 jobs:
   test:
-    runs-on: self-hosted
+    runs-on: [self-hosted, spread-enabled]
     steps:
     - name: Ensure the workspace is clean
       run: |
