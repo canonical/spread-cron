@@ -1,0 +1,10 @@
+#!/bin/sh
+set -e
+
+git clone https://github.com/snapcore/snapd target
+cd target
+
+export SPREAD_NEW_CORE_CHANNEL=edge
+export SPREAD_ENABLE_KVM=true
+
+spread -v google-nested:ubuntu-24.04-64:tests/nested/core/ google-nested:ubuntu-24.04-64:tests/nested/manual/
