@@ -18,7 +18,7 @@ CURR_DIR="$(pwd)"
 TMP_IMAGE_ID="$(date +%N)"
 SNAPD_DIR="$CURR_DIR/snapd"
 SPREAD_IMAGES_DIR="$CURR_DIR/spread-images"
-SPREAD_BIN=spread-debug
+SPREAD_BIN=spread
 
 # Prepare spread-images project
 git clone https://github.com/snapcore/spread-images "$SPREAD_IMAGES_DIR"
