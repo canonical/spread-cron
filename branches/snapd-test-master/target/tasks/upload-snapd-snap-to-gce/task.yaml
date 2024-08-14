@@ -31,7 +31,7 @@ execute: |
     lxd waitready
     lxd init --auto
 
-    git clone https://github.com/snapcore/snapd
+    git clone https://github.com/canonical/snapd
     cd snapd
     touch test-build
     snapcraft --use-lxd

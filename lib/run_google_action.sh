@@ -21,11 +21,11 @@ SPREAD_IMAGES_DIR="$CURR_DIR/spread-images"
 SPREAD_BIN=spread
 
 # Prepare spread-images project
-git clone https://github.com/snapcore/spread-images "$SPREAD_IMAGES_DIR"
+git clone https://github.com/canonical/spread-images "$SPREAD_IMAGES_DIR"
 mv sa.json "$SPREAD_IMAGES_DIR/sa.json"
 
 # Prepare snapd project
-git clone https://github.com/snapcore/snapd.git "$SNAPD_DIR"
+git clone https://github.com/canonical/snapd.git "$SNAPD_DIR"
 
 # Get the images variables to use:
 # SOURCE_SYSTEM: source system for the GOOGLE_TASK

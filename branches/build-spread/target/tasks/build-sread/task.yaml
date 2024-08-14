@@ -13,7 +13,7 @@ prepare: |
     # Download spread code
     apt install -y git
     mkdir -p "$SPREAD_PATH"
-    git clone https://github.com/snapcore/spread.git "$SPREAD_PATH"
+    git clone https://github.com/canonical/spread.git "$SPREAD_PATH"
 
     # Install go dependencies
     snap install go --classic --channel "$GOVERSION"

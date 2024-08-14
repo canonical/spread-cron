@@ -15,7 +15,7 @@ execute: |
     mkdir -p ~/.config/gcloud
     mv sa_user.json ~/.config/gcloud/application_default_credentials.json
 
-    git clone https://github.com/snapcore/snapd.git
+    git clone https://github.com/canonical/snapd.git
     mv sa_baker.json snapd/sa.json
 
     ( cd snapd && ../spread google:tests/nightly/upload-snapd-to-gce )

@@ -6,7 +6,7 @@ environment:
     GOHOME: /home/test
     GOPATH: $GOHOME
     SNAPD_PATH: $GOHOME/src/github.com/snapcore/snapd
-    SNAPD_URL: https://github.com/snapcore/snapd.git
+    SNAPD_URL: https://github.com/canonical/snapd.git
     PATH: $GOHOME/bin:$PATH
 
 prepare: |

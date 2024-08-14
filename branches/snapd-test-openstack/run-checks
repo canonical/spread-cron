@@ -1,6 +1,6 @@
 #!/bin/sh
 
-git clone https://github.com/snapcore/snapd target
+git clone https://github.com/canonical/snapd target
 
 cd target
 

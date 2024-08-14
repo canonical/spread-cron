@@ -2,7 +2,7 @@
 
 spread-cron triggers spread tasks in response to events.
 
-The main use of spread-cron is currently making sure that [snapd](https://github.com/snapcore/snapd) works over time after certain external conditions have changed. We are using spread for snapd development, with each pull request we are able to run a suite of checks that exercise the product in a lot of different ways, so that we can be confident that the new changes won't break the existing features. However, given the intrinsic distributed nature and complexity of the snapd environment, there are additional changes that can make the whole thing fail: what happens if the packaging of a new core snap doesn't play well with the rest of the system? will snapd keep working after a rollout of a store endpoint? will an ubuntu-core image made available before publishing work as expected? When any of these events happens, spread-cron triggers a customized execution of the snapd suite so we can be confident that things are still working.
+The main use of spread-cron is currently making sure that [snapd](https://github.com/canonical/snapd) works over time after certain external conditions have changed. We are using spread for snapd development, with each pull request we are able to run a suite of checks that exercise the product in a lot of different ways, so that we can be confident that the new changes won't break the existing features. However, given the intrinsic distributed nature and complexity of the snapd environment, there are additional changes that can make the whole thing fail: what happens if the packaging of a new core snap doesn't play well with the rest of the system? will snapd keep working after a rollout of a store endpoint? will an ubuntu-core image made available before publishing work as expected? When any of these events happens, spread-cron triggers a customized execution of the snapd suite so we can be confident that things are still working.
 
 Lately we have begun using spread-cron for general automated tasks, like keeping snaps in sync between different stores or pushing augmented versions of repos to different locations. Also, we are experimenting with defining task pipelines by making the trigger condition of a job depend on the results of another one.
 
@@ -49,7 +49,7 @@ There are currently two ways of customizing the spread execution, through enviro
 
 # Packaging and deployment
 
-spread-cron is distributed as a snap, see the [snapcraft.yaml file](https://github.com/snapcore/spread-cron/blob/master/snapcraft.yaml) for its definition. It embeds curl and a git client. The authentication for github can be set up using a configuration hook once the snap is installed:
+spread-cron is distributed as a snap, see the [snapcraft.yaml file](https://github.com/canonical/spread-cron/blob/master/snapcraft.yaml) for its definition. It embeds curl and a git client. The authentication for github can be set up using a configuration hook once the snap is installed:
 
     snap set spread-cron username=<username> password=<password>
 
@@ -59,46 +59,46 @@ with valid credentials of an user with push privileges for github's `snapd/sprea
 
 Resource | Value Fetched | Branch | Options File
 -------- | ------------- | ------ | -------------
-core snap, edge channel, amd64 arch | revision | snapd-core-edge | [options](https://github.com/snapcore/spread-cron/blob/snapd-core-edge/options)
-core snap, beta channel, amd64 arch | revision | snapd-core-beta | [options](https://github.com/snapcore/spread-cron/blob/snapd-core-beta/options)
-core snap, candidate channel, amd64 arch | revision | snapd-core-candidate | [options](https://github.com/snapcore/spread-cron/blob/snapd-core-candidate/options)
-core snap, stable channel, amd64 arch | revision | snapd-core-stable | [options](https://github.com/snapcore/spread-cron/blob/snapd-core-stable/options)
-core snap, edge channel, i386 arch | revision | snapd-core-i386-edge | [options](https://github.com/snapcore/spread-cron/blob/snapd-core-i386-edge/options)
-core snap, beta channel, i386 arch | revision | snapd-core-i386-beta | [options](https://github.com/snapcore/spread-cron/blob/snapd-core-i386-beta/options)
-core snap, candidate channel, i386 arch | revision | snapd-core-i386-candidate | [options](https://github.com/snapcore/spread-cron/blob/snapd-core-i386-candidate/options)
-core snap, stable channel, i386 arch | revision | snapd-core-i386-stable | [options](https://github.com/snapcore/spread-cron/blob/snapd-core-i386-stable/options)
-core snap, edge channel for reexec from 2.21 to edge, amd64 | revision | snapd-reexec-2.21-vs-edge | [options](https://github.com/snapcore/spread-cron/blob/snapd-reexec-2.21-vs-edge/options)
-kernel snap, edge channel, amd64 arch | revision | kernel-edge-amd64 | [options](https://github.com/snapcore/spread-cron/blob/kernel-edge-amd64/options)
-kernel snap, beta channel, amd64 arch | revision | kernel-edge-amd64 | [options](https://github.com/snapcore/spread-cron/blob/kernel-beta-amd64/options)
-kernel snap, candidate channel, amd64 arch | revision | kernel-edge-amd64 | [options](https://github.com/snapcore/spread-cron/blob/kernel-candidate-amd64/options)
-production store, CPI endpoint | X-Bzr-Revision-Number | snapd-production-store-cpi | [options](https://github.com/snapcore/spread-cron/blob/snapd-production-store-cpi/options)
-production store, SAS endpoint | X-Vcs-Revision | snapd-production-store-sas | [options](https://github.com/snapcore/spread-cron/blob/snapd-production-store-sas/options)
-production store, SCA endpoint | X-Bzr-Revision-Number | snapd-production-store-sca | [options](https://github.com/snapcore/spread-cron/blob/snapd-production-store-sca/options)
-production store, SSO endpoint | X-Bzr-Revision-Number | snapd-production-store-sso | [options](https://github.com/snapcore/spread-cron/blob/snapd-production-store-sso/options)
-staging store, CPI endpoint | X-Bzr-Revision-Number | snapd-staging-store-cpi | [options](https://github.com/snapcore/spread-cron/blob/snapd-staging-store-cpi/options)
-staging store, SAS endpoint | X-Vcs-Revision | snapd-staging-store-sas | [options](https://github.com/snapcore/spread-cron/blob/snapd-staging-store-sas/options)
-staging store, SCA endpoint | X-Bzr-Revision-Number | snapd-staging-store-sca | [options](https://github.com/snapcore/spread-cron/blob/snapd-staging-store-sca/options)
-staging store, SSO endpoint | X-Bzr-Revision-Number | snapd-staging-store-sso | [options](https://github.com/snapcore/spread-cron/blob/snapd-staging-store-sso/options)
-refresh core snap from stable to edge, amd64 arch | revision | core-amd64-refresh-to-edge | [options](https://github.com/snapcore/spread-cron/blob/core-amd64-refresh-to-edge/options)
-refresh core snap from stable to edge, i386 arch | revision | core-i386-refresh-to-edge | [options](https://github.com/snapcore/spread-cron/blob/core-i386-refresh-to-edge/options)
-refresh core snap from stable to candidate, amd64 arch | revision | core-amd64-refresh-to-edge | [options](https://github.com/snapcore/spread-cron/blob/core-amd64-refresh-to-candidate/options)
-refresh core snap from stable to candidate, i386 arch | revision | core-i386-refresh-to-edge | [options](https://github.com/snapcore/spread-cron/blob/core-i386-refresh-to-candidate/options)
-refresh core snap from stable to beta, amd64 arch | revision | core-amd64-refresh-to-edge | [options](https://github.com/snapcore/spread-cron/blob/core-amd64-refresh-to-beta/options)
-refresh core snap from stable to beta, i386 arch | revision | core-i386-refresh-to-edge | [options](https://github.com/snapcore/spread-cron/blob/core-i386-refresh-to-beta/options)
-snapd deb package in proposed pocket, trusty | version | snapd-trusty-sru | [options](https://github.com/snapcore/spread-cron/blob/snapd-trusty-sru/options)
-snapd deb package in proposed pocket, xenial | version | snapd-xenial-sru | [options](https://github.com/snapcore/spread-cron/blob/snapd-xenial-sru/options)
-snapd deb package in proposed pocket, yakkety | version | snapd-yakkety-sru | [options](https://github.com/snapcore/spread-cron/blob/snapd-yakkety-sru/options)
-snapd deb package in proposed pocket, zesty | version | snapd-zesty-sru | [options](https://github.com/snapcore/spread-cron/blob/snapd-zesty-sru/options)
+core snap, edge channel, amd64 arch | revision | snapd-core-edge | [options](https://github.com/canonical/spread-cron/blob/snapd-core-edge/options)
+core snap, beta channel, amd64 arch | revision | snapd-core-beta | [options](https://github.com/canonical/spread-cron/blob/snapd-core-beta/options)
+core snap, candidate channel, amd64 arch | revision | snapd-core-candidate | [options](https://github.com/canonical/spread-cron/blob/snapd-core-candidate/options)
+core snap, stable channel, amd64 arch | revision | snapd-core-stable | [options](https://github.com/canonical/spread-cron/blob/snapd-core-stable/options)
+core snap, edge channel, i386 arch | revision | snapd-core-i386-edge | [options](https://github.com/canonical/spread-cron/blob/snapd-core-i386-edge/options)
+core snap, beta channel, i386 arch | revision | snapd-core-i386-beta | [options](https://github.com/canonical/spread-cron/blob/snapd-core-i386-beta/options)
+core snap, candidate channel, i386 arch | revision | snapd-core-i386-candidate | [options](https://github.com/canonical/spread-cron/blob/snapd-core-i386-candidate/options)
+core snap, stable channel, i386 arch | revision | snapd-core-i386-stable | [options](https://github.com/canonical/spread-cron/blob/snapd-core-i386-stable/options)
+core snap, edge channel for reexec from 2.21 to edge, amd64 | revision | snapd-reexec-2.21-vs-edge | [options](https://github.com/canonical/spread-cron/blob/snapd-reexec-2.21-vs-edge/options)
+kernel snap, edge channel, amd64 arch | revision | kernel-edge-amd64 | [options](https://github.com/canonical/spread-cron/blob/kernel-edge-amd64/options)
+kernel snap, beta channel, amd64 arch | revision | kernel-edge-amd64 | [options](https://github.com/canonical/spread-cron/blob/kernel-beta-amd64/options)
+kernel snap, candidate channel, amd64 arch | revision | kernel-edge-amd64 | [options](https://github.com/canonical/spread-cron/blob/kernel-candidate-amd64/options)
+production store, CPI endpoint | X-Bzr-Revision-Number | snapd-production-store-cpi | [options](https://github.com/canonical/spread-cron/blob/snapd-production-store-cpi/options)
+production store, SAS endpoint | X-Vcs-Revision | snapd-production-store-sas | [options](https://github.com/canonical/spread-cron/blob/snapd-production-store-sas/options)
+production store, SCA endpoint | X-Bzr-Revision-Number | snapd-production-store-sca | [options](https://github.com/canonical/spread-cron/blob/snapd-production-store-sca/options)
+production store, SSO endpoint | X-Bzr-Revision-Number | snapd-production-store-sso | [options](https://github.com/canonical/spread-cron/blob/snapd-production-store-sso/options)
+staging store, CPI endpoint | X-Bzr-Revision-Number | snapd-staging-store-cpi | [options](https://github.com/canonical/spread-cron/blob/snapd-staging-store-cpi/options)
+staging store, SAS endpoint | X-Vcs-Revision | snapd-staging-store-sas | [options](https://github.com/canonical/spread-cron/blob/snapd-staging-store-sas/options)
+staging store, SCA endpoint | X-Bzr-Revision-Number | snapd-staging-store-sca | [options](https://github.com/canonical/spread-cron/blob/snapd-staging-store-sca/options)
+staging store, SSO endpoint | X-Bzr-Revision-Number | snapd-staging-store-sso | [options](https://github.com/canonical/spread-cron/blob/snapd-staging-store-sso/options)
+refresh core snap from stable to edge, amd64 arch | revision | core-amd64-refresh-to-edge | [options](https://github.com/canonical/spread-cron/blob/core-amd64-refresh-to-edge/options)
+refresh core snap from stable to edge, i386 arch | revision | core-i386-refresh-to-edge | [options](https://github.com/canonical/spread-cron/blob/core-i386-refresh-to-edge/options)
+refresh core snap from stable to candidate, amd64 arch | revision | core-amd64-refresh-to-edge | [options](https://github.com/canonical/spread-cron/blob/core-amd64-refresh-to-candidate/options)
+refresh core snap from stable to candidate, i386 arch | revision | core-i386-refresh-to-edge | [options](https://github.com/canonical/spread-cron/blob/core-i386-refresh-to-candidate/options)
+refresh core snap from stable to beta, amd64 arch | revision | core-amd64-refresh-to-edge | [options](https://github.com/canonical/spread-cron/blob/core-amd64-refresh-to-beta/options)
+refresh core snap from stable to beta, i386 arch | revision | core-i386-refresh-to-edge | [options](https://github.com/canonical/spread-cron/blob/core-i386-refresh-to-beta/options)
+snapd deb package in proposed pocket, trusty | version | snapd-trusty-sru | [options](https://github.com/canonical/spread-cron/blob/snapd-trusty-sru/options)
+snapd deb package in proposed pocket, xenial | version | snapd-xenial-sru | [options](https://github.com/canonical/spread-cron/blob/snapd-xenial-sru/options)
+snapd deb package in proposed pocket, yakkety | version | snapd-yakkety-sru | [options](https://github.com/canonical/spread-cron/blob/snapd-yakkety-sru/options)
+snapd deb package in proposed pocket, zesty | version | snapd-zesty-sru | [options](https://github.com/canonical/spread-cron/blob/snapd-zesty-sru/options)
 
 # Pipelines
 
 Resource | Value Fetched | Branch | Options File
 -------- | ------------- | ------ | -------------
-analyze edge snapd builds | last green build number | snapd-analyze-build | [options](https://github.com/snapcore/spread-cron/blob/snapd-analyze-build/options)
-sync edge core snap from production to staging, amd64 | last green build number after new publication on edge | core-amd64-staging-sync | [options](https://github.com/snapcore/spread-cron/blob/core-amd64-staging-sync/options)
-sync edge core snap from production to staging, i386 | last green build number after new publication on edge | core-i386-staging-sync | [options](https://github.com/snapcore/spread-cron/blob/core-i386-staging-sync/options)
-sync core snap source from gh to lp after merge and green build | last green build number (core snap) | core-gh-lp-sync | [options](https://github.com/snapcore/spread-cron/blob/core-gh-lp-sync/options)
-sync snapd-vendor with snapd after merge and green build | last green build number (snapd master) | snapd-vendor-sync | [options](https://github.com/snapcore/spread-cron/blob/snapd-vendor-sync/options)
+analyze edge snapd builds | last green build number | snapd-analyze-build | [options](https://github.com/canonical/spread-cron/blob/snapd-analyze-build/options)
+sync edge core snap from production to staging, amd64 | last green build number after new publication on edge | core-amd64-staging-sync | [options](https://github.com/canonical/spread-cron/blob/core-amd64-staging-sync/options)
+sync edge core snap from production to staging, i386 | last green build number after new publication on edge | core-i386-staging-sync | [options](https://github.com/canonical/spread-cron/blob/core-i386-staging-sync/options)
+sync core snap source from gh to lp after merge and green build | last green build number (core snap) | core-gh-lp-sync | [options](https://github.com/canonical/spread-cron/blob/core-gh-lp-sync/options)
+sync snapd-vendor with snapd after merge and green build | last green build number (snapd master) | snapd-vendor-sync | [options](https://github.com/canonical/spread-cron/blob/snapd-vendor-sync/options)
 
 # Daily builds
 

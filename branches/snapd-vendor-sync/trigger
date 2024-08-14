@@ -1,2 +1,2 @@
-pattern_extractor="git ls-remote https://github.com/snapcore/snapd.git refs/heads/master | cut -f 1"
+pattern_extractor="git ls-remote https://github.com/canonical/snapd.git refs/heads/master | cut -f 1"
 message="sync snapd-vendor with snapd after merge"
