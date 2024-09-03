@@ -33,9 +33,6 @@ execute: |
     git clone https://github.com/canonical/ubuntu-image
     cd ubuntu-image || exit 1
 
-    #TODO: remove this checkout once main is fixed
-    git checkout d048fec4a1cd5bec13a0865b45bbd50dff02cf57
-
     # Build using latest snapd sources
     printf "\nreplace github.com/snapcore/snapd => %s\n" "$SNAPD_PATH" >> go.mod
     go install -tags 'withtestkeys' github.com/canonical/ubuntu-image/cmd/ubuntu-image
