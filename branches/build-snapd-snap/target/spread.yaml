@@ -9,10 +9,11 @@ backends:
     google:
         key: "$(HOST: echo $SPREAD_GOOGLE_KEY)"
         location: snapd-spread/us-east1-b
+        plan: n2-standard-4
         halt-timeout: 2h
         systems:
             - ubuntu-20.04-64
 
 suites:
     tasks/:
-        summary: Generic automatable tasks
+        summary: Generic automated tasks

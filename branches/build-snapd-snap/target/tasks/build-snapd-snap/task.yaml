@@ -1,0 +1,40 @@
+summary: Build and upload the snapd snap to gce bucket
+
+details: |
+    Build and upload the snapd snap from current branch to gce bucket
+
+systems: [ ubuntu-22.04-64 ]
+
+prepare: |
+    if [ ! -f "$PROJECT_PATH/sa.json" ]; then
+        echo "Service account file needed to upload packages to gce bucket"
+        exit 1
+    fi
+
+    # Prepare to upload files to gs bucket
+    if ! command -v gcloud &>/dev/null; then
+        snap install --classic google-cloud-sdk
+    fi
+    gcloud auth activate-service-account --key-file="$PROJECT_PATH/sa.json"
+    rm -f "$PROJECT_PATH/sa.json"
+
+restore: |
+    rm -f "$PROJECT_PATH/sa.json" snapd_*.snap
+
+execute: |
+    SNAP_NAME=snapd_master.snap
+    BUCKET_FILE="gs://snapd-spread-tests/snapd-tests/snaps/$SNAP_NAME"
+
+    snap install --classic snapcraft
+    snap install lxd
+    snap set lxd waitready.timeout=240
+    lxd waitready
+    lxd init --auto
+
+    git clone https://github.com/canonical/snapd
+    cd snapd
+    touch test-build
+    snapcraft --use-lxd
+
+    mv snapd_*.snap "$SNAP_NAME"
+    gsutil cp "$SNAP_NAME" "$BUCKET_FILE"

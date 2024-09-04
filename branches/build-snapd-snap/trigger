@@ -1,2 +1,2 @@
 pattern_extractor="git ls-remote https://github.com/canonical/snapd.git refs/heads/master | cut -f 1"
-message="create snapd packages after master is updated"
+message="create snapd snap after master is updated"

@@ -1,6 +1,0 @@
-#!/bin/sh
-
-mv sa_baker.json target/tasks/build-snapd-packages/sa_baker.json
-mv sa_user.json target/tasks/build-snapd-packages/sa_user.json
-cd target
-spread -v google:
