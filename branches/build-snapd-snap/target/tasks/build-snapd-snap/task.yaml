@@ -6,7 +6,7 @@ details: |
 systems: [ ubuntu-22.04-64 ]
 
 prepare: |
-    if [ ! -f "$PROJECT_PATH/sa.json" ]; then
+    if [ ! -f sa.json ]; then
         echo "Service account file needed to upload packages to gce bucket"
         exit 1
     fi
@@ -15,11 +15,11 @@ prepare: |
     if ! command -v gcloud &>/dev/null; then
         snap install --classic google-cloud-sdk
     fi
-    gcloud auth activate-service-account --key-file="$PROJECT_PATH/sa.json"
-    rm -f "$PROJECT_PATH/sa.json"
+    gcloud auth activate-service-account --key-file=sa.json
+    rm -f sa.json
 
 restore: |
-    rm -f "$PROJECT_PATH/sa.json" snapd_*.snap
+    rm -f sa.json snapd_*.snap
 
 execute: |
     SNAP_NAME=snapd_master.snap
