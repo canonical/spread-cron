@@ -4,4 +4,6 @@ set -e
 git clone https://github.com/canonical/snapd target
 cd target
 
+export SPREAD_USE_SNAPD_SNAP_URL=https://storage.googleapis.com/snapd-spread-tests/snapd-tests/snaps/snapd_master.snap
+
 spread -v google:tests/nightly/

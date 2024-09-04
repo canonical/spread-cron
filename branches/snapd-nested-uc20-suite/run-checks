@@ -6,5 +6,6 @@ cd target
 
 export SPREAD_NEW_CORE_CHANNEL=edge
 export SPREAD_ENABLE_KVM=true
+export SPREAD_USE_SNAPD_SNAP_URL=https://storage.googleapis.com/snapd-spread-tests/snapd-tests/snaps/snapd_master.snap
 
 spread -v google-nested-dev:ubuntu-20.04-64:tests/nested/core/ google-nested-dev:ubuntu-20.04-64:tests/nested/manual/

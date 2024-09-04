@@ -7,4 +7,6 @@ cd target
 ./tests/lib/spread/add-backend ./tests/lib/spread/backend.openstack.yaml spread.yaml
 
 export NO_DELTA=1
+export SPREAD_USE_SNAPD_SNAP_URL=https://storage.googleapis.com/snapd-spread-tests/snapd-tests/snaps/snapd_master.snap
+
 spread -no-debug-output openstack:tests/main/
