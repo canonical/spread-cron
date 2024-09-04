@@ -1,8 +1,0 @@
-#!/bin/sh
-
-git clone https://github.com/canonical/snapd target
-cd target
-
-export SPREAD_REMOTE_STORE=staging
-export SNAPPY_USE_STAGING_STORE=1
-spread -v google:ubuntu-16.04-64:tests/
