@@ -35,9 +35,8 @@ jobs:
           if [[ "$BRANCH" == gce-update-* ]] || [[ "$BRANCH" == update-gce-* ]] || [[ "$BRANCH" == build-spread* ]] || [[ "$BRANCH" == build-ubuntu* ]]; then
               echo "$IMAGE_BAKER_SA" > sa.json
           fi
-          if [ "$BRANCH" = "build-snapd-packages" ]; then
-              echo "$SPREAD_USER_SA" > sa_user.json
-              echo "$IMAGE_BAKER_SA" > sa_baker.json
+          if [ "$BRANCH" = "build-snapd-snap" ]; then
+              echo "$IMAGE_BAKER_SA" > sa.json
           fi
           if [ "$BRANCH" = "snapd-vendor-sync" ]; then
               echo "$LAUNCHPAD_ID_RSA" > target/tasks/snapd-vendor-sync/id_rsa
