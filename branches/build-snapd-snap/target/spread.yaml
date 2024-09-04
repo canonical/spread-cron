@@ -12,7 +12,7 @@ backends:
         plan: n2-standard-4
         halt-timeout: 2h
         systems:
-            - ubuntu-20.04-64
+            - ubuntu-22.04-64
 
 suites:
     tasks/:
