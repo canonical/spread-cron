@@ -12,7 +12,9 @@ backends:
         plan: n2-standard-4
         halt-timeout: 2h
         systems:
-            - ubuntu-22.04-64
+            - ubuntu-22.04-64:
+                workers: 1
+                storage: 20G
 
 suites:
     tasks/:
