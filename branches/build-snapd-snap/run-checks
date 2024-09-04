@@ -1,5 +1,5 @@
 #!/bin/sh
 
-mv sa_baker.json target/tasks/build-snapd-snap/sa.json
+mv sa.json target/tasks/build-snapd-snap/sa.json
 cd target
 spread -v google:
