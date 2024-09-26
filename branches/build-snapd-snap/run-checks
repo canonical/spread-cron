@@ -1,5 +1,5 @@
 #!/bin/sh
 
 mv sa.json target/tasks/build-snapd-snap/sa.json
-cd target
-spread -v google:
+cd target || exit 1
+spread -v google: google-arm:

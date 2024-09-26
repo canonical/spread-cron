@@ -22,7 +22,11 @@ restore: |
     rm -f sa.json snapd_*.snap
 
 execute: |
-    SNAP_NAME=snapd_master.snap
+    ARCH=amd64
+    if uname -m | grep -Eq '(aarch64.*|armv8.*)'; then
+        ARCH=arm64
+    fi
+    SNAP_NAME="snapd_master_${ARCH}.snap"
     BUCKET_FILE="gs://snapd-spread-tests/snapd-tests/snaps/$SNAP_NAME"
 
     snap install --classic snapcraft
