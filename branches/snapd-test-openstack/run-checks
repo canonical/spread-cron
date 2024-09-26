@@ -8,6 +8,6 @@ cd target
 
 export NO_DELTA=1
 export SPREAD_USE_PREBUILT_SNAPD_SNAP=true
-export SPREAD_USE_SNAPD_SNAP_URL=https://storage.googleapis.com/snapd-spread-tests/snapd-tests/snaps/snapd_master.snap
+export SPREAD_USE_SNAPD_SNAP_URL=https://storage.googleapis.com/snapd-spread-tests/snapd-tests/snaps/snapd_master_amd64.snap
 
 spread -no-debug-output openstack:tests/main/

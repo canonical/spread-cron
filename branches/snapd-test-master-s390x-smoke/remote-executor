@@ -17,6 +17,6 @@ export SPREAD_HTTPS_PROXY=http://squid.internal:3128
 export SPREAD_HTTP_PROXY=http://squid.internal:3128
 
 export SPREAD_USE_PREBUILT_SNAPD_SNAP=true
-export SPREAD_USE_SNAPD_SNAP_URL=https://storage.googleapis.com/snapd-spread-tests/snapd-tests/snaps/snapd_master.snap
+export SPREAD_USE_SNAPD_SNAP_URL=https://storage.googleapis.com/snapd-spread-tests/snapd-tests/snaps/snapd_master_amd64.snap
 
 spread qemu:ubuntu-18.04-64:"$SNAPD_TESTS" qemu:ubuntu-20.04-64:"$SNAPD_TESTS" qemu:ubuntu-22.04-64:"$SNAPD_TESTS"
