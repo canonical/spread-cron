@@ -1,0 +1,19 @@
+#!/bin/sh
+set -e
+
+git clone https://github.com/canonical/snapd target
+cd target
+
+export SNAPD_DEB_FROM_REPO=false
+export SPREAD_USE_PREBUILT_SNAPD_SNAP=true
+export SPREAD_USE_SNAPD_SNAP_URL=https://storage.googleapis.com/snapd-spread-tests/snapd-tests/snaps/snapd_master_amd64.snap
+
+# Ubuntu and debian is executed which are the systems which are
+# affected by the variable SNAPD_DEB_FROM_REPO
+spread -v google:ubuntu-18.04-64:tests/... \
+          google:ubuntu-20.04-64:tests/... \
+          google:ubuntu-22.04-64:tests/... \
+          google:ubuntu-24.04-64:tests/... \
+          google-distro-1:debian-11-64:tests/... \
+          google-distro-1:debian-12-64:tests/... \
+          google-distro-1:debian-sid-64:tests/...
