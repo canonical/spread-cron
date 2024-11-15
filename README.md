@@ -104,7 +104,6 @@ sync snapd-vendor with snapd after merge and green build | last green build numb
 
 Description | Branch
 ----------- | ------
-Nightly suite | snapd-nightly-suite
 Execution against amd64 ubuntu-core image unmodified | built-image-amd64-smoketest
 Reexec disabled | snapd-reexec-disabled
 

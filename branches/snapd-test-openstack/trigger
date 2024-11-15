@@ -1,2 +1,0 @@
-pattern_extractor="if [ $(date +%H%M) \< "0300" ]; then echo ""; else date +%Y%m%d; fi"
-message="test snapd master branch in openstack"

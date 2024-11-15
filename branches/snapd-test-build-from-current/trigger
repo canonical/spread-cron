@@ -1,2 +1,0 @@
-pattern_extractor="if [ $(date +%H%M) \< "0600" ]; then echo ""; else date +%Y%m%d; fi"
-message="Snapd tests with snap pkg built from current"
