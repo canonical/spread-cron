@@ -1,2 +1,0 @@
-pattern_extractor="if [ $(date +%H%M) \< "1020" ]; then echo ""; else date +%V; fi"
-message="Update Amazon Linux 2023 64bits on GCE"

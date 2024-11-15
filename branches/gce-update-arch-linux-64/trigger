@@ -1,2 +1,0 @@
-pattern_extractor="if [ $(date +%H%M) \< "0700" ]; then echo ""; else date +%V; fi"
-message="Update Arch Linux 64bits on GCE"

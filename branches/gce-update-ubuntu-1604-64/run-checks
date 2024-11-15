@@ -1,8 +1,0 @@
-#!/bin/sh
-
-set -x
-
-GOOGLE_ACTION="update-image"
-GOOGLE_TASK="ubuntu-16.04-64"
-
-"$PROJECT_PATH"/lib/run_google_action.sh "$GOOGLE_ACTION" "$GOOGLE_TASK"

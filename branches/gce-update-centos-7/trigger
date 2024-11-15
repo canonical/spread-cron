@@ -1,2 +1,0 @@
-pattern_extractor="if [ $(date +%H%M) \< "1100" ]; then echo ""; else date +%V; fi"
-message="Update Centos 7 64bits on GCE"
