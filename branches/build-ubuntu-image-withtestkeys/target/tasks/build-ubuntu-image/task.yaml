@@ -1,6 +1,6 @@
 summary: Build ubuntu image with test keys and update the gce test bucket
 
-systems: [ubuntu-20.04-64]
+systems: [ubuntu-24.04-64]
 
 environment:
     GOHOME: /home/test
@@ -35,6 +35,7 @@ execute: |
 
     # Build using latest snapd sources
     printf "\nreplace github.com/snapcore/snapd => %s\n" "$SNAPD_PATH" >> go.mod
+    go mod tidy
     go install -tags 'withtestkeys' github.com/canonical/ubuntu-image/cmd/ubuntu-image
 
     # Back up previous ubuntu-image if it is published
