@@ -4,6 +4,7 @@ on:
     branches:
       - '**'        # matches every branch
       - '!master'   # excludes master
+  workflow_dispatch:
 
 jobs:
   test:
