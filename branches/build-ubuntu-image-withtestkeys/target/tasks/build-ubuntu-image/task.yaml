@@ -36,7 +36,10 @@ execute: |
     # Build using latest snapd sources
     printf "\nreplace github.com/snapcore/snapd => %s\n" "$SNAPD_PATH" >> go.mod
     go mod tidy
-    go install -tags 'withtestkeys' github.com/canonical/ubuntu-image/cmd/ubuntu-image
+    # disable CGO during the build so that we get a pure static binary. This is needed so that
+    # the binary runs on all hosts we run the snapd spread suite on (Ubuntu 16.04+)
+    CGO_ENABLED=0 \
+        go install -tags 'withtestkeys' github.com/canonical/ubuntu-image/cmd/ubuntu-image
 
     # Back up previous ubuntu-image if it is published
     if gsutil ls gs://snapd-spread-tests/ubuntu-image/ubuntu-image-withtestkeys.tar.gz; then
