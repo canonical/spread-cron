@@ -16,6 +16,7 @@ prepare: |
     git clone https://github.com/canonical/spread.git "$SPREAD_PATH"
 
     # Install go dependencies
+    apt remove -y golang golang-go || true
     snap install go --classic --channel "$GOVERSION"
 
     # Prepare to upload files to gs bucket
@@ -31,8 +32,7 @@ restore: |
    
 execute: |
     # Build spread
-    export GO111MODULE=off
-    go get "$SPREAD_PATH"/cmd/spread
+    ( cd ./spread/cmd/spread && go get && go install )
 
     # Check spread is created and it is executable
     test -x "$GOHOME"/bin/spread
