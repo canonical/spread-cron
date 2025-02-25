@@ -6,16 +6,12 @@ environment:
     GOVERSION: 1.22/stable
     GOHOME: /home/test
     GOPATH: $GOHOME
-    SPREAD_PATH: $GOHOME/src/github.com/snapcore/spread
+    SPREAD_PATH: $GOHOME/src/github.com/canonical/spread
     SPREAD_URL: https://github.com/sergiocazzolato/spread.git
     SPREAD_BRANCH/debug: debug-version
     SPREAD_NAME/debug: debug
     SPREAD_BRANCH/plus: spread-plus
     SPREAD_NAME/plus: plus
-    SPREAD_BRANCH/openstack: migrate-openstack-backend
-    SPREAD_NAME/openstack: openstack
-    SPREAD_BRANCH/testflinger: add-testflinger-backend
-    SPREAD_NAME/testflinger: testflinger
     SPREAD_ARCH: amd64
     SPREAD_FILE: spread-$SPREAD_NAME-$SPREAD_ARCH
     SPREAD_EXEC: spread-$SPREAD_NAME

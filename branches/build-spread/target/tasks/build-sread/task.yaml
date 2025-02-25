@@ -32,7 +32,7 @@ restore: |
    
 execute: |
     # Build spread
-    ( cd ./spread/cmd/spread && go get && go install )
+    ( cd "$SPREAD_PATH/cmd/spread" && go get && go install )
 
     # Check spread is created and it is executable
     test -x "$GOHOME"/bin/spread
