@@ -6,7 +6,7 @@ environment:
     GOVERSION: 1.22/stable
     GOHOME: /home/test
     GOPATH: $GOHOME
-    SPREAD_PATH: $GOHOME/src/github.com/canonical/spread
+    SPREAD_PATH: $GOHOME/src/github.com/snapcore/spread
     SPREAD_URL: https://github.com/sergiocazzolato/spread.git
     SPREAD_BRANCH/debug: debug-version
     SPREAD_NAME/debug: debug
@@ -16,6 +16,8 @@ environment:
     SPREAD_FILE: spread-$SPREAD_NAME-$SPREAD_ARCH
     SPREAD_EXEC: spread-$SPREAD_NAME
     PATH: $GOHOME/bin:$PATH
+    # Need CGO_ENABLED=0 to avoid GLIBC not found error
+    CGO_ENABLED: 0
 
 prepare: |
     # Download spread code

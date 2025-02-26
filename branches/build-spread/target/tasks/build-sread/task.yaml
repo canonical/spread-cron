@@ -8,6 +8,8 @@ environment:
     GOPATH: $GOHOME
     SPREAD_PATH: $GOHOME/src/github.com/snapcore/spread
     PATH: $GOHOME/bin:$PATH
+    # Need CGO_ENABLED=0 to avoid GLIBC not found error
+    CGO_ENABLED: 0
 
 prepare: |
     # Download spread code
