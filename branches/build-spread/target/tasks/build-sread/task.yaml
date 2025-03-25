@@ -3,7 +3,7 @@ summary: Update the gce test bucket
 systems: [ubuntu-22.04-64]
 
 environment:
-    GOVERSION: 1.22/stable
+    GOVERSION: latest/stable
     GOHOME: /home/test
     GOPATH: $GOHOME
     SPREAD_PATH: $GOHOME/src/github.com/snapcore/spread
