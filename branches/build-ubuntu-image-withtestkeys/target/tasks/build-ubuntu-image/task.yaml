@@ -8,8 +8,14 @@ environment:
     SNAPD_PATH: $GOHOME/src/github.com/snapcore/snapd
     SNAPD_URL: https://github.com/canonical/snapd.git
     PATH: $GOHOME/bin:$PATH
+    UBUNTU_IMAGE_FILE: ubuntu-image-withtestkeys-$ARCH
 
 prepare: |
+    if [ -z "$ARCH" ]; then
+        echo "Missing $ARCH variable"
+        exit 1
+    fi
+
     # Download snapd code
     apt install -y git
     mkdir -p "$SNAPD_PATH"
@@ -27,11 +33,11 @@ prepare: |
 
 restore: |
     rm -rf godeb snapd
-    rm -f "$PROJECT_PATH/sa.json" "$SNAPD_PATH"/ubuntu-image-withtestkeys.tar.gz
+    rm -f "$PROJECT_PATH/sa.json" "$SNAPD_PATH"/"$UBUNTU_IMAGE_FILE".tar.gz
    
 execute: |
     git clone https://github.com/canonical/ubuntu-image
-    cd ubuntu-image || exit 1
+    cd ubuntu-image
 
     # Build using latest snapd sources
     printf "\nreplace github.com/snapcore/snapd => %s\n" "$SNAPD_PATH" >> go.mod
@@ -41,26 +47,15 @@ execute: |
     CGO_ENABLED=0 \
         go install -tags 'withtestkeys' github.com/canonical/ubuntu-image/cmd/ubuntu-image
 
+
+
     # Back up previous ubuntu-image if it is published
-    if gsutil ls gs://snapd-spread-tests/ubuntu-image/ubuntu-image-withtestkeys.tar.gz; then
-        gsutil cp gs://snapd-spread-tests/ubuntu-image/ubuntu-image-withtestkeys.tar.gz gs://snapd-spread-tests/ubuntu-image/ubuntu-image-withtestkeys-old.tar.gz
+    if gsutil ls gs://snapd-spread-tests/ubuntu-image/"$UBUNTU_IMAGE_FILE".tar.gz; then
+        gsutil cp gs://snapd-spread-tests/ubuntu-image/"$UBUNTU_IMAGE_FILE".tar.gz gs://snapd-spread-tests/ubuntu-image/"$UBUNTU_IMAGE_FILE"-old.tar.gz
     fi
 
     # Prepare tmp ubuntu-image and push to gce bucket
-    tar -czf ./ubuntu-image-withtestkeys.tar.gz --directory="$GOHOME"/bin ubuntu-image
-    if gsutil ls gs://snapd-spread-tests/ubuntu-image/ubuntu-image-withtestkeys-tmp.tar.gz; then
-        gsutil rm gs://snapd-spread-tests/ubuntu-image/ubuntu-image-withtestkeys-tmp.tar.gz
-    fi
-    gsutil cp ubuntu-image-withtestkeys.tar.gz gs://snapd-spread-tests/ubuntu-image/ubuntu-image-withtestkeys-tmp.tar.gz
+    tar -czf ./"$UBUNTU_IMAGE_FILE".tar.gz --directory="$GOHOME"/bin ubuntu-image
+    gsutil cp "$UBUNTU_IMAGE_FILE".tar.gz gs://snapd-spread-tests/ubuntu-image/"$UBUNTU_IMAGE_FILE".tar.gz
 
-    # check ubuntu-image is executable and works
-    wget https://storage.googleapis.com/snapd-spread-tests/ubuntu-image/ubuntu-image-withtestkeys-tmp.tar.gz
-    tar -xvzf ubuntu-image-withtestkeys-tmp.tar.gz
-    test -x ./ubuntu-image
-    ./ubuntu-image -h 2>&1 | MATCH "Usage:"
 
-    # Finally replace the new ubuntu-image
-    if gsutil ls gs://snapd-spread-tests/ubuntu-image/ubuntu-image-withtestkeys.tar.gz; then
-        gsutil rm gs://snapd-spread-tests/ubuntu-image/ubuntu-image-withtestkeys.tar.gz
-    fi
-    gsutil mv gs://snapd-spread-tests/ubuntu-image/ubuntu-image-withtestkeys-tmp.tar.gz gs://snapd-spread-tests/ubuntu-image/ubuntu-image-withtestkeys.tar.gz

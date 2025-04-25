@@ -2,4 +2,4 @@
 
 mv sa.json target
 cd target
-spread -v google:
+spread -v google: google-arm:
