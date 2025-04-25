@@ -1,7 +1,5 @@
 summary: Build ubuntu image with test keys and update the gce test bucket
 
-systems: [ubuntu-24.04-64]
-
 environment:
     GOHOME: /home/test
     GOPATH: $GOHOME
