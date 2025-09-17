@@ -42,3 +42,16 @@ execute: |
 
     mv snapd_*.snap "$SNAP_NAME"
     gsutil cp "$SNAP_NAME" "$BUCKET_FILE"
+
+    if uname -m | grep -Eq '(aarch64.*|armv8.*)'; then
+        exit 0
+    fi
+
+    touch fips-build
+    snapcraft --use-lxd
+
+    SNAP_NAME="${SNAP_NAME%.snap}-fips.snap"
+    BUCKET_FILE="gs://snapd-spread-tests/snapd-tests/snaps/$SNAP_NAME"
+
+    mv snapd_*.snap "$SNAP_NAME"
+    gsutil cp "$SNAP_NAME" "$BUCKET_FILE"
