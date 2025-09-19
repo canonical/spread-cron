@@ -47,6 +47,8 @@ execute: |
         exit 0
     fi
 
+    rm "$SNAP_NAME"
+
     touch fips-build
     snapcraft --use-lxd
 
