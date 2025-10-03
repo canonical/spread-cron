@@ -1,6 +1,0 @@
-#!/bin/sh
-
-mkdir -p bin
-
-cp ./trigger target/tasks/snapd-vendor-sync
-cd target && spread -v google:
