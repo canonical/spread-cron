@@ -1,2 +1,0 @@
-pattern_extractor="git ls-remote https://github.com/canonical/snapd.git refs/heads/master | cut -f 1"
-message="smoke test snapd master branch on s390x arch "

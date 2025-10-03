@@ -1,5 +1,0 @@
-#!/bin/sh
-
-mv sa.json target
-cd target
-spread -v google:

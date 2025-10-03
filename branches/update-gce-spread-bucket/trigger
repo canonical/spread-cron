@@ -1,2 +1,0 @@
-pattern_extractor="if [ $(date +%H%M) \< "0800" ]; then echo ""; else date +%V; fi"
-message="Update GCE spread bucket"

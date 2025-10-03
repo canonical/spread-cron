@@ -1,5 +1,0 @@
-#!/bin/sh
-
-mv sa.json target
-cd target
-spread -v google:ubuntu-22.04-64:tasks/build-spread-branch:plus
